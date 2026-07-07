@@ -1,0 +1,133 @@
+type_code,type_name,type_class,parent_code,level,category_code,category_name
+1,NÁSILNÁ TRESTNÁ ČINNOST,Násilná,,1,1,Násilná
+2,vražda,Násilná,1,2,1,Násilná
+3,loupež,Násilná,1,2,1,Násilná
+4,vydírání,Násilná,1,2,1,Násilná
+5,Výtržnictví (bez mravnostního charakteru),Násilná,1,2,1,Násilná
+6,Nebezpečné vyhrožování,Násilná,1,2,1,Násilná
+7,Rvačka,Násilná,1,2,1,Násilná
+8,Úmyslné ublížení na zdraví,Násilná,1,2,1,Násilná
+9,Útok proti výkonu pravomoci státního orgánu a úřední osoby,Násilná,1,2,1,Násilná
+10,Omezování osobní svobody (bez mravnostního charakteru),Násilná,1,2,1,Násilná
+11,Únos,Násilná,1,2,1,Násilná
+12,Obchod s lidmi a lidskými orgány,Násilná,1,2,1,Násilná
+13,POŽÁRY VÝBUCHY ŽIVELNÉ POHROMY,Požáry výbuchy,,1,13,Požáry výbuchy
+14,Požár,Požáry výbuchy,13,2,13,Požáry výbuchy
+15,Výbuch,Požáry výbuchy,13,2,13,Požáry výbuchy
+16,Provozní havárie,Požáry výbuchy,13,2,13,Požáry výbuchy
+17,Živelné pohromy nebezpečné zamoření,Požáry výbuchy,13,2,13,Požáry výbuchy
+18,KRÁDEŽE VLOUPÁNÍM,Krádeže vloupáním,,1,18,Krádeže vloupáním
+19,Byt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+20,Rodinný domek,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+21,Zemědělský objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+22,Prodejna,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+23,Restaurace a jiná pohostinská zařízení,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+24,Ubytovací objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+25,Rekreační objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+26,Kulturní objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+27,Sportovní objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+28,Úřad,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+29,Podnik výrobní objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+30,Zdravotnický objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+31,Školský objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+32,Církevní objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+33,Peněžní ústav,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+34,Jiný objekt,Krádeže vloupáním,18,2,18,Krádeže vloupáním
+35,KRÁDEŽE,Krádeže,,1,35,Krádeže
+36,krádeže SPZ,Krádeže,35,2,35,Krádeže
+37,Krádeže motorových vozidel - dvoustopých,Krádeže,35,2,35,Krádeže
+38,Krádeže motorových vozidel - jednostopých,Krádeže,35,2,35,Krádeže
+39,Přívěsy,Krádeže,35,2,35,Krádeže
+40,Ostatní dopravní prostředky,Krádeže,35,2,35,Krádeže
+41,Krádeže součástek a věcí (nebo PHM) z motorových vozidel včetně vloupání,Krádeže,35,2,35,Krádeže
+42,Krádeže jízdních kol,Krádeže,35,2,35,Krádeže
+43,Krádeže na osobách,Krádeže,35,2,35,Krádeže
+44,Krádeže prodejních hracích a telefonních automatů jako celku,Krádeže,35,2,35,Krádeže
+45,Krádeže obchodního majetku zaměstnancem,Krádeže,35,2,35,Krádeže
+46,Krádeže uměleckých děl,Krádeže,35,2,35,Krádeže
+47,Krádeže starožitností,Krádeže,35,2,35,Krádeže
+48,Krádeže věcí v objektech (bez vloupání),Krádeže,35,2,35,Krádeže
+49,Krádeže věcí ve volném terénu,Krádeže,35,2,35,Krádeže
+50,Krádeže přepravovaných zásilek,Krádeže,35,2,35,Krádeže
+51,Pytláctví polní pych,Krádeže,35,2,35,Krádeže
+52,Ostatní krádeže (bez vloupání),Krádeže,35,2,35,Krádeže
+53,Krádeže se vztahem k železniční přepravě osob,Krádeže,35,2,35,Krádeže
+54,PODVODY,Podvody,,1,54,Podvody
+55,OSTATNÍ MAJETKOVÁ TRESTNÁ ČINNOST,Jiná majetková,,1,55,Jiná majetková
+56,NEOPRÁVNĚNÉ PROVOZOVÁNÍ (VÝDĚLEČNÉ) ČINNOSTI,Jiná majetková,55,2,55,Jiná majetková
+57,PORUŠOVÁNÍ PRAVIDEL HOSPODÁŘSKÉ SOUTĚŽE A KÁZNĚ,Jiná majetková,55,2,55,Jiná majetková
+58,TRESTNÁ ČINNOST PROTI MĚNĚ,Jiná majetková,55,2,55,Jiná majetková
+59,DAŇOVÁ TRESTNÁ ČINNOST,Jiná majetková,55,2,55,Jiná majetková
+60,CELNÍ TRESTNÁ ČINNOST,Jiná majetková,55,2,55,Jiná majetková
+61,PORUŠOVÁNÍ NEHMOTNÝCH PRÁV A NEKALÁ SOUTĚŽ,Jiná majetková,55,2,55,Jiná majetková
+62,TRESTNÉ ČINY PROTI VEŘEJNÉMU ZÁJMU,Jiná majetková,55,2,55,Jiná majetková
+63,OBECNĚ NEBEZPEČNÁ TRESTNÁ ČINNOST,Obecně nebezpečná,,1,63,Obecně nebezpečná
+64,Nelegální nakládání s odpady,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+65,Nelegální nakládání s chráněnými druhy živočichů nebo rostlin,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+66,Ohrožení životního prostředí,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+67,Šíření poplašné zprávy (včetně přestupku),Obecně nebezpečná,63,2,63,Obecně nebezpečná
+68,Ohrožování zdraví závadovým zbožím,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+69,Nedovolené ozbrojování,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+70,Ostatní,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+71,Obecné ohrožení,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+72,Porušování domovní svobody,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+73,Oslňování laserem,Obecně nebezpečná,63,2,63,Obecně nebezpečná
+74,Na úseku BESIP a silničního hospodářství,PŘ – BESIP,97,2,97,Přestupky
+75,Na úseku ochrany před alkoholismem toxikomanií,PŘ – alkohol a toxi,97,2,97,Přestupky
+76,Proti veřejnému pořádku a občanskému soužití,PŘ – veřejný pořádek,97,2,97,Přestupky
+77,Proti majetku,PŘ – majetek,97,2,97,Přestupky
+78,Ostatní přestupky,PŘ – ostatní,97,2,97,Přestupky
+79,DOPRAVNÍ NEHODY,Dopravní nehody,,1,79,Dopravní nehody
+80,TOXIKOMÁNIE,Toxikománie,,1,80,Toxikománie
+81,Nedovolená výroba  držení a prodej omamných látek a jedů,Toxikománie,80,2,80,Toxikománie
+82,Šíření toxikomanie,Toxikománie,80,2,80,Toxikománie
+83,Ostatní formy toxikomanie včetně přestupků,Toxikománie,80,2,80,Toxikománie
+84,TRESTNÁ ČINNOST SE ZBRANÍ,Zbraně,,1,84,Zbraně
+85,střelná zbraň (palná plynová nebo mechanická),Zbraně,84,2,84,Zbraně
+86,chladná zbraň (bodná sečná úderná),Zbraně,84,2,84,Zbraně
+87,Výbušnina,Zbraně,84,2,84,Zbraně
+88,Násilí proti skupině obyvatel a jednotlivci,Extremismus,96,2,96,Extremismus
+89,Hanobení národa rasy a přesvědčení,Extremismus,96,2,96,Extremismus
+90,Podněcování k národnostní a rasové nenávisti,Extremismus,96,2,96,Extremismus
+91,Podpora a propagace  hnutí směřujících  k potlačení práv a svobod občanů,Extremismus,96,2,96,Extremismus
+92,Omezování svobody vyznání,Extremismus,96,2,96,Extremismus
+93,Divácké násilí,Extremismus,96,2,96,Extremismus
+94,Ostatní projevy extremismu včetně přestupků,Extremismus,96,2,96,Extremismus
+95,Sprayerství,Extremismus,96,2,96,Extremismus
+96,EXTREMISMUS,Extremismus,,1,96,Extremismus
+97,Přestupky,Přestupky,,1,97,Přestupky
+98,bez podtřídy,násilná bez podtřídy,1,2,1,Násilná
+99,bez podtřídy,požáry bez podtřídy,13,2,13,Požáry výbuchy
+100,bez podtřídy,vloupání bez podtřídy,18,2,18,Krádeže vloupáním
+101,bez podtřídy,krádeže bez podtřídy,35,2,35,Krádeže
+102,bez podtřídy,jiná majetková bez podtřídy,55,2,55,Jiná majetková
+103,bez podtřídy,obecně nebezpečná bez podtřídy,63,2,63,Obecně nebezpečná
+104,bez podtřídy,toxikománie bez podtřídy,80,2,80,Toxikománie
+105,bez podtřídy,zbraně bez podtřídy,84,2,84,Zbraně
+106,bez podtřídy,extrémismus bez podtřídy,96,2,96,Extremismus
+107,Proti veřejnému pořádku,PŘ – veřejný pořádek,76,3,97,Přestupky
+108,Přestupky křivého obvinění,PŘ – křivé obvinění,76,3,97,Přestupky
+109,Proti obecnímu značení a vzhledu obce,PŘ – obecní značení,76,3,97,Přestupky
+110,Ostatní,PŘ – ostatní,76,3,97,Přestupky
+111,Proti občanskému soužití,PŘ – občanské soužití,76,3,97,Přestupky
+112,Alkohol řidič,PŘ – alkohol řidič,75,3,97,Přestupky
+113,Alkohol řidič mot. vozidel,PŘ – alkohol řidič mot. vozidel,112,4,97,Přestupky
+114,Alkohol řidič nemot. vozidel,PŘ – alkohol řidič nemot. vozidel,112,4,97,Přestupky
+115,Alkohol ostatní,PŘ – alkohol ostatní,75,3,97,Přestupky
+116,Alkohol ostatní,PŘ – alkohol ostatní,115,4,97,Přestupky
+117,Alkohol osoba mladší 18 let,PŘ – alkohol osoba mladší 18 let,115,4,97,Přestupky
+118,Toxikomanie řidič,PŘ – toxikomanie řidič,75,3,97,Přestupky
+119,Toxikomanie ostatní,PŘ – toxikomanie ostatní,75,3,97,Přestupky
+120,BESIP mimo alkohol a toxi,PŘ – BESIP mimo alkohol a toxi,74,3,97,Přestupky
+121,Doprava a siln. hospodářství z.č. 200/1990,PŘ – Doprava a siln. hospodářství z.č. 200/1990,74,3,97,Přestupky
+122,Oznámení přestupku - mimo alkohol,PŘ – Oznámení přestupku - mimo alkohol,74,3,97,Přestupky
+123,Odtahy vozidel,PŘ – Odtahy vozidel,74,3,97,Přestupky
+124,Rychlost,PŘ – Rychlost,74,3,97,Přestupky
+125,Dle § 61 odst. 1 písm a) z.č. 273/2008,PŘ – Dle § 61 odst. 1 písm a) z.č. 273/2008,74,3,97,Přestupky
+126,Euroformulář,PŘ – Euroformulář,74,3,97,Přestupky
+127,Na úseku střeliva,PŘ – Na úseku střeliva,78,3,97,Přestupky
+128,Na úseku používání výbušnin,PŘ – Na úseku používání výbušnin,78,3,97,Přestupky
+129,Na úseku obrany České republiky,PŘ – Na úseku obrany České republiky,78,3,97,Přestupky
+130,Na úseku zemědělství myslivosti a rybářství,PŘ – Na úseku zemědělství myslivosti a rybářství,78,3,97,Přestupky
+131,Ze zákona o pobytu cizinců,PŘ – Ze zákona o pobytu cizinců,78,3,97,Přestupky
+132,Ostatní přestupky,PŘ – Ostatní přestupky,78,3,97,Přestupky

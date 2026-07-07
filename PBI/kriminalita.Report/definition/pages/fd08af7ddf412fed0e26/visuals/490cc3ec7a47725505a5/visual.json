@@ -1,0 +1,157 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "490cc3ec7a47725505a5",
+  "position": {
+    "x": 990.40723981900442,
+    "y": 695.02262443438906,
+    "z": 4,
+    "height": 299.10795087265672,
+    "width": 614.35035552682609
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "autoSelectVisualType": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "název_okresu"
+                }
+              },
+              "queryRef": "mv_d_uzemi.název_okresu",
+              "nativeQueryRef": "název_okresu"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_okresu_LAU_ČSÚ"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_okresu_LAU_ČSÚ",
+              "nativeQueryRef": "kód_okresu_LAU_ČSÚ"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_okresu_NUTS_ČSÚ"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_okresu_NUTS_ČSÚ",
+              "nativeQueryRef": "kód_okresu_NUTS_ČSÚ"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_okresu_RÚIAN"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_okresu_RÚIAN",
+              "nativeQueryRef": "kód_okresu_RÚIAN"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "mv_d_uzemi"
+                  }
+                },
+                "Property": "název_okresu"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e77ba15e061abe033418",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4e741a35c5337a938c8f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_okresu_LAU_ČSÚ"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "08b577428781af1df04b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_okresu_NUTS_ČSÚ"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e63d6250af49aecf6b7f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_okresu_RÚIAN"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
