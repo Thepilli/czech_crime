@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "490cc3ec7a47725505a5",
+  "name": "ae2153bb1ceb4b785101",
   "position": {
-    "x": 990.40723981900442,
-    "y": 695.02262443438906,
-    "z": 1000,
-    "height": 299.10795087265672,
-    "width": 614.35035552682609,
-    "tabOrder": 2000
+    "x": 1445.8394160583941,
+    "y": 461.31386861313871,
+    "z": 0,
+    "height": 571.094890510949,
+    "width": 474.16058394160586,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "tableEx",
@@ -71,6 +71,76 @@
               },
               "queryRef": "mv_d_uzemi.kód_okresu_RÚIAN",
               "nativeQueryRef": "kód_okresu_RÚIAN"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "název_obce"
+                }
+              },
+              "queryRef": "mv_d_uzemi.název_obce",
+              "nativeQueryRef": "název_obce"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_kraje_NUTS_ČSÚ"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_kraje_NUTS_ČSÚ",
+              "nativeQueryRef": "kód_kraje_NUTS_ČSÚ"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_kraje_ČSÚ"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_kraje_ČSÚ",
+              "nativeQueryRef": "kód_kraje_ČSÚ"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_kraje_NUTS_ČSÚ"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_kraje_NUTS_ČSÚ",
+              "nativeQueryRef": "kód_kraje_NUTS_ČSÚ"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "kód_kraje_VÚSC_RÚIAN"
+                }
+              },
+              "queryRef": "mv_d_uzemi.kód_kraje_VÚSC_RÚIAN",
+              "nativeQueryRef": "kód_kraje_VÚSC_RÚIAN"
             }
           ]
         }

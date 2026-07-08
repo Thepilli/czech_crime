@@ -1,0 +1,2 @@
+EVALUATE
+SUMMARIZECOLUMNS(d_type[category_name],d_type[type_name])

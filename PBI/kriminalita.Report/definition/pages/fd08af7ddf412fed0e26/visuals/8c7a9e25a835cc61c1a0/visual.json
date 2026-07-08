@@ -4,10 +4,10 @@
   "position": {
     "x": 55.850032320620549,
     "y": 0,
-    "z": 3,
+    "z": 0,
     "height": 457.97026502908852,
     "width": 660.27149321266961,
-    "tabOrder": 2
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "shapeMap",
@@ -28,24 +28,6 @@
               },
               "queryRef": "mv_d_uzemi.název_kraje",
               "nativeQueryRef": "název_kraje"
-            }
-          ]
-        },
-        "Value": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Incidents"
-                }
-              },
-              "queryRef": "Calculations.Incidents",
-              "nativeQueryRef": "Incidents"
             }
           ]
         }
@@ -105,77 +87,8 @@
             }
           }
         }
-      ],
-      "dataPoint": [
-        {
-          "properties": {
-            "fillRule": {
-              "linearGradient2": {
-                "min": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'minColor'"
-                      }
-                    }
-                  }
-                },
-                "max": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'maxColor'"
-                      }
-                    }
-                  }
-                },
-                "nullColoringStrategy": {
-                  "strategy": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'asZero'"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "024431dae8e4313d561e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "název_kraje"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "8215b25835629ac2f23a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
