@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "490cc3ec7a47725505a5",
   "position": {
-    "x": 990.40723981900442,
-    "y": 695.02262443438906,
+    "x": 1306.0849598163031,
+    "y": 691.06773823191725,
     "z": 1000,
-    "height": 299.10795087265672,
-    "width": 614.35035552682609,
+    "height": 298.691159586682,
+    "width": 613.91504018369687,
     "tabOrder": 2000
   },
   "visual": {
@@ -88,11 +88,71 @@
                 "Property": "název_okresu"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ]
       }
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f8f03f970e1852a19a92",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d5b38f85c74f4f482368",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_okresu_LAU_ČSÚ"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "41d883530574ac066b82",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_okresu_NUTS_ČSÚ"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "cc75e7470b1e252c1b41",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_okresu_RÚIAN"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

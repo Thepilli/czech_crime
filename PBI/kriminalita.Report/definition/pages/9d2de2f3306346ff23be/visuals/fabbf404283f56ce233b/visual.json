@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "6fa8708ec36b7717fdc2",
+  "name": "fabbf404283f56ce233b",
   "position": {
     "x": 898.27784156142366,
-    "y": 0,
-    "z": 0,
+    "y": 488.26636050516646,
+    "z": 2001,
     "height": 591.87141216991961,
     "width": 1021.7221584385763,
-    "tabOrder": 0
+    "tabOrder": 2001
   },
   "visual": {
     "visualType": "shapeMap",
@@ -23,11 +23,11 @@
                       "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "kód_obce"
+                  "Property": "název_okresu"
                 }
               },
-              "queryRef": "mv_d_uzemi.kód_obce",
-              "nativeQueryRef": "kód_obce"
+              "queryRef": "mv_d_uzemi.název_okresu",
+              "nativeQueryRef": "název_okresu"
             }
           ]
         },
@@ -76,19 +76,14 @@
             "datasourceType": {
               "expr": {
                 "Literal": {
-                  "Value": "'url'"
+                  "Value": "'file_upload'"
                 }
               }
             },
             "mapUrl": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "H_Map"
-                    }
-                  },
-                  "Property": "SELECTEDVALUE of topojson"
+                "Literal": {
+                  "Value": "''"
                 }
               }
             },
@@ -97,23 +92,23 @@
                 "type": {
                   "expr": {
                     "Literal": {
-                      "Value": "'shared'"
+                      "Value": "'packaged'"
                     }
                   }
                 },
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'usa.states.topo'"
+                      "Value": "'voronoi_3051.topojson'"
                     }
                   }
                 },
                 "content": {
                   "expr": {
                     "ResourcePackageItem": {
-                      "PackageName": "ShapeMap",
-                      "PackageType": 2,
-                      "ItemName": "usa.states.topo"
+                      "PackageName": "RegisteredResources",
+                      "PackageType": 1,
+                      "ItemName": "voronoi_30516859907316926361.topojson"
                     }
                   }
                 }
@@ -172,21 +167,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1d0498183d08e48b12f1",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "kód_obce"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "b2e9f7a87efff13cd007",
+        "name": "0fdbb9ebbe0792a09df3",
         "field": {
           "Measure": {
             "Expression": {
@@ -200,7 +181,7 @@
         "type": "Advanced"
       },
       {
-        "name": "2bd2b1710e7762a02220",
+        "name": "148c773dd08bd402bca9",
         "field": {
           "Measure": {
             "Expression": {
@@ -212,6 +193,20 @@
           }
         },
         "type": "Advanced"
+      },
+      {
+        "name": "e08b3779d97fa48ae823",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

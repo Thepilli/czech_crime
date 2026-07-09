@@ -114,6 +114,16 @@
           "name": "okresy_new3711283553756338.json",
           "path": "okresy_new3711283553756338.json",
           "type": "ShapeMap"
+        },
+        {
+          "name": "voronoi_30516859907316926361.topojson",
+          "path": "voronoi_30516859907316926361.topojson",
+          "type": "ShapeMap"
+        },
+        {
+          "name": "voronoi_Karlovy_Vary6790344816612918.topojson",
+          "path": "voronoi_Karlovy_Vary6790344816612918.topojson",
+          "type": "ShapeMap"
         }
       ]
     }

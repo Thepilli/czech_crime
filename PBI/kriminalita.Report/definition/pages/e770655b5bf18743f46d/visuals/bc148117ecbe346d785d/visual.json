@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "6fa8708ec36b7717fdc2",
+  "name": "bc148117ecbe346d785d",
   "position": {
     "x": 898.27784156142366,
     "y": 0,
-    "z": 0,
+    "z": 2001,
     "height": 591.87141216991961,
     "width": 1021.7221584385763,
-    "tabOrder": 0
+    "tabOrder": 2001
   },
   "visual": {
     "visualType": "shapeMap",
@@ -76,19 +76,14 @@
             "datasourceType": {
               "expr": {
                 "Literal": {
-                  "Value": "'url'"
+                  "Value": "'file_upload'"
                 }
               }
             },
             "mapUrl": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "H_Map"
-                    }
-                  },
-                  "Property": "SELECTEDVALUE of topojson"
+                "Literal": {
+                  "Value": "''"
                 }
               }
             },
@@ -97,23 +92,23 @@
                 "type": {
                   "expr": {
                     "Literal": {
-                      "Value": "'shared'"
+                      "Value": "'packaged'"
                     }
                   }
                 },
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'usa.states.topo'"
+                      "Value": "'voronoi_Karlovy_Vary.topojson'"
                     }
                   }
                 },
                 "content": {
                   "expr": {
                     "ResourcePackageItem": {
-                      "PackageName": "ShapeMap",
-                      "PackageType": 2,
-                      "ItemName": "usa.states.topo"
+                      "PackageName": "RegisteredResources",
+                      "PackageType": 1,
+                      "ItemName": "voronoi_Karlovy_Vary6790344816612918.topojson"
                     }
                   }
                 }
@@ -172,7 +167,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1d0498183d08e48b12f1",
+        "name": "204c4048a27b3234b9c8",
         "field": {
           "Column": {
             "Expression": {
@@ -186,7 +181,7 @@
         "type": "Advanced"
       },
       {
-        "name": "b2e9f7a87efff13cd007",
+        "name": "0f634d468018c3a45b32",
         "field": {
           "Measure": {
             "Expression": {
@@ -200,7 +195,7 @@
         "type": "Advanced"
       },
       {
-        "name": "2bd2b1710e7762a02220",
+        "name": "128c696b5f1261d15a6f",
         "field": {
           "Measure": {
             "Expression": {
