@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "fd908f4e98d8577c2489",
+  "name": "fd908f4e98d8577c2481",
   "position": {
-    "x": 1436.7381745502996,
+    "x": 1039.793204530313,
     "y": 0,
     "z": 5008,
     "height": 132.22222222222223,
@@ -23,11 +23,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as Not a Crime (%)"
+                  "Property": "Incidents Closed as False Alarm (%)"
                 }
               },
-              "queryRef": "Calculations.Incidents Closed as Not a Crime (%)",
-              "nativeQueryRef": "Incidents Closed as Not a Crime (%)"
+              "queryRef": "Calculations.Incidents Closed as False Alarm (%)",
+              "nativeQueryRef": "Incidents Closed as False Alarm (%)"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Incidents Closed as Not a Crime (%)"
+                "Property": "Incidents Closed as False Alarm (%)"
               }
             },
             "direction": "Descending"
@@ -63,7 +63,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as Not a Crime (%) PY"
+                  "Property": "Incidents Closed as False Alarm (%) PY"
                 }
               }
             }
@@ -76,7 +76,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)",
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c",
             "order": 0
           }
@@ -101,7 +101,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)",
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -118,7 +118,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)",
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         },
@@ -132,7 +132,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as Not a Crime (%) YoY(%) format"
+                  "Property": "Incidents Closed as False Alarm (%) YoY(%) format"
                 }
               }
             },
@@ -146,7 +146,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Closed as Not a Crime (%) YoY Color"
+                      "Property": "Incidents Closed as False Alarm (%) YoY Color"
                     }
                   }
                 }
@@ -161,7 +161,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)",
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -185,7 +185,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         },
         {
@@ -200,7 +200,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Closed as Not a Crime (%) YoY Color"
+                      "Property": "Incidents Closed as False Alarm (%) YoY Color"
                     }
                   }
                 }
@@ -215,7 +215,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         }
       ],
@@ -238,7 +238,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         },
         {
@@ -251,7 +251,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as Not a Crime (%) sparkline"
+                  "Property": "Incidents Closed as False Alarm (%) sparkline"
                 }
               }
             }
@@ -264,7 +264,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         }
       ],
@@ -342,7 +342,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         }
       ],
@@ -388,7 +388,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         }
       ],
@@ -434,7 +434,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)",
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -451,7 +451,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
+            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
         }
       ]

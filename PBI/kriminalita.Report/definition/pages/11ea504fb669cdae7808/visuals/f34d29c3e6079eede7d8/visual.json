@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "f34d29c3e6079eede7d8",
   "position": {
-    "x": 746.66666666666663,
-    "y": 121.11111111111111,
+    "x": 642.84823451032639,
+    "y": 0,
     "z": 5007,
     "height": 132.22222222222223,
     "width": 396.66666666666663,
@@ -23,11 +23,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Solved (%)"
+                  "Property": "Incidents Closed without Resolution (%)"
                 }
               },
-              "queryRef": "Calculations.Incidents Solved (%)",
-              "nativeQueryRef": "Incidents Solved (%)"
+              "queryRef": "Calculations.Incidents Closed without Resolution (%)",
+              "nativeQueryRef": "Incidents Closed without Resolution (%)"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Incidents Solved (%)"
+                "Property": "Incidents Closed without Resolution (%)"
               }
             },
             "direction": "Descending"
@@ -63,7 +63,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Solved (%) PY"
+                  "Property": "Incidents Closed without Resolution (%) PY"
                 }
               }
             }
@@ -76,7 +76,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Solved (%)",
+            "metadata": "Calculations.Incidents Closed without Resolution (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c",
             "order": 0
           }
@@ -101,7 +101,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)",
+            "metadata": "Calculations.Incidents Closed without Resolution (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -118,7 +118,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)",
+            "metadata": "Calculations.Incidents Closed without Resolution (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         },
@@ -132,7 +132,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Solved (%) YoY(%) format"
+                  "Property": "Incidents Closed without Resolution (%) YoY(%) format"
                 }
               }
             },
@@ -146,7 +146,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Solved (%) YoY Color"
+                      "Property": "Incidents Closed without Resolution (%) YoY Color"
                     }
                   }
                 }
@@ -161,7 +161,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Solved (%)",
+            "metadata": "Calculations.Incidents Closed without Resolution (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -185,7 +185,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         },
         {
@@ -200,7 +200,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Solved (%) YoY Color"
+                      "Property": "Incidents Closed without Resolution (%) YoY Color"
                     }
                   }
                 }
@@ -215,7 +215,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         }
       ],
@@ -238,7 +238,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         },
         {
@@ -251,7 +251,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Solved (%) sparkline"
+                  "Property": "Incidents Closed without Resolution (%) sparkline"
                 }
               }
             }
@@ -264,7 +264,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         }
       ],
@@ -342,7 +342,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         }
       ],
@@ -388,7 +388,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         }
       ],
@@ -434,7 +434,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)",
+            "metadata": "Calculations.Incidents Closed without Resolution (%)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -451,7 +451,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Solved (%)"
+            "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         }
       ]
