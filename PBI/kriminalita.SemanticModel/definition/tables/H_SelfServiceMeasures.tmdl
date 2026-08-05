@@ -1,0 +1,29 @@
+table H_SelfServiceMeasures
+	lineageTag: 01504fcc-4801-43ae-bc10-4c6e2498322a
+
+	column KPIName
+		lineageTag: e5a5e23a-c1eb-4c6c-8c7f-7527e82b2ab1
+		isNameInferred
+		sourceColumn: [KPIName]
+
+	column KPIOrder
+		lineageTag: a7541469-4e4b-474f-bd5f-93507f7cc1fb
+		isNameInferred
+		sourceColumn: [KPIOrder]
+
+	partition H_SelfServiceMeasures = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "KPIName", STRING,
+				    "KPIOrder", INTEGER,
+				    {
+				        { "Incidents by primary type", 1 },
+				        { "Crime rate", 2 },
+				        { "Incident share by primary type", 3 },
+				        { "Populace", 4 }
+				    }
+				)
+
+	annotation TabularEditor_TableGroup = PARAMs
+

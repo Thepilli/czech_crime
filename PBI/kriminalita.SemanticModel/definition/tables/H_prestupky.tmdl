@@ -1,0 +1,23 @@
+table H_prestupky
+	lineageTag: 23e10bd0-acaa-4c5e-94b6-60c6d5abd513
+
+	calculationGroup
+
+		calculationItem 'vc Prestupku' = SELECTEDMEASURE()
+
+		calculationItem 'bez Prestupku' = CALCULATE(SELECTEDMEASURE(),KEEPFILTERS(d_type[category_code]<>97))
+
+	column Name
+		dataType: string
+		lineageTag: 7b2476fb-5fda-4974-84be-105b3d8cc91b
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: a163c73b-4a95-4591-9695-e399d3cd35c5
+		sourceColumn: Ordinal
+
+	annotation TabularEditor_TableGroup = PARAMs
+

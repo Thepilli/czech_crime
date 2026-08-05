@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "6fa8708ec36b7717fdc2",
   "position": {
-    "x": 898.27784156142366,
-    "y": 0,
+    "x": 898.59594383775357,
+    "y": 94.851794071762882,
     "z": 0,
     "height": 591.87141216991961,
     "width": 1021.7221584385763,
@@ -59,11 +59,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents"
+                  "Property": "Incidents by primary type"
                 }
               },
-              "queryRef": "Calculations.Incidents",
-              "nativeQueryRef": "Incidents"
+              "queryRef": "Calculations.Incidents by primary type",
+              "nativeQueryRef": "Incidents by primary type"
             }
           ]
         }
@@ -88,7 +88,7 @@
                       "Entity": "H_Map"
                     }
                   },
-                  "Property": "SELECTEDVALUE of topojson"
+                  "Property": "SELECTEDVALUE of Kraj_topojson"
                 }
               }
             },
@@ -168,51 +168,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "1d0498183d08e48b12f1",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "kód_obce"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "b2e9f7a87efff13cd007",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "SELECTEDVALUE of název_obce"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2bd2b1710e7762a02220",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

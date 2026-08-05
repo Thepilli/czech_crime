@@ -49,7 +49,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'Cheb'"
+                          "Value": "'Most'"
                         }
                       }
                     ]
@@ -70,8 +70,6 @@
       {
         "name": "5f9ecf45b1d04b1ffaff",
         "boundFilter": "3d971dacee7650296710",
-        "asAggregation": false,
-        "qnaSingleSelectRequired": false,
         "fieldExpr": {
           "Column": {
             "Expression": {

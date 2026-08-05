@@ -1,0 +1,113 @@
+table f_populace
+	lineageTag: 6e93729a-fc54-4dec-90e3-7529f62f54d4
+	sourceLineageTag: [crime].[f_populace]
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 977acd50-3546-46f6-8274-53c339d36e84
+		sourceLineageTag: year
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column kod_obec
+		dataType: int64
+		formatString: 0
+		lineageTag: fcff30a1-40e4-4d03-8b3e-b2ae59177450
+		sourceLineageTag: kod_obec
+		summarizeBy: none
+		sourceColumn: kod_obec
+
+		annotation SummarizationSetBy = Automatic
+
+	column narozeni
+		dataType: int64
+		formatString: 0
+		lineageTag: eea72645-079f-49f7-819a-191fa8528a9f
+		sourceLineageTag: narozeni
+		summarizeBy: sum
+		sourceColumn: narozeni
+
+		annotation SummarizationSetBy = Automatic
+
+	column zemreli
+		dataType: int64
+		formatString: 0
+		lineageTag: f7a96295-0a63-4104-b4fb-bc581c68d53c
+		sourceLineageTag: zemreli
+		summarizeBy: sum
+		sourceColumn: zemreli
+
+		annotation SummarizationSetBy = Automatic
+
+	column pristehovali
+		dataType: int64
+		formatString: 0
+		lineageTag: 909fb398-e117-4a4f-a87a-41be08f321fc
+		sourceLineageTag: pristehovali
+		summarizeBy: sum
+		sourceColumn: pristehovali
+
+		annotation SummarizationSetBy = Automatic
+
+	column vystehovali
+		dataType: int64
+		formatString: 0
+		lineageTag: aa2bd874-dd3b-4089-802e-6ce93009d6f4
+		sourceLineageTag: vystehovali
+		summarizeBy: sum
+		sourceColumn: vystehovali
+
+		annotation SummarizationSetBy = Automatic
+
+	column prirustek_prirozeny
+		dataType: int64
+		formatString: 0
+		lineageTag: 3357feb2-54f9-4ce2-a689-0e29ba07d684
+		sourceLineageTag: prirustek_prirozeny
+		summarizeBy: sum
+		sourceColumn: prirustek_prirozeny
+
+		annotation SummarizationSetBy = Automatic
+
+	column prirustek_migracni
+		dataType: int64
+		formatString: 0
+		lineageTag: 66396aec-3054-4f3c-a45e-22e506080217
+		sourceLineageTag: prirustek_migracni
+		summarizeBy: sum
+		sourceColumn: prirustek_migracni
+
+		annotation SummarizationSetBy = Automatic
+
+	column prirustek_celkovy
+		dataType: int64
+		formatString: 0
+		lineageTag: 30bd0b3e-d1dc-4701-9b04-5d66c4556b5e
+		sourceLineageTag: prirustek_celkovy
+		summarizeBy: sum
+		sourceColumn: prirustek_celkovy
+
+		annotation SummarizationSetBy = Automatic
+
+	column populace
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ccc91d7-7a7a-4fbb-bda7-57e2a18945f4
+		sourceLineageTag: populace
+		summarizeBy: sum
+		sourceColumn: populace
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_populace = entity
+		mode: directLake
+		source
+			entityName: f_populace
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = FACTs
+

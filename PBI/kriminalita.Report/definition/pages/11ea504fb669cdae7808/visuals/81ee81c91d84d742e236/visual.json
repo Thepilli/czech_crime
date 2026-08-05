@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "bc148117ecbe346d785d",
+  "name": "81ee81c91d84d742e236",
   "position": {
-    "x": 898.59594383775357,
-    "y": 8.9859594383775363,
-    "z": 2000,
-    "height": 591.87141216991961,
-    "width": 1021.7221584385763,
-    "tabOrder": 2000
+    "x": 261.66666666666669,
+    "y": 276.66666666666669,
+    "z": 5001,
+    "height": 394.17218543046357,
+    "width": 634.17218543046363,
+    "tabOrder": 5001
   },
   "visual": {
     "visualType": "shapeMap",
@@ -23,30 +23,16 @@
                       "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "kód_obce"
+                  "Property": "název_okresu"
                 }
               },
-              "queryRef": "mv_d_uzemi.kód_obce",
-              "nativeQueryRef": "kód_obce"
+              "queryRef": "mv_d_uzemi.název_okresu",
+              "nativeQueryRef": "název_okresu"
             }
           ]
         },
         "Tooltips": {
           "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mv_d_uzemi"
-                    }
-                  },
-                  "Property": "SELECTEDVALUE of název_obce"
-                }
-              },
-              "queryRef": "mv_d_uzemi.SELECTEDVALUE of název_obce",
-              "nativeQueryRef": "SELECTEDVALUE of název_obce"
-            },
             {
               "field": {
                 "Measure": {
@@ -73,11 +59,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents by primary type"
+                  "Property": "Crime rate"
                 }
               },
-              "queryRef": "Calculations.Incidents by primary type",
-              "nativeQueryRef": "Incidents by primary type"
+              "queryRef": "Calculations.Crime rate",
+              "nativeQueryRef": "Crime rate"
             }
           ]
         }
@@ -90,7 +76,14 @@
             "datasourceType": {
               "expr": {
                 "Literal": {
-                  "Value": "'url'"
+                  "Value": "'file_upload'"
+                }
+              }
+            },
+            "mapUrl": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             },
@@ -106,7 +99,7 @@
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'voronoi_Karlovy_Vary.topojson'"
+                      "Value": "'okresy_new.json'"
                     }
                   }
                 },
@@ -115,7 +108,7 @@
                     "ResourcePackageItem": {
                       "PackageName": "RegisteredResources",
                       "PackageType": 1,
-                      "ItemName": "voronoi_Karlovy_Vary6790344816612918.topojson"
+                      "ItemName": "okresy_new3711283553756338.json"
                     }
                   }
                 }
@@ -125,18 +118,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'albersUsa'"
-                }
-              }
-            },
-            "mapUrl": {
-              "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "H_Map_okres"
-                    }
-                  },
-                  "Property": "SELECTEDVALUE of Okres_topojson"
                 }
               }
             }

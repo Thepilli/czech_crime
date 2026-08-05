@@ -1,0 +1,128 @@
+
+
+
+// ============================================================================
+//  DEMOGRAPHICS MEASURES  —  add to the 'Calculations' table
+//  f_populace grain = (year, kod_obec); bridged to date via mv_d_date[Year].
+//  Flows (births/deaths/migration) are additive → SUM across matched years.
+//  Population is a STOCK → averaged over years (never summed).
+//  All figures are ANNUAL; a sub-year date filter collapses to its year(s).
+// ============================================================================
+
+// ---- COUNTS (flows) --------------------------------------------------------
+// displayFolder: Demographics\Counts   formatString: #,0
+
+MEASURE 'Calculations'Births =
+CALCULATE ( SUM ( f_populace[narozeni] ),      TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+Deaths =
+CALCULATE ( SUM ( f_populace[zemreli] ),       TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+In-migration =
+CALCULATE ( SUM ( f_populace[pristehovali] ),  TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+Out-migration =
+CALCULATE ( SUM ( f_populace[vystehovali] ),   TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+Natural increase =
+CALCULATE ( SUM ( f_populace[prirustek_prirozeny] ), TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+Net migration =
+CALCULATE ( SUM ( f_populace[prirustek_migracni] ),  TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+Total increase =
+CALCULATE ( SUM ( f_populace[prirustek_celkovy] ),   TREATAS ( VALUES ( mv_d_date[Year] ), f_populace[year] ) )
+
+// ---- POPULATION STOCK ------------------------------------------------------
+// displayFolder: Demographics\Population   formatString: #,0
+// [Avg Annual Population] already exists (mean over years in context).
+
+Population (start of period) =
+VAR _y = MIN ( mv_d_date[Year] )
+RETURN CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+
+Population (end of period) =
+VAR _y = MAX ( mv_d_date[Year] )
+RETURN CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+
+Population (prev year) =
+VAR _y = MAX ( mv_d_date[Year] ) - 1
+RETURN CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+
+// ---- CRUDE RATES per 1,000 (average annual) --------------------------------
+// displayFolder: Demographics\Rates   formatString: #,0.0
+// Pattern: compute each year's rate, then average across years in context.
+// Single year → exact rate; multi-year → mean annual rate.
+
+Crude Birth Rate (per 1k) =
+AVERAGEX (
+    VALUES ( mv_d_date[Year] ),
+    VAR _y = mv_d_date[Year]
+    RETURN DIVIDE (
+        CALCULATE ( SUM ( f_populace[narozeni] ), f_populace[year] = _y ),
+        CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+    ) * 1000
+)
+
+Crude Death Rate (per 1k) =
+AVERAGEX (
+    VALUES ( mv_d_date[Year] ),
+    VAR _y = mv_d_date[Year]
+    RETURN DIVIDE (
+        CALCULATE ( SUM ( f_populace[zemreli] ), f_populace[year] = _y ),
+        CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+    ) * 1000
+)
+
+Natural Increase Rate (per 1k) =
+AVERAGEX (
+    VALUES ( mv_d_date[Year] ),
+    VAR _y = mv_d_date[Year]
+    RETURN DIVIDE (
+        CALCULATE ( SUM ( f_populace[prirustek_prirozeny] ), f_populace[year] = _y ),
+        CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+    ) * 1000
+)
+
+Net Migration Rate (per 1k) =
+AVERAGEX (
+    VALUES ( mv_d_date[Year] ),
+    VAR _y = mv_d_date[Year]
+    RETURN DIVIDE (
+        CALCULATE ( SUM ( f_populace[prirustek_migracni] ), f_populace[year] = _y ),
+        CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+    ) * 1000
+)
+
+Total Growth Rate (per 1k) =
+AVERAGEX (
+    VALUES ( mv_d_date[Year] ),
+    VAR _y = mv_d_date[Year]
+    RETURN DIVIDE (
+        CALCULATE ( SUM ( f_populace[prirustek_celkovy] ), f_populace[year] = _y ),
+        CALCULATE ( SUM ( f_populace[populace] ), f_populace[year] = _y )
+    ) * 1000
+)
+
+// ---- GROWTH / YoY ----------------------------------------------------------
+// displayFolder: Demographics\Growth
+
+Population Change =                         // formatString: #,0
+[Population (end of period)] - [Population (start of period)]
+
+Population Change % =                       // formatString: 0.0%
+DIVIDE ( [Population Change], [Population (start of period)] )
+
+Population YoY =                            // formatString: #,0
+VAR _cur  = [Population (end of period)]
+VAR _prev = [Population (prev year)]
+RETURN IF ( NOT ISBLANK ( _prev ), _cur - _prev )
+
+Population YoY % =                          // formatString: 0.0%
+DIVIDE ( [Population YoY], [Population (prev year)] )
+
+Population CAGR % =                         // formatString: 0.0%
+VAR _start = [Population (start of period)]
+VAR _end   = [Population (end of period)]
+VAR _years = MAX ( mv_d_date[Year] ) - MIN ( mv_d_date[Year] )
+RETURN IF ( _years > 0 && _start > 0, ( _end / _start ) ^ ( 1 / _years ) - 1 )

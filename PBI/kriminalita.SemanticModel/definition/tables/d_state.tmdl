@@ -1,0 +1,32 @@
+table d_state
+	lineageTag: c81ac7b2-6b92-4f7e-9a36-edc9eca83a6f
+	sourceLineageTag: [crime].[d_state]
+
+	column state_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 44555526-b6ba-4361-b469-61842d2e2186
+		sourceLineageTag: state_code
+		summarizeBy: none
+		sourceColumn: state_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_name
+		dataType: string
+		lineageTag: 2c3b6af3-c06c-4a74-85cb-5ea071c1133b
+		sourceLineageTag: state_name
+		summarizeBy: none
+		sourceColumn: state_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_state = entity
+		mode: directLake
+		source
+			entityName: d_state
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

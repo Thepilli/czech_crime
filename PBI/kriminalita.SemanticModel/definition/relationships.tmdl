@@ -1,0 +1,57 @@
+relationship 99986d77-77e3-3e26-b8dc-57547944980b
+	crossFilteringBehavior: bothDirections
+	relyOnReferentialIntegrity
+	fromColumn: bridge_group_type.type_group_key
+	toColumn: d_type_group.type_group_key
+
+relationship bf6c40f9-3b7d-42c2-0336-4e9aef6aa99b
+	relyOnReferentialIntegrity
+	fromColumn: bridge_group_type.type_code
+	toColumn: d_type.type_code
+
+relationship 3671d3f0-fd8c-73ba-eedf-228b218a5ae6
+	relyOnReferentialIntegrity
+	fromColumn: mv_f_crime.relevance
+	toColumn: d_relevance.relevance_code
+
+relationship 36211d41-2d2b-115a-0277-bf35901ba66c
+	relyOnReferentialIntegrity
+	fromColumn: mv_f_crime.state
+	toColumn: d_state.state_code
+
+relationship d6634de8-8063-8ca0-6b46-d8280348c9cd
+	relyOnReferentialIntegrity
+	fromColumn: mv_f_crime.type_group_key
+	toColumn: d_type_group.type_group_key
+
+relationship b541c495-3a5b-63b1-a7dc-0f37c7458001
+	isActive: false
+	relyOnReferentialIntegrity
+	fromColumn: mv_f_crime.primary_type
+	toColumn: d_type.type_code
+
+relationship 96551bd3-7508-9046-9ba7-e13b64ebb121
+	relyOnReferentialIntegrity
+	fromColumn: mv_f_crime.kod_obec
+	toColumn: mv_d_uzemi.kód_obce
+
+relationship f50e17e3-4b58-434f-b496-18f1bc58d8b9
+	crossFilteringBehavior: bothDirections
+	fromColumn: mv_d_uzemi.kód_kraje_ČSÚ
+	toColumn: H_Map.kraj_kod_csu
+
+relationship 91c56cc8-daf2-4104-b353-5ca1854d7e9d
+	crossFilteringBehavior: bothDirections
+	fromColumn: mv_d_uzemi.kód_okresu_LAU_ČSÚ
+	toColumn: H_Map_okres.okres_kod_lau_csu
+
+relationship 43f22c6b-a959-d298-5393-dc4357dc5a13
+	relyOnReferentialIntegrity
+	fromColumn: mv_f_crime.CrimeDate
+	toColumn: mv_d_date.Date
+
+relationship 0a0018bc-862a-462a-0c12-6f4b9a7c7dd0
+	relyOnReferentialIntegrity
+	fromColumn: f_populace.kod_obec
+	toColumn: mv_d_uzemi.kód_obce
+

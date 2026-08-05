@@ -1,0 +1,62 @@
+table d_type_group
+	lineageTag: ae698cbf-09dd-4234-b981-34b670ecdd5b
+	sourceLineageTag: [crime].[d_type_group]
+
+	column type_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 293e9ee7-e099-4276-a742-319ac674b0dd
+		sourceLineageTag: type_group_key
+		summarizeBy: none
+		sourceColumn: type_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_set_label
+		dataType: string
+		lineageTag: 4cbfa358-06a1-49e6-8352-f6baa536f4b6
+		sourceLineageTag: type_set_label
+		summarizeBy: none
+		sourceColumn: type_set_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_types
+		dataType: int64
+		formatString: 0
+		lineageTag: c47808d9-1155-4e36-90b4-3394406f3555
+		sourceLineageTag: n_types
+		summarizeBy: sum
+		sourceColumn: n_types
+
+		annotation SummarizationSetBy = Automatic
+
+	column primary_type
+		dataType: int64
+		formatString: 0
+		lineageTag: dc14e57e-c384-49f8-a553-49dbb6f1a860
+		sourceLineageTag: primary_type
+		summarizeBy: sum
+		sourceColumn: primary_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column incident_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 40f4b218-28ab-4f67-a224-e0f32bac1484
+		sourceLineageTag: incident_count
+		summarizeBy: sum
+		sourceColumn: incident_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_type_group = entity
+		mode: directLake
+		source
+			entityName: d_type_group
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

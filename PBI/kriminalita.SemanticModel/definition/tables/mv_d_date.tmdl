@@ -1,0 +1,192 @@
+table mv_d_date
+	lineageTag: 1eefcf29-9aa2-49ca-a149-e1e4d8586507
+	sourceLineageTag: [crime].[mv_d_date]
+	dataCategory: Time
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 022c214b-9552-4bae-af5c-0c62b2fafa9c
+		sourceLineageTag: DateKey
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: General Date
+		lineageTag: 985c6fa4-7f9e-484e-b628-9a0766749baf
+		sourceLineageTag: Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation TabularEditor_MarkAsDateKey = 1
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 94659bf5-3053-4fe9-b63d-c2fe47f62602
+		sourceLineageTag: Year
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		lineageTag: aa3d8f52-083f-46d8-99ab-ce8284d04a0c
+		sourceLineageTag: YearQuarter
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 466a62ad-a189-44f9-b8af-952bdf543ec5
+		sourceLineageTag: Quarter
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column yearmonth
+		dataType: string
+		lineageTag: b3a03f85-2d4a-4e9b-8fd0-ff0cfd14c681
+		sourceLineageTag: yearmonth
+		summarizeBy: none
+		sourceColumn: yearmonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthNumber
+		dataType: string
+		lineageTag: 6e90dd03-5bbd-4c0f-9d66-aa716a30a536
+		sourceLineageTag: YearMonthNumber
+		summarizeBy: none
+		sourceColumn: YearMonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: d45fc00f-dfd9-40e8-994a-819a92c94202
+		sourceLineageTag: Month
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 532ca7cd-26b7-4643-8174-39a9d5667b7b
+		sourceLineageTag: MonthName
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNameCs
+		dataType: string
+		lineageTag: f2cd20f6-149d-4d69-8b01-98ca8f1d9a8f
+		sourceLineageTag: MonthNameCs
+		summarizeBy: none
+		sourceColumn: MonthNameCs
+		sortByColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthLetter
+		dataType: string
+		lineageTag: 3ca853f2-163c-4984-9612-2dff65034c8e
+		sourceLineageTag: MonthLetter
+		summarizeBy: none
+		sourceColumn: MonthLetter
+		sortByColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthLetterCs
+		dataType: string
+		lineageTag: d64419d4-be62-433b-b2d1-530fa0e2aabd
+		sourceLineageTag: MonthLetterCs
+		summarizeBy: none
+		sourceColumn: MonthLetterCs
+		sortByColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayofMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: e0158955-b4f9-4e98-9169-32ce5eccc6e8
+		sourceLineageTag: DayofMonth
+		summarizeBy: none
+		sourceColumn: DayofMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 30924ac6-43c0-4b66-94ea-5475943a6711
+		sourceLineageTag: Day
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayofWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: 43bec892-3180-4ce9-a8a8-0e735b37f592
+		sourceLineageTag: DayofWeek
+		summarizeBy: none
+		sourceColumn: DayofWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: b61399cc-137c-4187-8826-0cba8ac7b864
+		sourceLineageTag: DayName
+		summarizeBy: none
+		sourceColumn: DayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNameCs
+		dataType: string
+		lineageTag: 3047c9d3-0f76-4b1f-acc9-1856c8d592cb
+		sourceLineageTag: DayNameCs
+		summarizeBy: none
+		sourceColumn: DayNameCs
+
+		annotation SummarizationSetBy = Automatic
+
+	column isWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 232b5fe3-919b-450c-bb4c-d880f1c39fbf
+		sourceLineageTag: isWeekend
+		summarizeBy: none
+		sourceColumn: isWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mv_d_date = entity
+		mode: directLake
+		source
+			entityName: mv_d_date
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

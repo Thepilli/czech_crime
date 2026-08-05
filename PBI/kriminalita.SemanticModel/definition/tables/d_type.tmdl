@@ -1,0 +1,83 @@
+table d_type
+	lineageTag: ef332eb0-596e-4411-be8f-58449375244f
+	sourceLineageTag: [crime].[d_type]
+
+	measure 'SELECTEDVALUE of category_name' = SELECTEDVALUE(d_type[category_name])
+		lineageTag: 91de03d6-aeaa-4ee8-9c38-cd512ec11eb3
+
+	column type_code
+		dataType: int64
+		formatString: 0
+		lineageTag: f5c097de-9a97-4f44-88cd-fb6822f12a1d
+		sourceLineageTag: type_code
+		summarizeBy: none
+		sourceColumn: type_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_name
+		dataType: string
+		lineageTag: 62269b5d-05a2-4c5c-bad0-7725b83b67c1
+		sourceLineageTag: type_name
+		summarizeBy: none
+		sourceColumn: type_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_class
+		dataType: string
+		lineageTag: 5feaa3e7-53d2-49c5-ae51-53deeac9a6d4
+		sourceLineageTag: type_class
+		summarizeBy: none
+		sourceColumn: type_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column parent_code
+		dataType: int64
+		formatString: 0
+		lineageTag: e616c5b7-198e-403e-a79d-4c7a47b34684
+		sourceLineageTag: parent_code
+		summarizeBy: none
+		sourceColumn: parent_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column level
+		dataType: int64
+		formatString: 0
+		lineageTag: c5a3c9b9-ed48-4b5f-a002-8ac8a44f764c
+		sourceLineageTag: level
+		summarizeBy: none
+		sourceColumn: level
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 873eeb93-8dbc-4596-9970-82cb1523d2e1
+		sourceLineageTag: category_code
+		summarizeBy: none
+		sourceColumn: category_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_name
+		dataType: string
+		lineageTag: d8423d45-ec5e-42e2-8f42-b6e20b710fe0
+		sourceLineageTag: category_name
+		summarizeBy: none
+		sourceColumn: category_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_type = entity
+		mode: directLake
+		source
+			entityName: d_type
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

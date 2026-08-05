@@ -1,0 +1,50 @@
+table H_Map
+	lineageTag: cc8b8a0d-e2bf-4bf3-8f7e-70fd95dbf938
+
+	/// This measure is the SELECTEDVALUE of 'jsons'[topojson]
+	measure 'SELECTEDVALUE of Kraj_topojson' = SELECTEDVALUE( H_Map[json_url] )
+		lineageTag: 14395f05-0ed4-4d3c-9de3-647570a65800
+
+	column kraj_name
+		lineageTag: 1750238c-87f9-45c5-9a9b-94b94741c211
+		isNameInferred
+		sourceColumn: [kraj_name]
+
+	column kraj_kod_csu
+		lineageTag: 941236c7-3fbd-4f6e-80cc-87f4505ffb14
+		isNameInferred
+		sourceColumn: [kraj_kod_csu]
+
+	column json_url
+		lineageTag: ac4f6512-8a56-4811-9af2-1d66097edfc6
+		dataCategory: WebURL
+		isNameInferred
+		sourceColumn: [json_url]
+
+	partition H_Map = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "kraj_name", STRING,
+				    "kraj_kod_csu", INTEGER,
+				    "json_url", STRING,
+				    {
+				        { "Hlavní město Praha", 3018, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3018.json" },
+				        { "Středočeský kraj", 3026, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3026.json" },
+				        { "Jihočeský kraj", 3034, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3034.json" },
+				        { "Plzeňský kraj", 3042, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3042.json" },
+				        { "Karlovarský kraj", 3051, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3051.json" },
+				        { "Ústecký kraj", 3069, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3069.json" },
+				        { "Liberecký kraj", 3077, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3077.json" },
+				        { "Královéhradecký kraj", 3085, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3085.json" },
+				        { "Pardubický kraj", 3093, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3093.json" },
+				        { "Kraj Vysočina", 3107, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3107.json" },
+				        { "Jihomoravský kraj", 3115, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3115.json" },
+				        { "Olomoucký kraj", 3123, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3123.json" },
+				        { "Zlínský kraj", 3131, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3131.json" },
+				        { "Moravskoslezský kraj", 3140, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split/kod_kraj_csu_3140.json" }
+				    }
+				)
+
+	annotation TabularEditor_TableGroup = PARAMs
+

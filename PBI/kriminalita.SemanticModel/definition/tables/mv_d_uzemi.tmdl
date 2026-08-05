@@ -1,0 +1,260 @@
+table mv_d_uzemi
+	lineageTag: 20d8c059-537f-465a-aca9-bbe48e534945
+	sourceLineageTag: [crime].[mv_d_uzemi]
+
+	/// This measure is the SELECTEDVALUE of 'mv_d_uzemi'[název_obce]
+	measure 'SELECTEDVALUE of název_obce' = SELECTEDVALUE( 'mv_d_uzemi'[název_obce] )
+		lineageTag: d6dc74c3-ed63-4bb9-a7e5-421a1d4dcd53
+
+	measure 'SUM of populace' = SUM(f_populace[populace])
+		lineageTag: c385ea1e-ec12-41f7-8faa-917d46ecde6a
+
+	column název_obce
+		dataType: string
+		isHidden
+		lineageTag: 9d4b7b73-8b5b-4a82-af10-90d2167ba885
+		sourceLineageTag: název_obce
+		summarizeBy: none
+		sourceColumn: název_obce
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_obce
+		dataType: int64
+		formatString: 0
+		lineageTag: 58edbb3d-19ad-4063-9197-7753949df803
+		sourceLineageTag: kód_obce
+		summarizeBy: none
+		sourceColumn: kód_obce
+
+		annotation SummarizationSetBy = Automatic
+
+	column typ_obce
+		dataType: string
+		lineageTag: 73415c53-83e3-4132-9d77-3962c08217ec
+		sourceLineageTag: typ_obce
+		summarizeBy: none
+		sourceColumn: typ_obce
+
+		annotation SummarizationSetBy = Automatic
+
+	column název_POU
+		dataType: string
+		lineageTag: d385ae74-d3c2-41b3-be7e-91d48c136593
+		sourceLineageTag: název_POU
+		summarizeBy: none
+		sourceColumn: název_POU
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_POU_ČSÚ
+		dataType: int64
+		formatString: 0
+		lineageTag: 50011c08-103d-40d6-8eb2-b84ebb6ee870
+		sourceLineageTag: kód_POU_ČSÚ
+		summarizeBy: sum
+		sourceColumn: kód_POU_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_POU_RÚIAN
+		dataType: int64
+		formatString: 0
+		lineageTag: b993e39e-8777-4c4a-90e7-0cbf958b48fe
+		sourceLineageTag: kód_POU_RÚIAN
+		summarizeBy: sum
+		sourceColumn: kód_POU_RÚIAN
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_obce_sidlo_POU
+		dataType: int64
+		formatString: 0
+		lineageTag: d38ba7bb-6989-43a6-bf5d-1d01ddc889f0
+		sourceLineageTag: kód_obce_sidlo_POU
+		summarizeBy: sum
+		sourceColumn: kód_obce_sidlo_POU
+
+		annotation SummarizationSetBy = Automatic
+
+	column název_ORP
+		dataType: string
+		lineageTag: badf1618-1c49-4089-95e3-1fad41b41e2f
+		sourceLineageTag: název_ORP
+		summarizeBy: none
+		sourceColumn: název_ORP
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_ORP_ČSÚ
+		dataType: int64
+		formatString: 0
+		lineageTag: 5bf7dd9f-ceea-40df-8da2-ef1f484a2d49
+		sourceLineageTag: kód_ORP_ČSÚ
+		summarizeBy: sum
+		sourceColumn: kód_ORP_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_ORP_RÚIAN
+		dataType: int64
+		formatString: 0
+		lineageTag: aab75c38-8c6e-44a3-9745-054cd27f0ac1
+		sourceLineageTag: kód_ORP_RÚIAN
+		summarizeBy: sum
+		sourceColumn: kód_ORP_RÚIAN
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_obce_sidlo_ORP
+		dataType: int64
+		formatString: 0
+		lineageTag: fce31e98-306e-4f1c-89ce-714c17e32d02
+		sourceLineageTag: kód_obce_sidlo_ORP
+		summarizeBy: sum
+		sourceColumn: kód_obce_sidlo_ORP
+
+		annotation SummarizationSetBy = Automatic
+
+	column název_okresu
+		dataType: string
+		lineageTag: fc770690-3ade-4959-8fee-b3b0a10d9871
+		sourceLineageTag: název_okresu
+		summarizeBy: none
+		sourceColumn: název_okresu
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_okresu_LAU_ČSÚ
+		dataType: int64
+		formatString: 0
+		lineageTag: e140338b-75d2-460a-beeb-bf54e1f73b5b
+		sourceLineageTag: kód_okresu_LAU_ČSÚ
+		summarizeBy: none
+		sourceColumn: kód_okresu_LAU_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_okresu_NUTS_ČSÚ
+		dataType: string
+		lineageTag: e15cfc76-387e-4740-b364-407596a4f5cf
+		sourceLineageTag: kód_okresu_NUTS_ČSÚ
+		summarizeBy: none
+		sourceColumn: kód_okresu_NUTS_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_okresu_RÚIAN
+		dataType: int64
+		formatString: 0
+		lineageTag: 143fd76e-2349-4342-970e-93cb4d00434b
+		sourceLineageTag: kód_okresu_RÚIAN
+		summarizeBy: sum
+		sourceColumn: kód_okresu_RÚIAN
+
+		annotation SummarizationSetBy = Automatic
+
+	column název_kraje
+		dataType: string
+		lineageTag: 2fed9879-2441-44cf-9210-a031cb960c5c
+		sourceLineageTag: název_kraje
+		summarizeBy: none
+		sourceColumn: název_kraje
+
+		annotation SummarizationSetBy = Automatic
+
+	column zkratka_kraje
+		dataType: string
+		lineageTag: d32bdaa3-9b2f-4c0d-9c3a-c6404e6052b2
+		sourceLineageTag: zkratka_kraje
+		summarizeBy: none
+		sourceColumn: zkratka_kraje
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_kraje_ČSÚ
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b316251-c075-4fcf-b8aa-1b098d349fce
+		sourceLineageTag: kód_kraje_ČSÚ
+		summarizeBy: none
+		sourceColumn: kód_kraje_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_kraje_NUTS_ČSÚ
+		dataType: string
+		lineageTag: 0a3bcffd-8b68-4c80-89e2-002c6d2b8ba8
+		sourceLineageTag: kód_kraje_NUTS_ČSÚ
+		summarizeBy: none
+		sourceColumn: kód_kraje_NUTS_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_kraje_VÚSC_RÚIAN
+		dataType: int64
+		formatString: 0
+		lineageTag: 53871004-c915-4a2e-902d-7b8d107f967b
+		sourceLineageTag: kód_kraje_VÚSC_RÚIAN
+		summarizeBy: sum
+		sourceColumn: kód_kraje_VÚSC_RÚIAN
+
+		annotation SummarizationSetBy = Automatic
+
+	column název_regionu_soudržnosti
+		dataType: string
+		lineageTag: fb7974e5-10c5-4b74-8aa8-564fe2e8ae4a
+		sourceLineageTag: název_regionu_soudržnosti
+		summarizeBy: none
+		sourceColumn: název_regionu_soudržnosti
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_regionu_soudržnosti_ČSÚ
+		dataType: int64
+		formatString: 0
+		lineageTag: a7e33ee4-7933-4ce5-9d3d-477139733e5a
+		sourceLineageTag: kód_regionu_soudržnosti_ČSÚ
+		summarizeBy: sum
+		sourceColumn: kód_regionu_soudržnosti_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_regionu_soudržnosti_NUTS_ČSÚ
+		dataType: string
+		lineageTag: ecaeda98-eda5-4248-a58a-433e011f617d
+		sourceLineageTag: kód_regionu_soudržnosti_NUTS_ČSÚ
+		summarizeBy: none
+		sourceColumn: kód_regionu_soudržnosti_NUTS_ČSÚ
+
+		annotation SummarizationSetBy = Automatic
+
+	column kód_regionu_soudržnosti_RÚIAN
+		dataType: int64
+		formatString: 0
+		lineageTag: adebcf28-63a6-4389-bae1-9fab58017fe8
+		sourceLineageTag: kód_regionu_soudržnosti_RÚIAN
+		summarizeBy: sum
+		sourceColumn: kód_regionu_soudržnosti_RÚIAN
+
+		annotation SummarizationSetBy = Automatic
+
+	column populace
+		dataType: int64
+		formatString: 0
+		lineageTag: fe31d34e-cfab-47ea-88bd-f4a099087e53
+		sourceLineageTag: populace
+		summarizeBy: sum
+		sourceColumn: populace
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mv_d_uzemi = entity
+		mode: directLake
+		source
+			entityName: mv_d_uzemi
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

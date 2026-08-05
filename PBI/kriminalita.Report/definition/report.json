@@ -2,72 +2,23 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "baseTheme": {
-      "name": "Fluent2-CY26SU05",
+      "name": "Fluent2-CY26SU07",
       "reportVersionAtImport": {
-        "visual": "2.9.0",
-        "report": "3.3.0",
+        "visual": "2.11.0",
+        "report": "3.4.0",
         "page": "2.3.1"
       },
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "JP896926738086476.json",
+      "reportVersionAtImport": {
+        "visual": "2.11.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "dd707554048d324e8cd0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "d_calendar"
-              }
-            },
-            "Property": "year_month"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "d_calendar",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "d"
-                          }
-                        },
-                        "Property": "year_month"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'2026-05'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      }
-    ]
   },
   "objects": {
     "section": [
@@ -82,6 +33,19 @@
           }
         }
       }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
     ]
   },
   "resourcePackages": [
@@ -90,8 +54,8 @@
       "type": "SharedResources",
       "items": [
         {
-          "name": "Fluent2-CY26SU05",
-          "path": "BaseThemes/Fluent2-CY26SU05.json",
+          "name": "Fluent2-CY26SU07",
+          "path": "BaseThemes/Fluent2-CY26SU07.json",
           "type": "BaseTheme"
         },
         {
@@ -106,6 +70,11 @@
       "type": "RegisteredResources",
       "items": [
         {
+          "name": "JP896926738086476.json",
+          "path": "JP896926738086476.json",
+          "type": "CustomTheme"
+        },
+        {
           "name": "kraje_new8236291672099522.json",
           "path": "kraje_new8236291672099522.json",
           "type": "ShapeMap"
@@ -113,11 +82,6 @@
         {
           "name": "okresy_new3711283553756338.json",
           "path": "okresy_new3711283553756338.json",
-          "type": "ShapeMap"
-        },
-        {
-          "name": "voronoi_30516859907316926361.topojson",
-          "path": "voronoi_30516859907316926361.topojson",
           "type": "ShapeMap"
         },
         {
@@ -131,9 +95,13 @@
   "settings": {
     "useStylableVisualContainerHeader": true,
     "exportDataMode": "AllowSummarized",
+    "defaultFilterActionIsDataFilter": true,
     "defaultDrillFilterOtherVisuals": true,
     "allowChangeFilterTypes": true,
     "useEnhancedTooltips": true,
-    "useDefaultAggregateDisplayName": true
+    "useDefaultAggregateDisplayName": true,
+    "queryLimitOption": "None",
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
   }
 }

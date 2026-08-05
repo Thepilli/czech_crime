@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "kriminalita"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3ece8a14-58a5-ad23-4cd6-6f2b83058746"
+  }
+}

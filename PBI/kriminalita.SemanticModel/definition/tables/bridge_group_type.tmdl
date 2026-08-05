@@ -1,0 +1,33 @@
+table bridge_group_type
+	lineageTag: ca5dcde1-fb5b-495a-8e35-a2602c7a5481
+	sourceLineageTag: [crime].[bridge_group_type]
+
+	column type_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e30c6f59-2a46-4a0d-b466-85560e9b1099
+		sourceLineageTag: type_group_key
+		summarizeBy: none
+		sourceColumn: type_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_code
+		dataType: int64
+		formatString: 0
+		lineageTag: abb78cef-fabe-423d-88e9-2e8e9580100f
+		sourceLineageTag: type_code
+		summarizeBy: none
+		sourceColumn: type_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition bridge_group_type = entity
+		mode: directLake
+		source
+			entityName: bridge_group_type
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

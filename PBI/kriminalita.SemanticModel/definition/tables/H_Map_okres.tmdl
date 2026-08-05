@@ -1,0 +1,113 @@
+table H_Map_okres
+	lineageTag: 1c508d27-533b-42d4-8475-a5f69e172b8c
+
+	/// This measure is the SELECTEDVALUE of 'jsons'[topojson]
+	measure 'SELECTEDVALUE of Okres_topojson' = SELECTEDVALUE( H_Map_okres[json_url] )
+		lineageTag: 14395f05-0ed4-4d3c-9de3-647570a65800
+
+	column json_url
+		lineageTag: ac4f6512-8a56-4811-9af2-1d66097edfc6
+		dataCategory: WebURL
+		isNameInferred
+		sourceColumn: [json_url]
+
+	column okres_name
+		lineageTag: a6886697-36ee-4513-849b-e10b3416fcfc
+		isNameInferred
+		sourceColumn: [okres_name]
+
+	column okres_kod_lau_csu
+		lineageTag: 05fb2ce2-b38f-45c0-b591-66c3c6b04b6b
+		isNameInferred
+		sourceColumn: [okres_kod_lau_csu]
+
+	partition H_Map = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "okres_name", STRING,
+				    "okres_kod_lau_csu", INTEGER,
+				    "json_url", STRING,
+				    {
+				        { "Liberec", 40541, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40541.json" },
+				        { "Opava", 40908, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40908.json" },
+				        { "Karviná", 40886, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40886.json" },
+				        { "Plzeň-sever", 40398, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40398.json" },
+				        { "Vyškov", 40754, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40754.json" },
+				        { "Prachatice", 40321, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40321.json" },
+				        { "Příbram", 40266, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40266.json" },
+				        { "Pardubice", 40622, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40622.json" },
+				        { "Litoměřice", 40479, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40479.json" },
+				        { "Uherské Hradiště", 40835, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40835.json" },
+				        { "Plzeň-jih", 40380, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40380.json" },
+				        { "Tábor", 40347, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40347.json" },
+				        { "Blansko", 40703, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40703.json" },
+				        { "Třebíč", 40681, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40681.json" },
+				        { "Mělník", 40215, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40215.json" },
+				        { "Kolín", 40193, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40193.json" },
+				        { "Ostrava-město", 40916, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40916.json" },
+				        { "Nový Jičín", 40894, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40894.json" },
+				        { "Chomutov", 40461, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40461.json" },
+				        { "Cheb", 40428, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40428.json" },
+				        { "Znojmo", 40762, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40762.json" },
+				        { "Rakovník", 40274, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40274.json" },
+				        { "Teplice", 40509, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40509.json" },
+				        { "Louny", 40487, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40487.json" },
+				        { "Vsetín", 40843, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40843.json" },
+				        { "Tachov", 40410, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40410.json" },
+				        { "Domažlice", 40355, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40355.json" },
+				        { "Brno-město", 40711, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40711.json" },
+				        { "Mladá Boleslav", 40223, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40223.json" },
+				        { "Hradec Králové", 40568, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40568.json" },
+				        { "Praha", 40924, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40924.json" },
+				        { "Karlovy Vary", 40436, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40436.json" },
+				        { "Jindřichův Hradec", 40304, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40304.json" },
+				        { "České Budějovice", 40282, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40282.json" },
+				        { "Ústí nad Orlicí", 40649, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40649.json" },
+				        { "Semily", 40550, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40550.json" },
+				        { "Ústí nad Labem", 40517, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40517.json" },
+				        { "Most", 40495, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40495.json" },
+				        { "Zlín", 40851, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40851.json" },
+				        { "Klatovy", 40363, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40363.json" },
+				        { "Svitavy", 40631, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40631.json" },
+				        { "Nymburk", 40231, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40231.json" },
+				        { "Jičín", 40576, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40576.json" },
+				        { "Sokolov", 40444, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40444.json" },
+				        { "Olomouc", 40789, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40789.json" },
+				        { "Písek", 40312, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40312.json" },
+				        { "Žďár nad Sázavou", 40690, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40690.json" },
+				        { "Havlíčkův Brod", 40657, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40657.json" },
+				        { "Benešov", 40169, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40169.json" },
+				        { "Česká Lípa", 40525, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40525.json" },
+				        { "Jeseník", 40771, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40771.json" },
+				        { "Plzeň-město", 40371, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40371.json" },
+				        { "Břeclav", 40738, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40738.json" },
+				        { "Trutnov", 40606, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40606.json" },
+				        { "Náchod", 40584, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40584.json" },
+				        { "Děčín", 40452, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40452.json" },
+				        { "Šumperk", 40819, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40819.json" },
+				        { "Prostějov", 40797, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40797.json" },
+				        { "Brno-venkov", 40720, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40720.json" },
+				        { "Jihlava", 40665, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40665.json" },
+				        { "Beroun", 40177, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40177.json" },
+				        { "Jablonec nad Nisou", 40533, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40533.json" },
+				        { "Frýdek-Místek", 40878, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40878.json" },
+				        { "Přerov", 40801, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40801.json" },
+				        { "Rokycany", 40401, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40401.json" },
+				        { "Hodonín", 40746, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40746.json" },
+				        { "Český Krumlov", 40291, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40291.json" },
+				        { "Praha-západ", 40258, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40258.json" },
+				        { "Chrudim", 40614, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40614.json" },
+				        { "Rychnov nad Kněžnou", 40592, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40592.json" },
+				        { "Bruntál", 40860, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40860.json" },
+				        { "Kroměříž", 40827, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40827.json" },
+				        { "Strakonice", 40339, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40339.json" },
+				        { "Pelhřimov", 40673, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40673.json" },
+				        { "Praha-východ", 40240, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40240.json" },
+				        { "Kutná Hora", 40207, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40207.json" },
+				        { "Kladno", 40185, "https://raw.githubusercontent.com/Thepilli/czech_crime/refs/heads/main/geodata/split_okres/kod_okresu_lau_csu_40185.json" }
+				    }
+				)
+
+	annotation TabularEditor_TableGroup = PARAMs
+

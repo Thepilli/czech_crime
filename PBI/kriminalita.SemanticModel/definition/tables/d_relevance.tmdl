@@ -1,0 +1,32 @@
+table d_relevance
+	lineageTag: 25bf1db0-a535-4d56-a8ed-768219bebd7f
+	sourceLineageTag: [crime].[d_relevance]
+
+	column relevance_code
+		dataType: int64
+		formatString: 0
+		lineageTag: a03a445e-9ed8-4ae0-82e6-c97fe2171d45
+		sourceLineageTag: relevance_code
+		summarizeBy: none
+		sourceColumn: relevance_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column relevance_name
+		dataType: string
+		lineageTag: d6fa6be9-7766-4efb-8708-3543007dc79c
+		sourceLineageTag: relevance_name
+		summarizeBy: none
+		sourceColumn: relevance_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_relevance = entity
+		mode: directLake
+		source
+			entityName: d_relevance
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = DIMs
+

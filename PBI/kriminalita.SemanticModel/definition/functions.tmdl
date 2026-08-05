@@ -1,0 +1,609 @@
+function 'Common.SafeDivide' =
+		/// Safely divides one measure by another, returning 0 if the denominator is blank or zero.
+		/// Prevents division by zero errors and displays 0 instead of error states.
+		///
+		/// @param _measureNumerator - The numerator expression (dividend; e.g., current value or count)
+		/// @param _measureDenominator - The denominator expression (divisor; e.g., total or all-context value)
+		/// @return The quotient (numerator ÷ denominator), or 0 if denominator is blank or zero
+		(
+		    _measureNumerator: EXPR,
+		    _measureDenominator: EXPR
+		) =>
+		// Numerator value for division calculation
+		VAR vNumerator = _measureNumerator
+		// Denominator value; returns 0 if blank or zero
+		VAR vDenominator = _measureDenominator
+		RETURN
+		    DIVIDE( vNumerator, vDenominator )
+	lineageTag: 8161243d-8d98-4c37-8e20-bd831250ad37
+
+function 'Common.SafeDifference' =
+		/// Safely subtracts one measure from another, returning BLANK if the main value is blank.
+		/// Prevents displaying negative or meaningless results when the primary metric is unavailable.
+		///
+		/// @param _measureValue - The main value expression (minuend)
+		/// @param _measureSubtract - The expression to subtract from the main value (subtrahend)
+		/// @return The difference (_measureValue - _measureSubtract), or BLANK if _measureValue is blank
+		(
+		    _measureValue: EXPR,
+		    _measureSubtract: EXPR
+		) =>
+		// Main value to be used in the calculation
+		VAR vMainValue = _measureValue
+		// Value to subtract from the main value
+		VAR vSubtractValue = _measureSubtract
+		RETURN
+		    IF(
+		        NOT ISBLANK( vMainValue ),
+		        vMainValue - vSubtractValue
+		    )
+	lineageTag: e741caf9-8614-43cc-94b2-08ec7ac40f2d
+
+function 'Common.TI.CARD.PD' =
+		/// Returns the measure value for the previous day,
+		/// used in KPI cards for daily comparison.
+		(
+		    // Measure value to shift by one day
+		    _value: EXPR
+		) =>
+		CALCULATE(
+		    _value,
+		    DATEADD( mv_d_date[Date], -1, DAY )
+		)
+	lineageTag: 74476567-c0d1-4b0b-a24b-79c8c3fe239d
+
+function 'Common.TI.CARD.PM' =
+		/// Returns the measure value for the previous month,
+		/// used in KPI cards for monthly comparison.
+		(
+		    // Measure value to shift by one month
+		    _value: EXPR,
+		    _isStock: BOOLEAN
+		) =>
+		SWITCH(
+		    _isStock,
+		    TRUE( ),
+		        CALCULATE(
+		            _value,
+		            PARALLELPERIOD(
+		                mv_d_date[Date],
+		                -1,
+		                MONTH
+		            )
+		        ),
+		    CALCULATE(
+		        _value,
+		        DATEADD( mv_d_date[Date], -1, MONTH )
+		    )
+		)
+	lineageTag: 87e1e24e-c11b-4c2e-9834-746d2c9319a6
+
+function 'Common.TI.CARD.PY' =
+		/// Returns the measure value for the same period in the previous year,
+		/// used for year-over-year comparisons in KPI cards.
+		(
+		    // Measure value to evaluate for previous year period
+		    _value: EXPR,
+		    _isStock: BOOLEAN
+		) =>
+		SWITCH(
+		    _isStock,
+		    TRUE( ),
+		        CALCULATE(
+		            _value,
+		            PARALLELPERIOD(
+		                mv_d_date[Date],
+		                -12,
+		                MONTH
+		            )
+		        ),
+		    CALCULATE(
+		        _value,
+		    SAMEPERIODLASTYEAR( mv_d_date[Date] )
+		    )
+		)
+	lineageTag: 03904808-70c2-4a62-a749-cbe70b748599
+
+function 'Common.TI.CARD.DIFF' =
+		/// Calculates Absolute difference (current - comparison).
+		/// Returns BLANK when the comparison value is blank or zero.
+		(
+		    // Current measure value
+		    _CurrentValue: SCALAR EXPR,
+		    // Comparison measure value
+		    _ComparisonValue: SCALAR EXPR
+		) =>
+		VAR _Comparison = _ComparisonValue
+		RETURN
+		    IF(
+		        _Comparison <> 0,
+		        _CurrentValue - _Comparison
+		    )
+		        -- blank <> 0 is FALSE, so blank/zero both fall through to BLANK
+	lineageTag: 5d9ee2f5-3444-472e-b65d-026675443857
+
+function 'Common.TI.CARD.DIFF_FORMAT' =
+		/// Formats percentage change with a direction arrow for KPI cards.
+		/// Ratio delegated to Common.TI.CARD.DIFF_PRC (single source of truth).
+		/// Arrow follows the sign of the difference, not the ratio,
+		/// so it stays correct even when the base is negative.
+		(
+		    // Base / denominator measure value
+		    _Value: EXPR,
+		    // Difference measure value
+		    _ValueDiff: EXPR
+		) =>
+		VAR _UpArrow = UNICHAR( 9650 )   -- ▲
+		VAR _DownArrow = UNICHAR( 9660 )   -- ▼
+		VAR _FlatArrow = UNICHAR( 9632 )   -- ■
+		VAR _Diff = _ValueDiff
+		VAR _Pct = FORMAT( DIVIDE(
+		    _Diff,
+		    _Value
+		), "0.0%" )
+		VAR _Arrow =
+		    SWITCH(
+		        TRUE( ),
+		        _Diff < 0, _DownArrow,
+		        _Diff > 0, _UpArrow,
+		        _FlatArrow
+		    )
+		RETURN
+		    IF(
+		        ISBLANK( _Diff ),
+		        BLANK( ),
+		        _Arrow & " " & _Pct
+		    )
+	lineageTag: 6f781594-6c6c-4c0e-ac22-cda4007d88fc
+
+function 'Common.TI.CARD.DIFF_PRC' =
+		/// Calculates Percentage change: difference / previous.
+		/// Returns BLANK when previous is blank or zero (unified "no data" behavior).
+		(
+		    // Difference measure value (numerator)
+		    _DifferenceValue: SCALAR EXPR,
+		    // Previous / base measure value (denominator)
+		    _PreviousValue: SCALAR EXPR
+		) =>
+		DIVIDE(
+		    _DifferenceValue,
+		    _PreviousValue
+		)
+		    -- DIVIDE with no alternate returns BLANK on zero/blank denominator
+	lineageTag: cd7d833e-bad0-4069-904a-abec7cf2a58c
+
+function 'Common.TI.CARD.COLOR' =
+		/// Returns a color value ("good", "bad", or "neutral")
+		/// based on whether the comparison measure value is positive, negative, or zero.
+		/// Useful for KPI cards or visual indicators with color coding.
+		(
+		    // Numeric comparison measure value
+		    _ComparisonValue: EXPR,
+		    _negativeConotation: BOOLEAN
+		) =>
+		VAR comparison = _ComparisonValue
+		VAR _good = "#78be20"
+		VAR _bad = "#e01223" //#f70100
+		VAR _neutral = "#e5a668"
+		RETURN
+		    SWITCH(
+		        TRUE,
+		        comparison > 0&&_negativeConotation=FALSE(), _good,
+		        comparison > 0&&_negativeConotation=TRUE(), _bad,
+		        comparison < 0&&_negativeConotation=FALSE(), _bad,
+		        comparison < 0&&_negativeConotation=TRUE(), _good,
+		        _neutral
+		    )
+	lineageTag: 6cc600d9-55be-45a0-864c-0e552134e419
+
+function 'Common.TI.CARD.DIFF_FORMAT_ABS' =
+		/// Formats a value with a direction arrow for KPI cards.
+		/// _Pct = TRUE -> render as percentage; otherwise abbreviate (K/M) or thousands-format.
+		/// Arrow follows the sign of the value; zero renders the neutral square.
+		(
+		    // Value to display (difference or metric)
+		    _Value: EXPR,
+		    // TRUE = format as percentage, FALSE = numeric/abbreviated
+		    _Pct: BOOLEAN
+		) =>
+		VAR _UpArrow = UNICHAR( 9650 )   -- ▲
+		VAR _DownArrow = UNICHAR( 9660 )   -- ▼
+		VAR _FlatArrow = UNICHAR( 9632 )   -- ■
+		VAR _Arrow =
+		    SWITCH(
+		        TRUE( ),
+		        _Value > 0, _UpArrow,
+		        _Value < 0, _DownArrow,
+		        _FlatArrow
+		    )
+		VAR _Formatted =
+		    SWITCH(
+		        TRUE( ),
+		        _Pct,
+		            FORMAT( _Value, "#,0.0%;-#,0.0%;#,0.0%" ),
+		        ABS( _Value ) >= 1000000,
+		            FORMAT( _Value / 1000000, "0.0" ) & "M",
+		        ABS( _Value ) >= 1000,
+		            FORMAT( _Value / 1000, "0.0" ) & "K",
+		        FORMAT( _Value, "#,##0" )
+		    )
+		RETURN
+		    IF(
+		        ISBLANK( _Value ),
+		        BLANK( ),
+		        _Arrow & " " & _Formatted
+		    )
+	lineageTag: c54a05a5-d7a0-406f-a1b5-b73905ae99e0
+
+function 'Common.SVG.donut' =
+		(
+		    _measureValueAllPct: EXPR
+		) =>
+		VAR SvgHeight = 25
+		VAR SvgWidth = 150
+		
+		VAR StrokeWidth = 5
+		VAR Radius = 8
+		VAR CX = 14
+		VAR CY = 12.5
+		
+		VAR Circumference = 2 * PI() * Radius
+		VAR Pct = MAX( 0, MIN( 1, _measureValueAllPct ) )
+		
+		VAR ArcLength = Pct * Circumference
+		VAR GapLength = Circumference - ArcLength
+		VAR DashOffset = Circumference * 0.25
+		
+		VAR TextX = 30
+		VAR TextY = 13
+		
+		VAR Label =
+		    FORMAT(
+		        _measureValueAllPct,
+		        "0.0%;-0.0%;0.0%"
+		    )
+		
+		VAR Sort =
+		    IF(
+		        _measureValueAllPct < 0,
+		        1000 + ABS( _measureValueAllPct ),
+		        10000 + _measureValueAllPct
+		    )
+		
+		RETURN
+		IF(
+		    NOT ISBLANK( _measureValueAllPct ),
+		    "data:image/svg+xml;utf8," &
+		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " & SvgWidth & " " & SvgHeight & "'>" &
+		    "<!--" & Sort & "-->" &
+		    "<circle cx='" & CX & "' cy='" & CY & "' r='" & Radius & "' fill='none' stroke='#DDE1E3' stroke-width='" & StrokeWidth & "'/>" &
+		    "<circle cx='" & CX & "' cy='" & CY & "' r='" & Radius & "' fill='none' stroke='#2C76B4' stroke-width='" & StrokeWidth & "'" &
+		    " stroke-dasharray='" & ArcLength & " " & GapLength & "'" &
+		    " stroke-dashoffset='" & DashOffset & "'" &
+		    " stroke-linecap='butt'/>" &
+		    "<text x='" & TextX & "' y='" & TextY & "' fill='#666666'" &
+		    " font-family='Segoe UI' font-size='12'" &
+		    " text-anchor='start' dominant-baseline='middle'>" &
+		    Label &
+		    "</text>" &
+		    "</svg>"
+		)
+	lineageTag: fc24b42a-8273-4a9e-89bd-fdbc67c34896
+
+function 'Common.SVG.sparkline' =
+		(
+		    // Displayed name of the KPI (used only when generating a title)
+		    _measureValue: EXPR,
+		    // 0=title → prefix with KPI name, 1=subtitle→ no KPI prefix
+		    _measureValuePy: EXPR
+		) =>
+		VAR svg_width = 300
+		VAR svg_height = 100  -- Increased height for space
+		VAR left_margin = 100  -- Space for KPI callout
+		VAR stroke_color_1 = "#9126B6"
+		VAR gradient_color_1 = "#E6BCF4"
+		VAR stroke_color_2 = "gray"
+		VAR stroke_dasharray_2 = "4,2"
+		
+		-- KPI Callout (you can change this to % diff or any other value)
+		VAR kpi_value =
+		    FORMAT( _measureValue, "$#,###" )
+		VAR smaller_text =
+		    "LY Sales: "
+		        & FORMAT( _measureValuePy, "$#,###" )  -- Example of the second line text, you can modify this as needed
+		-- Line 1: Current Sales
+		VAR InputTable1 =
+		    SELECTCOLUMNS(
+		        SUMMARIZECOLUMNS(
+		            mv_d_date[YearMonthNumber],
+		            "Y", _measureValue
+		        ),
+		        "X", mv_d_date[YearMonthNumber],
+		        "Y", [Y]
+		    )
+		
+		-- Line 2: Last Year Sales (or Target)
+		VAR InputTable2 =
+		    SELECTCOLUMNS(
+		        SUMMARIZECOLUMNS(
+		            mv_d_date[YearMonthNumber],
+		            "Y", _measureValuePy  -- Replace with your second series
+		        ),
+		        "X", mv_d_date[YearMonthNumber],
+		        "Y", [Y]
+		    )
+		
+		-- Clean blanks
+		VAR Table1 =
+		    ADDCOLUMNS(
+		        InputTable1,
+		        "Y_Adj", IF( ISBLANK( [Y] ), 0, [Y] )
+		    )
+		VAR Table2 =
+		    ADDCOLUMNS(
+		        InputTable2,
+		        "Y_Adj", IF( ISBLANK( [Y] ), 0, [Y] )
+		    )
+		
+		-- X ranking
+		VAR Ranked1 = ADDCOLUMNS( Table1, "X_Rank", RANKX( Table1, [X], , ASC ) )
+		VAR Ranked2 = ADDCOLUMNS( Table2, "X_Rank", RANKX( Table2, [X], , ASC ) )
+		
+		-- Normalize X position
+		VAR TotalPoints = COUNTROWS( Ranked1 )
+		VAR MaxIndex = TotalPoints - 1
+		VAR Spaced1 =
+		    ADDCOLUMNS(
+		        Ranked1,
+		        "XPos",
+		            DIVIDE( [X_Rank] - 1, MaxIndex )
+		                * ( svg_width - left_margin )
+		                + left_margin
+		    )
+		VAR Spaced2 =
+		    ADDCOLUMNS(
+		        Ranked2,
+		        "XPos",
+		            DIVIDE( [X_Rank] - 1, MaxIndex )
+		                * ( svg_width - left_margin )
+		                + left_margin
+		    )
+		
+		-- Shared Y scale
+		VAR MinY =
+		    MIN(
+		        MINX( Spaced1, [Y_Adj] ),
+		        MINX( Spaced2, [Y_Adj] )
+		    )
+		VAR MaxY =
+		    MAX(
+		        MAXX( Spaced1, [Y_Adj] ),
+		        MAXX( Spaced2, [Y_Adj] )
+		    )
+		
+		-- Compute Y position
+		VAR Final1 =
+		    ADDCOLUMNS(
+		        Spaced1,
+		        "YPos",
+		            IF(
+		                MaxY = MinY,
+		                svg_height * 0.5,
+		                svg_height
+		                    - DIVIDE( [Y_Adj] - MinY, MaxY - MinY )
+		                    * ( svg_height - 10 )
+		            )
+		    )
+		VAR Final2 =
+		    ADDCOLUMNS(
+		        Spaced2,
+		        "YPos",
+		            IF(
+		                MaxY = MinY,
+		                svg_height * 0.5,
+		                svg_height
+		                    - DIVIDE( [Y_Adj] - MinY, MaxY - MinY )
+		                    * ( svg_height - 10 )
+		            )
+		    )
+		
+		-- Points to plot
+		VAR PolylinePoints1 =
+		    CONCATENATEX(
+		        Final1,
+		        FORMAT( [XPos], "0.0" ) & ","
+		            & FORMAT( [YPos], "0.0" ),
+		        " "
+		    )
+		VAR PolylinePoints2 =
+		    CONCATENATEX(
+		        Final2,
+		        FORMAT( [XPos], "0.0" ) & ","
+		            & FORMAT( [YPos], "0.0" ),
+		        " "
+		    )
+		
+		-- Area fill under main line
+		VAR FirstX = MINX( Final1, [XPos] )
+		VAR LastX = MAXX( Final1, [XPos] )
+		VAR PolygonPoints =
+		    FirstX & "," & svg_height & " " & PolylinePoints1
+		        & " "
+		        & LastX
+		        & ","
+		        & svg_height
+		
+		-- Compose SVG
+		VAR Svg =
+		    "<svg width='" & svg_width & "' height='"
+		        & svg_height
+		        & "' viewBox='0 0 "
+		        & svg_width
+		        & " "
+		        & svg_height
+		        & "' xmlns='http://www.w3.org/2000/svg'>"
+		        & "<defs>"
+		        & "<linearGradient id='grad' x1='0' y1='0' x2='0' y2='1'>"
+		        & "<stop offset='0%' stop-color='"
+		        & gradient_color_1
+		        & "' stop-opacity='0.6'/>"
+		        & "<stop offset='100%' stop-color='"
+		        & gradient_color_1
+		        & "' stop-opacity='0'/>"
+		        & "</linearGradient>"
+		        & "</defs>"
+		        &
+		        -- KPI Callout (left side, centered vertically)
+		        "<text x='5' y='"
+		        & svg_height / 2
+		        & "' font-size='18' font-family='Segoe UI' fill='black' font-weight='bold' dominant-baseline='middle'>"
+		        & kpi_value
+		        & "</text>"
+		        &
+		
+		        -- Smaller text below the KPI value
+		        "<text x='5' y='"
+		        & ( svg_height / 2 + 18 )
+		        & "' font-size='12' font-family='Segoe UI' fill='black' dominant-baseline='middle'>"
+		        & smaller_text
+		        & "</text>"
+		        & "<polygon fill='url(#grad)' points='"
+		        & PolygonPoints
+		        & "' />"
+		        & "<polyline fill='none' stroke='"
+		        & stroke_color_1
+		        & "' stroke-width='2' points='"
+		        & PolylinePoints1
+		        & "' />"
+		        & "<polyline fill='none' stroke='"
+		        & stroke_color_2
+		        & "' stroke-width='1.5' stroke-dasharray='"
+		        & stroke_dasharray_2
+		        & "' points='"
+		        & PolylinePoints2
+		        & "' />"
+		        & "</svg>"
+		RETURN
+		    "data:image/svg+xml;utf8," & Svg
+	lineageTag: 10ae7115-cfdc-43fd-8e09-f13768a32ffc
+
+function 'Common.SVG.bar' =
+		(
+		    // Displayed name of the KPI (used only when generating a title)
+		    _measureValue: EXPR,
+		    // 0=title → prefix with KPI name, 1=subtitle→ no KPI prefix
+		    _measureValueAll: EXPR
+		) =>
+		VAR Bar_Fill =
+		    Common.SafeDivide( _measureValue, _measureValueAll ) * 900  -- wider scale
+		VAR Bar_Text =
+		    Common.SafeDivide( _measureValue, _measureValueAll )
+		VAR Formatted_Bar_Text = FORMAT( Bar_Text, "#.0%" )
+		VAR SVG_Data_URL = "data:image/svg+xml;utf8,"
+		VAR SVG_Start =
+		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 50'>"
+		VAR SVG_Data =
+		    "
+		<rect fill='#3A2761' x='10' y='10' rx='10' ry='10' width='"
+		        & Bar_Fill
+		        & "' height='30' />
+		<text font-family='Segoe UI Light' font-size='25' font-weight='bold' fill='grey' x='"
+		        & Bar_Fill + 25
+		        & "' y='32'>"
+		        & Formatted_Bar_Text
+		        & "</text>
+		"
+		VAR SVG_End = "</svg>"
+		RETURN
+		    SVG_Data_URL & SVG_Start & SVG_Data & SVG_End
+	lineageTag: cc3585f0-a3f5-4bd7-ba10-c8dbcf5df03d
+
+function 'Common.SVG.icon' =
+		( IconName : STRING, Colour : STRING ) =>
+		        VAR _key = LOWER ( TRIM ( IconName ) )
+		        VAR body =
+		            SWITCH (
+		                TRUE (),
+		                _key IN { "dollar", "$", "usd", "money" },
+		                    "<line x1='12' y1='1' x2='12' y2='23'/><path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/>",
+		                _key IN { "percent", "%", "pct" },
+		                    "<line x1='19' y1='5' x2='5' y2='19'/><circle cx='6.5' cy='6.5' r='2.5'/><circle cx='17.5' cy='17.5' r='2.5'/>",
+		                _key IN { "box", "cube", "units", "package" },
+		                    "<path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/><polyline points='3.27 6.96 12 12.01 20.73 6.96'/><line x1='12' y1='22.08' x2='12' y2='12'/>",
+		                _key IN { "return", "enter", "back", "undo" },
+		                    "<polyline points='9 10 4 15 9 20'/><path d='M20 4v7a4 4 0 0 1-4 4H4'/>",
+		                ""
+		            )
+		        RETURN
+		            "data:image/svg+xml;utf8," &
+		            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='" & Colour &
+		            "' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" & body & "</svg>"
+	lineageTag: b44fbcf1-1fad-40ed-aaf4-536732abb692
+
+function 'Common.FormatString' =
+		(
+		    _measureValue: SCALAR EXPR,
+		    _measureName: EXPR
+		) =>
+		VAR MeasureName = _measureName
+		VAR MeasureValue = _measureValue
+		VAR AbsValue = ABS ( MeasureValue )
+		VAR RatioFormat = "0.0%"
+		VAR IsRatio =
+		    CONTAINSSTRING ( MeasureName, "ratio" )
+		        || CONTAINSSTRING ( MeasureName, "%" )
+		VAR IsAverage =
+		    CONTAINSSTRING ( MeasureName, "average" )
+		        || CONTAINSSTRING ( MeasureName, "avg" )
+		        || CONTAINSSTRING ( MeasureName, "mean" )
+		RETURN
+		    SWITCH (
+		        TRUE (),
+		        IsRatio,                    RatioFormat,
+		        IsAverage && AbsValue < 10000,"0.00",           // consistent 2dp regardless of magnitude
+		        AbsValue = 0,               "0",              // BLANK also lands here (BLANK = 0 is TRUE)
+		        AbsValue < 1,               "0.###",          // 0.123
+		        AbsValue < 100,             "0.##",           // 1.2 / 12.3
+		        AbsValue < 1000,            "0",              // 123
+		        AbsValue < 1000000,         "#,##0,.#K",      // 12.3K
+		        AbsValue < 1000000000,      "#,##0,,.##M",    // 12.34M
+		        AbsValue < 1000000000000,   "#,##0,,,.##Bn",  // 1.23Bn
+		        "#,##0"                                        // >= 1Tn default
+		    )
+	lineageTag: 50159abc-4d3e-4953-8917-1286f253c084
+
+function 'Common.FormatString_SSM' =
+		(
+		    _measureValue: EXPR
+		) =>
+		VAR MeasureName =
+		    SELECTEDVALUE(
+		        H_SelfServiceMeasures[KPIName],
+		        ""
+		    )
+		VAR MeasureValue = _measureValue
+		VAR AbsValue = ABS ( MeasureValue )
+		VAR RatioFormat = "0.0%"
+		VAR IsRatio =
+		    CONTAINSSTRING ( MeasureName, "ratio" )
+		        || CONTAINSSTRING ( MeasureName, "%" )
+		VAR IsAverage =
+		    CONTAINSSTRING ( MeasureName, "average" )
+		        || CONTAINSSTRING ( MeasureName, "avg" )
+		        || CONTAINSSTRING ( MeasureName, "mean" )
+		RETURN
+		    SWITCH (
+		        TRUE (),
+		        IsRatio,                    RatioFormat,
+		        IsAverage && AbsValue < 10000,"0.00",           // consistent 2dp regardless of magnitude
+		        AbsValue = 0,               "0",              // BLANK also lands here (BLANK = 0 is TRUE)
+		        AbsValue < 1,               "0.###",          // 0.123
+		        AbsValue < 100,             "0.##",           // 1.2 / 12.3
+		        AbsValue < 1000,            "0",              // 123
+		        AbsValue < 1000000,         "#,##0,.#K",      // 12.3K
+		        AbsValue < 1000000000,      "#,##0,,.##M",    // 12.34M
+		        AbsValue < 1000000000000,   "#,##0,,,.##Bn",  // 1.23Bn
+		        "#,##0"                                        // >= 1Tn default
+		    )
+	lineageTag: f0bb6d62-eabc-4924-9061-14926f95f7a0
+

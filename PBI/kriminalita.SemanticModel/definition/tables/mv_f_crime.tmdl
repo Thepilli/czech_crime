@@ -1,0 +1,113 @@
+table mv_f_crime
+	lineageTag: 28aa260d-435e-48a3-a9bc-cf5181c624d0
+	sourceLineageTag: [crime].[mv_f_crime]
+
+	column CrimeDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a382c46d-f7e0-40fc-a6fe-3659b679553b
+		sourceLineageTag: CrimeDate
+		summarizeBy: none
+		sourceColumn: CrimeDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column CrimeTime
+		dataType: string
+		lineageTag: 2be124f6-b66c-460a-9218-3b1162750e6c
+		sourceLineageTag: CrimeTime
+		summarizeBy: none
+		sourceColumn: CrimeTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column mp
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0ff22b37-b2de-4056-be0e-546639c9a243
+		sourceLineageTag: mp
+		summarizeBy: none
+		sourceColumn: mp
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: int64
+		formatString: 0
+		lineageTag: d590e4b6-b1d4-40fd-a2ed-f5c13afa8198
+		sourceLineageTag: state
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column relevance
+		dataType: int64
+		formatString: 0
+		lineageTag: e0557fd4-fe34-49e7-8d4b-c76d44f6a74c
+		sourceLineageTag: relevance
+		summarizeBy: none
+		sourceColumn: relevance
+
+		annotation SummarizationSetBy = Automatic
+
+	column kod_zuj
+		dataType: int64
+		formatString: 0
+		lineageTag: de54eede-610b-4392-84e5-f7544dc6c75f
+		sourceLineageTag: kod_zuj
+		summarizeBy: sum
+		sourceColumn: kod_zuj
+
+		annotation SummarizationSetBy = Automatic
+
+	column kod_obec
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0e5f26e5-ba17-4048-8a6b-1591338b2d78
+		sourceLineageTag: kod_obec
+		summarizeBy: none
+		sourceColumn: kod_obec
+
+		annotation SummarizationSetBy = Automatic
+
+	column kod_momc
+		dataType: int64
+		formatString: 0
+		lineageTag: ea0da5f0-4bcc-40a2-a41c-8cdc729797bf
+		sourceLineageTag: kod_momc
+		summarizeBy: sum
+		sourceColumn: kod_momc
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fe8066fa-2daf-422f-a683-3de13f89d3d5
+		sourceLineageTag: type_group_key
+		summarizeBy: none
+		sourceColumn: type_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column primary_type
+		dataType: int64
+		formatString: 0
+		lineageTag: 96880b7d-f89d-4666-825f-bc2519dbbb6b
+		sourceLineageTag: primary_type
+		summarizeBy: sum
+		sourceColumn: primary_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mv_f_crime = entity
+		mode: directLake
+		source
+			entityName: mv_f_crime
+			schemaName: crime
+			expressionSource: 'DirectLake - LH_Catalogue'
+
+	annotation TabularEditor_TableGroup = FACTs
+
