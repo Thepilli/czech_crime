@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "b8e5a2821714d13b50ac",
+  "displayName": "Kraj_detail",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "69a5f5e6191c4a739304",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_kraje"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "m",
+              "Entity": "mv_d_uzemi",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "m"
+                          }
+                        },
+                        "Property": "název_kraje"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Jihočeský kraj'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "9af1f67f3729ee8305c9",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "2eed76a0e64b5a4127e0",
+        "boundFilter": "69a5f5e6191c4a739304",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_kraje"
+          }
+        }
+      }
+    ],
+    "acceptsFilterContext": "None"
+  },
+  "type": "Drillthrough",
+  "visualInteractions": [
+    {
+      "source": "a999d1336e07d12ea500",
+      "target": "87b5eec762641d1d3d6a",
+      "type": "NoFilter"
+    }
+  ]
+}

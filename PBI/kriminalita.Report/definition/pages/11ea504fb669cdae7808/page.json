@@ -1,8 +1,20 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "11ea504fb669cdae7808",
-  "displayName": "Duplicate of Page 1",
+  "displayName": "Overview",
   "displayOption": "FitToPage",
   "height": 1080,
-  "width": 1920
+  "width": 1920,
+  "visualInteractions": [
+    {
+      "source": "5cc605a8ae68860a679c",
+      "target": "022fbf222558135a70c3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "022fbf222558135a70c3",
+      "target": "5cc605a8ae68860a679c",
+      "type": "NoFilter"
+    }
+  ]
 }

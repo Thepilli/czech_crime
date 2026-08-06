@@ -1,0 +1,469 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "d8e4c1a3cee112ee0b3e",
+  "position": {
+    "x": 0,
+    "y": 311.42857142857144,
+    "z": 13002,
+    "height": 768.57142857142867,
+    "width": 1920.0000000000002
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "název_kraje"
+                }
+              },
+              "queryRef": "mv_d_uzemi.název_kraje",
+              "nativeQueryRef": "název_kraje",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Births"
+                }
+              },
+              "queryRef": "Calculations.Births",
+              "nativeQueryRef": "Births"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Deaths"
+                }
+              },
+              "queryRef": "Calculations.Deaths",
+              "nativeQueryRef": "Deaths"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Natural increase"
+                }
+              },
+              "queryRef": "Calculations.Natural increase",
+              "nativeQueryRef": "Natural increase"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Out-migration"
+                }
+              },
+              "queryRef": "Calculations.Out-migration",
+              "nativeQueryRef": "Out-migration"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "In-migration"
+                }
+              },
+              "queryRef": "Calculations.In-migration",
+              "nativeQueryRef": "In-migration"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Net migration"
+                }
+              },
+              "queryRef": "Calculations.Net migration",
+              "nativeQueryRef": "Net migration"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Total increase"
+                }
+              },
+              "queryRef": "Calculations.Total increase",
+              "nativeQueryRef": "Total increase"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Avg Annual Population"
+                }
+              },
+              "queryRef": "Calculations.Avg Annual Population",
+              "nativeQueryRef": "Avg Annual Population"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Crude Birth Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Crude Birth Rate (per 1k)",
+              "nativeQueryRef": "Crude Birth Rate (per 1k)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Population || ALL(%)"
+                }
+              },
+              "queryRef": "Calculations.Population || ALL(%)",
+              "nativeQueryRef": "Population || ALL(%)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Crude Death Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Crude Death Rate (per 1k)",
+              "nativeQueryRef": "Crude Death Rate (per 1k)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Natural Increase Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Natural Increase Rate (per 1k)",
+              "nativeQueryRef": "Natural Increase Rate (per 1k)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Total Growth Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Total Growth Rate (per 1k)",
+              "nativeQueryRef": "Total Growth Rate (per 1k)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Net Migration Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Net Migration Rate (per 1k)",
+              "nativeQueryRef": "Net Migration Rate (per 1k)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calculations"
+                  }
+                },
+                "Property": "Births"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "cbfc250509c4a0ac4538",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Births"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3d17c10add0880605338",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Deaths"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7c57a8f0642878cb9417",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Natural increase"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f054b6d340478b6cd385",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Out-migration"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ab92edb6332700b35b0e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "In-migration"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8f98aaa944edb88c1b60",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Net migration"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ea9559d26523003364e9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Total increase"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "762f1ee633b7603280b2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_kraje"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "445244240033a6e9b32d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Avg Annual Population"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0cd28b017658a2053290",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crude Birth Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "06fca890cd00d07a0b86",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Population || ALL(%)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4fc599655d460244ab60",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crude Death Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "08e1e5dcae1704cba061",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Natural Increase Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "12fd32cf7de7e47edd6b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Total Growth Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0185ff1ec82a686d5e23",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Net Migration Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

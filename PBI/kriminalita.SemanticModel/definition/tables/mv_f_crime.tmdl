@@ -4,6 +4,7 @@ table mv_f_crime
 
 	column CrimeDate
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: a382c46d-f7e0-40fc-a6fe-3659b679553b
 		sourceLineageTag: CrimeDate
@@ -33,6 +34,7 @@ table mv_f_crime
 
 	column state
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d590e4b6-b1d4-40fd-a2ed-f5c13afa8198
 		sourceLineageTag: state
@@ -43,6 +45,7 @@ table mv_f_crime
 
 	column relevance
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e0557fd4-fe34-49e7-8d4b-c76d44f6a74c
 		sourceLineageTag: relevance
@@ -84,6 +87,7 @@ table mv_f_crime
 
 	column type_group_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fe8066fa-2daf-422f-a683-3de13f89d3d5
 		sourceLineageTag: type_group_key
@@ -94,6 +98,7 @@ table mv_f_crime
 
 	column primary_type
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 96880b7d-f89d-4666-825f-bc2519dbbb6b
 		sourceLineageTag: primary_type

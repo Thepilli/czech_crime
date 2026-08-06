@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "f34d29c3e6079eede7d8",
   "position": {
-    "x": 642.84823451032639,
-    "y": 0,
-    "z": 5007,
-    "height": 132.22222222222223,
-    "width": 396.66666666666663,
-    "tabOrder": 5004
+    "x": 635,
+    "y": 65.555555555555557,
+    "z": 4000,
+    "height": 110,
+    "width": 425,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Calculations.Incidents Closed without Resolution (%)",
-              "nativeQueryRef": "Incidents Closed without Resolution (%)"
+              "nativeQueryRef": "Closed without Resolution (%)",
+              "displayName": "Closed without Resolution (%)"
             }
           ]
         }
@@ -266,6 +267,27 @@
             ],
             "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
+        },
+        {
+          "properties": {
+            "paddingIndividual": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "paddingRight": {
+              "expr": {
+                "Literal": {
+                  "Value": "5L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "layout": [
@@ -390,6 +412,20 @@
           "selector": {
             "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
+        },
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "referenceLabelLayout": [
@@ -454,6 +490,22 @@
             "metadata": "Calculations.Incidents Closed without Resolution (%)"
           }
         }
+      ],
+      "label": [
+        {
+          "properties": {
+            "textWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -464,6 +516,40 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }

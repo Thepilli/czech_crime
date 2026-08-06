@@ -55,3 +55,8 @@ relationship 0a0018bc-862a-462a-0c12-6f4b9a7c7dd0
 	fromColumn: f_populace.kod_obec
 	toColumn: mv_d_uzemi.kód_obce
 
+relationship 2c12a5cf-bcb4-4834-bc1d-189be6420211
+	crossFilteringBehavior: bothDirections
+	fromColumn: d_type.category_code
+	toColumn: H_Icons.type_code
+

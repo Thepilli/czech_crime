@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "5e6f6400d5e948a59d34",
+  "displayName": "Okres_detail",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0c3a0cb9314960c0cb0a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "m",
+              "Entity": "mv_d_uzemi",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "m"
+                          }
+                        },
+                        "Property": "název_okresu"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Děčín'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "c58ddace505be99510ee",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "b8d47ad941287805bdb8",
+        "boundFilter": "0c3a0cb9314960c0cb0a",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        }
+      }
+    ],
+    "acceptsFilterContext": "None"
+  },
+  "type": "Drillthrough",
+  "visualInteractions": [
+    {
+      "source": "6c727320199b06ab5c90",
+      "target": "dc8224d7097744b737b0",
+      "type": "NoFilter"
+    }
+  ]
+}

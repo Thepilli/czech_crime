@@ -2,7 +2,7 @@ table d_type
 	lineageTag: ef332eb0-596e-4411-be8f-58449375244f
 	sourceLineageTag: [crime].[d_type]
 
-	measure 'SELECTEDVALUE of category_name' = SELECTEDVALUE(d_type[category_name])
+	measure 'SELECTEDVALUE of category_name' = SELECTEDVALUE( d_type[category_name] )
 		lineageTag: 91de03d6-aeaa-4ee8-9c38-cd512ec11eb3
 
 	column type_code

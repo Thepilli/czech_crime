@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "fd908f4e98d8577c2481",
   "position": {
-    "x": 1039.793204530313,
-    "y": 0,
-    "z": 5008,
-    "height": 132.22222222222223,
-    "width": 396.66666666666663,
-    "tabOrder": 5005
+    "x": 1065,
+    "y": 65.555555555555557,
+    "z": 5000,
+    "height": 110,
+    "width": 425,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Calculations.Incidents Closed as False Alarm (%)",
-              "nativeQueryRef": "Incidents Closed as False Alarm (%)"
+              "nativeQueryRef": "Closed as False Alarm (%)",
+              "displayName": "Closed as False Alarm (%)"
             }
           ]
         }
@@ -266,6 +267,27 @@
             ],
             "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
+        },
+        {
+          "properties": {
+            "paddingRight": {
+              "expr": {
+                "Literal": {
+                  "Value": "5L"
+                }
+              }
+            },
+            "paddingIndividual": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "layout": [
@@ -390,6 +412,20 @@
           "selector": {
             "metadata": "Calculations.Incidents Closed as False Alarm (%)"
           }
+        },
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "referenceLabelLayout": [
@@ -464,6 +500,40 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }

@@ -7,6 +7,8 @@ table H_prestupky
 
 		calculationItem 'bez Prestupku' = CALCULATE(SELECTEDMEASURE(),KEEPFILTERS(d_type[category_code]<>97))
 
+		calculationItem 'bez Prahy' = CALCULATE(SELECTEDMEASURE(),KEEPFILTERS(d_type[category_code]<>97),KEEPFILTERS(mv_d_uzemi[název_kraje]<>"Hlavní město Praha"))
+
 	column Name
 		dataType: string
 		lineageTag: 7b2476fb-5fda-4974-84be-105b3d8cc91b

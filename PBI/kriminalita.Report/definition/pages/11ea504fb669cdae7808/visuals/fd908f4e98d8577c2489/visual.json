@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "fd908f4e98d8577c2489",
   "position": {
-    "x": 1436.7381745502996,
-    "y": 0,
-    "z": 5008,
-    "height": 132.22222222222223,
-    "width": 396.66666666666663,
-    "tabOrder": 5005
+    "x": 1495.3846153846152,
+    "y": 65.384615384615387,
+    "z": 6000,
+    "height": 110,
+    "width": 424.61538461538458,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Calculations.Incidents Closed as Not a Crime (%)",
-              "nativeQueryRef": "Incidents Closed as Not a Crime (%)"
+              "nativeQueryRef": "Closed as Not a Crime (%)",
+              "displayName": "Closed as Not a Crime (%)"
             }
           ]
         }
@@ -266,6 +267,27 @@
             ],
             "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
           }
+        },
+        {
+          "properties": {
+            "paddingRight": {
+              "expr": {
+                "Literal": {
+                  "Value": "5L"
+                }
+              }
+            },
+            "paddingIndividual": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "layout": [
@@ -390,6 +412,20 @@
           "selector": {
             "metadata": "Calculations.Incidents Closed as Not a Crime (%)"
           }
+        },
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
         }
       ],
       "referenceLabelLayout": [
@@ -464,6 +500,40 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }

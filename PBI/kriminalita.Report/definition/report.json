@@ -11,7 +11,7 @@
       "type": "SharedResources"
     },
     "customTheme": {
-      "name": "JP896926738086476.json",
+      "name": "JP6707770465126138.json",
       "reportVersionAtImport": {
         "visual": "2.11.0",
         "report": "3.4.0",
@@ -40,7 +40,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "false"
+                "Value": "true"
               }
             }
           }
@@ -70,8 +70,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "JP896926738086476.json",
-          "path": "JP896926738086476.json",
+          "name": "JP6707770465126138.json",
+          "path": "JP6707770465126138.json",
           "type": "CustomTheme"
         },
         {
@@ -83,6 +83,11 @@
           "name": "okresy_new3711283553756338.json",
           "path": "okresy_new3711283553756338.json",
           "type": "ShapeMap"
+        },
+        {
+          "name": "Overview23350199807871042.png",
+          "path": "Overview23350199807871042.png",
+          "type": "Image"
         },
         {
           "name": "voronoi_Karlovy_Vary6790344816612918.topojson",

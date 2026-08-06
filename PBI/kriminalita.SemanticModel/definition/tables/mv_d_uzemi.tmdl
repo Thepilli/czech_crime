@@ -3,11 +3,8 @@ table mv_d_uzemi
 	sourceLineageTag: [crime].[mv_d_uzemi]
 
 	/// This measure is the SELECTEDVALUE of 'mv_d_uzemi'[název_obce]
-	measure 'SELECTEDVALUE of název_obce' = SELECTEDVALUE( 'mv_d_uzemi'[název_obce] )
+	measure 'SELECTEDVALUE of název_obce' = SELECTEDVALUE( mv_d_uzemi[název_obce] )
 		lineageTag: d6dc74c3-ed63-4bb9-a7e5-421a1d4dcd53
-
-	measure 'SUM of populace' = SUM(f_populace[populace])
-		lineageTag: c385ea1e-ec12-41f7-8faa-917d46ecde6a
 
 	column název_obce
 		dataType: string
@@ -127,6 +124,7 @@ table mv_d_uzemi
 
 	column kód_okresu_LAU_ČSÚ
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e140338b-75d2-460a-beeb-bf54e1f73b5b
 		sourceLineageTag: kód_okresu_LAU_ČSÚ
@@ -174,6 +172,7 @@ table mv_d_uzemi
 
 	column kód_kraje_ČSÚ
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3b316251-c075-4fcf-b8aa-1b098d349fce
 		sourceLineageTag: kód_kraje_ČSÚ

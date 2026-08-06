@@ -4,6 +4,7 @@ table bridge_group_type
 
 	column type_group_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e30c6f59-2a46-4a0d-b466-85560e9b1099
 		sourceLineageTag: type_group_key
@@ -14,6 +15,7 @@ table bridge_group_type
 
 	column type_code
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: abb78cef-fabe-423d-88e9-2e8e9580100f
 		sourceLineageTag: type_code

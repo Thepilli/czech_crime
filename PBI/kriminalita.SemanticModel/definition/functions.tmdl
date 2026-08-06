@@ -290,203 +290,6 @@ function 'Common.SVG.donut' =
 		)
 	lineageTag: fc24b42a-8273-4a9e-89bd-fdbc67c34896
 
-function 'Common.SVG.sparkline' =
-		(
-		    // Displayed name of the KPI (used only when generating a title)
-		    _measureValue: EXPR,
-		    // 0=title → prefix with KPI name, 1=subtitle→ no KPI prefix
-		    _measureValuePy: EXPR
-		) =>
-		VAR svg_width = 300
-		VAR svg_height = 100  -- Increased height for space
-		VAR left_margin = 100  -- Space for KPI callout
-		VAR stroke_color_1 = "#9126B6"
-		VAR gradient_color_1 = "#E6BCF4"
-		VAR stroke_color_2 = "gray"
-		VAR stroke_dasharray_2 = "4,2"
-		
-		-- KPI Callout (you can change this to % diff or any other value)
-		VAR kpi_value =
-		    FORMAT( _measureValue, "$#,###" )
-		VAR smaller_text =
-		    "LY Sales: "
-		        & FORMAT( _measureValuePy, "$#,###" )  -- Example of the second line text, you can modify this as needed
-		-- Line 1: Current Sales
-		VAR InputTable1 =
-		    SELECTCOLUMNS(
-		        SUMMARIZECOLUMNS(
-		            mv_d_date[YearMonthNumber],
-		            "Y", _measureValue
-		        ),
-		        "X", mv_d_date[YearMonthNumber],
-		        "Y", [Y]
-		    )
-		
-		-- Line 2: Last Year Sales (or Target)
-		VAR InputTable2 =
-		    SELECTCOLUMNS(
-		        SUMMARIZECOLUMNS(
-		            mv_d_date[YearMonthNumber],
-		            "Y", _measureValuePy  -- Replace with your second series
-		        ),
-		        "X", mv_d_date[YearMonthNumber],
-		        "Y", [Y]
-		    )
-		
-		-- Clean blanks
-		VAR Table1 =
-		    ADDCOLUMNS(
-		        InputTable1,
-		        "Y_Adj", IF( ISBLANK( [Y] ), 0, [Y] )
-		    )
-		VAR Table2 =
-		    ADDCOLUMNS(
-		        InputTable2,
-		        "Y_Adj", IF( ISBLANK( [Y] ), 0, [Y] )
-		    )
-		
-		-- X ranking
-		VAR Ranked1 = ADDCOLUMNS( Table1, "X_Rank", RANKX( Table1, [X], , ASC ) )
-		VAR Ranked2 = ADDCOLUMNS( Table2, "X_Rank", RANKX( Table2, [X], , ASC ) )
-		
-		-- Normalize X position
-		VAR TotalPoints = COUNTROWS( Ranked1 )
-		VAR MaxIndex = TotalPoints - 1
-		VAR Spaced1 =
-		    ADDCOLUMNS(
-		        Ranked1,
-		        "XPos",
-		            DIVIDE( [X_Rank] - 1, MaxIndex )
-		                * ( svg_width - left_margin )
-		                + left_margin
-		    )
-		VAR Spaced2 =
-		    ADDCOLUMNS(
-		        Ranked2,
-		        "XPos",
-		            DIVIDE( [X_Rank] - 1, MaxIndex )
-		                * ( svg_width - left_margin )
-		                + left_margin
-		    )
-		
-		-- Shared Y scale
-		VAR MinY =
-		    MIN(
-		        MINX( Spaced1, [Y_Adj] ),
-		        MINX( Spaced2, [Y_Adj] )
-		    )
-		VAR MaxY =
-		    MAX(
-		        MAXX( Spaced1, [Y_Adj] ),
-		        MAXX( Spaced2, [Y_Adj] )
-		    )
-		
-		-- Compute Y position
-		VAR Final1 =
-		    ADDCOLUMNS(
-		        Spaced1,
-		        "YPos",
-		            IF(
-		                MaxY = MinY,
-		                svg_height * 0.5,
-		                svg_height
-		                    - DIVIDE( [Y_Adj] - MinY, MaxY - MinY )
-		                    * ( svg_height - 10 )
-		            )
-		    )
-		VAR Final2 =
-		    ADDCOLUMNS(
-		        Spaced2,
-		        "YPos",
-		            IF(
-		                MaxY = MinY,
-		                svg_height * 0.5,
-		                svg_height
-		                    - DIVIDE( [Y_Adj] - MinY, MaxY - MinY )
-		                    * ( svg_height - 10 )
-		            )
-		    )
-		
-		-- Points to plot
-		VAR PolylinePoints1 =
-		    CONCATENATEX(
-		        Final1,
-		        FORMAT( [XPos], "0.0" ) & ","
-		            & FORMAT( [YPos], "0.0" ),
-		        " "
-		    )
-		VAR PolylinePoints2 =
-		    CONCATENATEX(
-		        Final2,
-		        FORMAT( [XPos], "0.0" ) & ","
-		            & FORMAT( [YPos], "0.0" ),
-		        " "
-		    )
-		
-		-- Area fill under main line
-		VAR FirstX = MINX( Final1, [XPos] )
-		VAR LastX = MAXX( Final1, [XPos] )
-		VAR PolygonPoints =
-		    FirstX & "," & svg_height & " " & PolylinePoints1
-		        & " "
-		        & LastX
-		        & ","
-		        & svg_height
-		
-		-- Compose SVG
-		VAR Svg =
-		    "<svg width='" & svg_width & "' height='"
-		        & svg_height
-		        & "' viewBox='0 0 "
-		        & svg_width
-		        & " "
-		        & svg_height
-		        & "' xmlns='http://www.w3.org/2000/svg'>"
-		        & "<defs>"
-		        & "<linearGradient id='grad' x1='0' y1='0' x2='0' y2='1'>"
-		        & "<stop offset='0%' stop-color='"
-		        & gradient_color_1
-		        & "' stop-opacity='0.6'/>"
-		        & "<stop offset='100%' stop-color='"
-		        & gradient_color_1
-		        & "' stop-opacity='0'/>"
-		        & "</linearGradient>"
-		        & "</defs>"
-		        &
-		        -- KPI Callout (left side, centered vertically)
-		        "<text x='5' y='"
-		        & svg_height / 2
-		        & "' font-size='18' font-family='Segoe UI' fill='black' font-weight='bold' dominant-baseline='middle'>"
-		        & kpi_value
-		        & "</text>"
-		        &
-		
-		        -- Smaller text below the KPI value
-		        "<text x='5' y='"
-		        & ( svg_height / 2 + 18 )
-		        & "' font-size='12' font-family='Segoe UI' fill='black' dominant-baseline='middle'>"
-		        & smaller_text
-		        & "</text>"
-		        & "<polygon fill='url(#grad)' points='"
-		        & PolygonPoints
-		        & "' />"
-		        & "<polyline fill='none' stroke='"
-		        & stroke_color_1
-		        & "' stroke-width='2' points='"
-		        & PolylinePoints1
-		        & "' />"
-		        & "<polyline fill='none' stroke='"
-		        & stroke_color_2
-		        & "' stroke-width='1.5' stroke-dasharray='"
-		        & stroke_dasharray_2
-		        & "' points='"
-		        & PolylinePoints2
-		        & "' />"
-		        & "</svg>"
-		RETURN
-		    "data:image/svg+xml;utf8," & Svg
-	lineageTag: 10ae7115-cfdc-43fd-8e09-f13768a32ffc
-
 function 'Common.SVG.bar' =
 		(
 		    // Displayed name of the KPI (used only when generating a title)
@@ -606,4 +409,261 @@ function 'Common.FormatString_SSM' =
 		        "#,##0"                                        // >= 1Tn default
 		    )
 	lineageTag: f0bb6d62-eabc-4924-9061-14926f95f7a0
+
+/// Renders a compact inline SVG trend/sparkline chart as a data URI.
+/// Returns a `data:image/svg+xml;utf8,...` string that can be displayed in a
+/// Power BI table/matrix column formatted as Image URL, or in a card visual.
+/// The chart shows the N most recent periods (grain-agnostic: day / month / year / etc.),
+/// with a polyline, dot markers, vertical guides, and period axis labels.
+/// When `hover` is TRUE, additional shading (green rising / red falling) and bold
+/// value labels are included.
+/// @param valueExpression The measure or scalar expression to plot (evaluated per period).
+/// @param periodDateColumn The date/period column used for the X axis (e.g. 'Date'[Month]).
+/// @param numberOfPeriods How many of the most recent periods to include (e.g. 12).
+/// @param axisLabelCharactersToShow Number of characters to keep from the formatted period label (e.g. 3 for "JAN").
+/// @param dateFormatString FORMAT string for the period axis labels (e.g. "MMM", "yyyy").
+/// @param valueFormatString FORMAT string for the value data labels (e.g. "#,0", "$#,0", "0.0%").
+/// @param lineColor Hex color used for the line and markers (e.g. "#0078D4").
+/// @param hover TRUE to include hover-only shading and value labels, FALSE for a minimal chart.
+/// @returns A `data:image/svg+xml;utf8,...` string, or BLANK when there is insufficient data.
+function 'DataZoe.SVG.TrendSVG' =
+		(
+		    valueExpression: ANYREF EXPR,
+		    periodDateColumn: ANYREF EXPR,
+		    numberOfPeriods: INT64,
+		    axisLabelCharactersToShow: INT64,
+		    dateFormatString: STRING,
+		    valueFormatString: STRING,
+		    lineColor: STRING,
+		    hover: BOOLEAN
+		) =>
+		VAR _LastPeriod = MAX ( periodDateColumn )
+		VAR _BasePeriods =
+		    TOPN (
+		        numberOfPeriods,
+		        FILTER ( ALL ( periodDateColumn ), periodDateColumn <= _LastPeriod ),
+		        periodDateColumn,
+		        DESC
+		    )
+		VAR _Data =
+		    ADDCOLUMNS (
+		        _BasePeriods,
+		        "Value",
+		            VAR _v = CALCULATE ( valueExpression )
+		            RETURN IF ( ISBLANK ( _v ), 0, _v )
+		    )
+		VAR _DataIndexed =
+		    ADDCOLUMNS (
+		        _Data,
+		        "Idx",
+		            RANKX ( _Data, periodDateColumn, periodDateColumn, ASC, DENSE ),
+		        "PeriodLabel",
+		            UPPER ( LEFT ( FORMAT ( periodDateColumn, dateFormatString ), axisLabelCharactersToShow ) )
+		    )
+		VAR _Count = COUNTROWS ( _DataIndexed )
+		VAR _MaxVal = MAXX ( _DataIndexed, [Value] )
+		VAR _PerPointX = 32
+		VAR _PadX = 18
+		VAR _Width = 2 * _PadX + MAX ( 1, _Count - 1 ) * _PerPointX
+		VAR _Height = 86
+		VAR _PadTop = 10
+		VAR _LabelBandH = 26
+		VAR _ChartBottom = _Height - _LabelBandH
+		VAR _GoodColor = "#107C10"
+		VAR _BadColor = "#A80000"
+		VAR _LineColor = lineColor
+		VAR _XStep =
+		    IF ( _Count > 1, DIVIDE ( _Width - 2 * _PadX, _Count - 1 ), 0 )
+		VAR _HasData =
+		    _Count >= 2 && NOT ISBLANK ( _MaxVal )
+		VAR _Points =
+		    CONCATENATEX (
+		        _DataIndexed,
+		        VAR _Idx = [Idx]
+		        VAR _Val = [Value]
+		        VAR _Norm = IF ( _MaxVal = 0, 0, DIVIDE ( _Val, _MaxVal ) )
+		        VAR _X = _PadX + ( _Idx - 1 ) * _XStep
+		        VAR _Y = _ChartBottom - _Norm * ( _ChartBottom - _PadTop )
+		        RETURN FORMAT ( _X, "0.0" ) & "," & FORMAT ( _Y, "0.0" ),
+		        " ",
+		        [Idx], ASC
+		    )
+		VAR _Markers =
+		    CONCATENATEX (
+		        _DataIndexed,
+		        VAR _mIdx = [Idx]
+		        VAR _mVal = [Value]
+		        VAR _mNorm = IF ( _MaxVal = 0, 0, DIVIDE ( _mVal, _MaxVal ) )
+		        VAR _mX = _PadX + ( _mIdx - 1 ) * _XStep
+		        VAR _mY = _ChartBottom - _mNorm * ( _ChartBottom - _PadTop )
+		        RETURN
+		            "<circle cx='" & FORMAT ( _mX, "0.0" )
+		                & "' cy='" & FORMAT ( _mY, "0.0" )
+		                & "' r='2.2' fill='" & _LineColor & "' />",
+		        "",
+		        [Idx], ASC
+		    )
+		VAR _GuideBottom = _ChartBottom
+		VAR _Guides =
+		    CONCATENATEX (
+		        _DataIndexed,
+		        VAR _gIdx = [Idx]
+		        VAR _gVal = [Value]
+		        VAR _gNorm = IF ( _MaxVal = 0, 0, DIVIDE ( _gVal, _MaxVal ) )
+		        VAR _gX = _PadX + ( _gIdx - 1 ) * _XStep
+		        VAR _gY = _ChartBottom - _gNorm * ( _ChartBottom - _PadTop )
+		        RETURN
+		            "<line x1='" & FORMAT ( _gX, "0.0" )
+		                & "' y1='" & FORMAT ( _gY, "0.0" )
+		                & "' x2='" & FORMAT ( _gX, "0.0" )
+		                & "' y2='" & FORMAT ( _GuideBottom, "0.0" )
+		                & "' stroke='#CCCCCC' stroke-width='0.75' />",
+		        "",
+		        [Idx], ASC
+		    )
+		VAR _LabelY = _Height - 16
+		VAR _Labels =
+		    CONCATENATEX (
+		        _DataIndexed,
+		        VAR _lIdx = [Idx]
+		        VAR _lX = _PadX + ( _lIdx - 1 ) * _XStep
+		        RETURN
+		            "<text x='" & FORMAT ( _lX, "0.0" )
+		                & "' y='" & FORMAT ( _LabelY, "0.0" )
+		                & "' text-anchor='middle' font-family='DIN, &quot;DIN Alternate&quot;, &quot;DIN Next&quot;, &quot;Segoe UI&quot;, Tahoma, Arial, sans-serif' font-size='8' fill='#666'>"
+		                & [PeriodLabel]
+		                & "</text>",
+		        "",
+		        [Idx], ASC
+		    )
+		VAR _Shades =
+		    CONCATENATEX (
+		        FILTER ( _DataIndexed, [Idx] < _Count ),
+		        VAR _sIdx = [Idx]
+		        VAR _sVal = [Value]
+		        VAR _sNext = MAXX ( FILTER ( _DataIndexed, [Idx] = _sIdx + 1 ), [Value] )
+		        VAR _sNorm1 = IF ( _MaxVal = 0, 0, DIVIDE ( _sVal, _MaxVal ) )
+		        VAR _sNorm2 = IF ( _MaxVal = 0, 0, DIVIDE ( _sNext, _MaxVal ) )
+		        VAR _sX1 = _PadX + ( _sIdx - 1 ) * _XStep
+		        VAR _sX2 = _PadX + _sIdx * _XStep
+		        VAR _sY1 = _ChartBottom - _sNorm1 * ( _ChartBottom - _PadTop )
+		        VAR _sY2 = _ChartBottom - _sNorm2 * ( _ChartBottom - _PadTop )
+		        VAR _sColor = IF ( _sNext >= _sVal, _GoodColor, _BadColor )
+		        RETURN
+		            "<polygon points='"
+		                & FORMAT ( _sX1, "0.0" ) & "," & FORMAT ( _sY1, "0.0" ) & " "
+		                & FORMAT ( _sX2, "0.0" ) & "," & FORMAT ( _sY2, "0.0" ) & " "
+		                & FORMAT ( _sX2, "0.0" ) & "," & FORMAT ( _ChartBottom, "0.0" ) & " "
+		                & FORMAT ( _sX1, "0.0" ) & "," & FORMAT ( _ChartBottom, "0.0" )
+		                & "' fill='" & _sColor & "' fill-opacity='0.05' stroke='none' />",
+		        "",
+		        [Idx], ASC
+		    )
+		VAR _ValueLabelY = _Height - 6
+		VAR _DataLabels =
+		    CONCATENATEX (
+		        _DataIndexed,
+		        VAR _dIdx = [Idx]
+		        VAR _dVal = [Value]
+		        VAR _dX = _PadX + ( _dIdx - 1 ) * _XStep
+		        RETURN
+		            "<text x='" & FORMAT ( _dX, "0.0" )
+		                & "' y='" & FORMAT ( _ValueLabelY, "0.0" )
+		                & "' text-anchor='middle' font-family='DIN, &quot;DIN Alternate&quot;, &quot;DIN Next&quot;, &quot;Segoe UI&quot;, Tahoma, Arial, sans-serif' font-size='7' font-weight='bold' fill='#333'>"
+		                & FORMAT ( _dVal, valueFormatString )
+		                & "</text>",
+		        "",
+		        [Idx], ASC
+		    )
+		VAR _HoverExtras = IF ( hover, _Shades, "" )
+		VAR _HoverLabels = IF ( hover, _DataLabels, "" )
+		VAR _SVGContent =
+		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 "
+		        & FORMAT ( _Width, "0" ) & " " & FORMAT ( _Height, "0" )
+		        & "' preserveAspectRatio='xMidYMid meet'>"
+		        & _HoverExtras
+		        & _Guides
+		        & "<polyline fill='none' stroke='" & _LineColor
+		        & "' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' points='"
+		        & _Points
+		        & "' />"
+		        & _Markers
+		        & _Labels
+		        & _HoverLabels
+		        & "</svg>"
+		RETURN
+		    IF (
+		        _HasData,
+		        "data:image/svg+xml;utf8," & _SVGContent,
+		        BLANK ()
+		    )
+	lineageTag: 4792ba92-d00d-45ca-9286-c60f233b4ae6
+
+function 'Common.SVG.sparkline' =
+		(
+		    _measureValue: SCALAR EXPR,
+		    _measureValueComparison:SCALAR EXPR,
+		    _isnegativeConotation: BOOLEAN = FALSE(),
+		    _hideAxis: BOOLEAN = FALSE()
+		) =>
+		VAR _comparison = _measureValueComparison
+		VAR _good = "#78be20"
+		VAR _bad = "#e01223"
+		VAR LineColour = IF(_isnegativeConotation,IF(_comparison>0,_bad,_good),IF(_comparison>0,_good,_bad))   // was %23118DFF / #118DFF
+		VAR PointColour = "white"
+		VAR Defs =
+		    "<defs><linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>" &
+		        "<stop stop-color='" & LineColour & "' offset='0'/>" &
+		        "<stop stop-color='" & LineColour & "' offset='0.3'/>" &
+		        "<stop stop-color='white' offset='1'/>" &
+		    "</linearGradient></defs>"
+		// Months + rank + value in one pass
+		VAR Months = VALUES( mv_d_date[YearMonthNumber] )
+		VAR Ranked =
+		    ADDCOLUMNS(
+		        Months,
+		        "@Rank",  RANKX( Months, mv_d_date[YearMonthNumber], , ASC ),
+		        "@Value", CALCULATE( _measureValue ),
+		        "@Letter", CALCULATE( SELECTEDVALUE( mv_d_date[MonthLetter] ) )
+		    )
+		VAR MinRank = MINX( Ranked, [@Rank] )
+		VAR MaxRank = MAXX( Ranked, [@Rank] )
+		VAR YMin    = MINX( Ranked, [@Value] )
+		VAR YMax    = MAXX( Ranked, [@Value] )
+		// Coordinates
+		VAR SparklineWidth = 180
+		VAR SparklineHeight = 50
+		VAR Points =
+		    ADDCOLUMNS(
+		        Ranked,
+		        "@X", INT( SparklineWidth * DIVIDE( [@Rank] - MinRank, MaxRank - MinRank ) ),
+		        "@Y", INT( SparklineHeight * DIVIDE( [@Value] - YMin, YMax - YMin ) )
+		    )
+		VAR Lines  = CONCATENATEX( Points, [@X] & "," & 50 - [@Y], " ", [@Rank], ASC )
+		VAR Last   = TOPN( 1, Points, [@Rank], DESC )
+		VAR LastX  = MAXX( Last, [@X] )
+		VAR LastY  = MAXX( Last, [@Y] )
+		VAR Labels =
+		    CONCATENATEX( Points, "<text x='" & [@X] & "' y='61'>" & [@Letter] & "</text>", "", [@Rank], ASC )
+		VAR _showxis = SWITCH(_hideAxis,
+		    TRUE(),"",
+		    "<g font-family='Segoe UI,Arial,sans-serif' font-size='7' text-anchor='middle' fill='rgb(150,158,170)'>" & Labels & "</g>"
+		)
+		VAR SVG =
+		    "data:image/svg+xml;utf8," &
+		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='-7 -7 " & (SparklineWidth + 14) & " 74'>" & Defs &
+		    //"<animate attributeName='opacity' from='0' to='1' dur='3s' fill='freeze'/>" &
+		    // Area (closes flat on baseline at 150 50)
+		    "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='none'
+		    points='0 50 " & Lines & " " & SparklineWidth & " 50'/>" &
+		    // Line
+		    "<polyline fill='none' stroke='" & LineColour &
+		        "' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' points='" & Lines & "'/>" &
+		    // Last point
+		    "<circle cx='" & LastX & "' cy='" & 50 - LastY &
+		        "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "'/>" &
+		    _showxis &
+		    "</svg>"
+		RETURN SVG
+	lineageTag: 27c8fade-b468-475f-a833-eba1606226ca
 
