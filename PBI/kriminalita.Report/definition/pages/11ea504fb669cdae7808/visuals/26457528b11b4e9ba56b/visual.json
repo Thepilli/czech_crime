@@ -499,48 +499,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "ce84fa2e530e7bbe42ab",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_date"
-              }
-            },
-            "Property": "MonthLetter"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b0b6d470b8ea00d08808",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Self Service Measure PY"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1facca36a413009c53c6",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Self Service Measure"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

@@ -243,51 +243,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "143cc41a01e0837c4ee4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "název_okresu"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "e8768a483ae900a2c242",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Avg Annual Population"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "b0bd0612a7079081e089",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -3,10 +3,11 @@
   "name": "8f8b1c5200b3050201b1",
   "position": {
     "x": 0,
-    "y": 0,
+    "y": 40,
     "z": 0,
-    "height": 300,
-    "width": 400
+    "height": 260,
+    "width": 400,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "tableEx",
@@ -26,7 +27,8 @@
                 }
               },
               "queryRef": "mv_d_uzemi.název_okresu",
-              "nativeQueryRef": "název_okresu"
+              "nativeQueryRef": "Okres",
+              "displayName": "Okres"
             },
             {
               "field": {
@@ -74,6 +76,23 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calculations"
+                  }
+                },
+                "Property": "Incidents by primary type"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
       }
     },
     "objects": {
@@ -95,7 +114,15 @@
       ],
       "columnHeaders": [
         {
-          "properties": {}
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            }
+          }
         }
       ],
       "grid": [
@@ -104,7 +131,7 @@
             "rowPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "0D"
                 }
               }
             }
@@ -128,65 +155,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "b152153937944e02d70c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "název_okresu"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "3192e078bb7846d49c24",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents by primary type"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "48c09942ca7637769bd0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "85b4b8229d371eb2041b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Solved (%)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

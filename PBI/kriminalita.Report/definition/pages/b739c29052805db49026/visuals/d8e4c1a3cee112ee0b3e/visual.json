@@ -3,10 +3,11 @@
   "name": "d8e4c1a3cee112ee0b3e",
   "position": {
     "x": 0,
-    "y": 311.42857142857144,
-    "z": 13002,
-    "height": 768.57142857142867,
-    "width": 1920.0000000000002
+    "y": 648.57142857142867,
+    "z": 6000,
+    "height": 431.42857142857144,
+    "width": 461.42857142857144,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -242,7 +243,7 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Births"
+                "Property": "Natural Increase Rate (per 1k)"
               }
             },
             "direction": "Descending"
@@ -251,219 +252,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "cbfc250509c4a0ac4538",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Births"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "3d17c10add0880605338",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Deaths"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7c57a8f0642878cb9417",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Natural increase"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f054b6d340478b6cd385",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Out-migration"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ab92edb6332700b35b0e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "In-migration"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "8f98aaa944edb88c1b60",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Net migration"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ea9559d26523003364e9",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Total increase"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "762f1ee633b7603280b2",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "název_kraje"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "445244240033a6e9b32d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Avg Annual Population"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0cd28b017658a2053290",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crude Birth Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "06fca890cd00d07a0b86",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Population || ALL(%)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "4fc599655d460244ab60",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crude Death Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "08e1e5dcae1704cba061",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Natural Increase Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "12fd32cf7de7e47edd6b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Total Growth Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0185ff1ec82a686d5e23",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Net Migration Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

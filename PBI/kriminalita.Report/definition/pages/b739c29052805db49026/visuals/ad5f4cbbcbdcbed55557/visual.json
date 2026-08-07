@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "ad5f4cbbcbdcbed55557",
+  "position": {
+    "x": 1278.5714285714287,
+    "y": 188.57142857142858,
+    "z": 17000,
+    "height": 475.71428571428572,
+    "width": 641.42857142857144,
+    "tabOrder": 17000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "zkratka_kraje"
+                }
+              },
+              "queryRef": "mv_d_uzemi.zkratka_kraje",
+              "nativeQueryRef": "zkratka_kraje",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Avg Annual Population"
+                }
+              },
+              "queryRef": "Calculations.Avg Annual Population",
+              "nativeQueryRef": "Avg Annual Population"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Natural Increase Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Natural Increase Rate (per 1k)",
+              "nativeQueryRef": "Natural Increase Rate (per 1k)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Net Migration Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Net Migration Rate (per 1k)",
+              "nativeQueryRef": "Net Migration Rate (per 1k)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -4,10 +4,10 @@
   "position": {
     "x": 210,
     "y": 78,
-    "z": 2,
+    "z": 1000,
     "height": 50,
     "width": 100,
-    "tabOrder": 2
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -263,23 +263,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "93faf870595889a97180",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents by primary type"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

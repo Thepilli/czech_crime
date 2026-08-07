@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "7024419e404b750d1c7a",
+  "name": "68d9ec50bb444a82099e",
   "position": {
-    "x": 1065.5555555555554,
-    "y": 477.91359718200135,
-    "z": 1000,
-    "height": 250,
-    "width": 854.44444444444446,
-    "tabOrder": 0
+    "x": 631.28095784812206,
+    "y": 62.824339839265207,
+    "z": 11000,
+    "height": 110,
+    "width": 210,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,47 +23,12 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents by primary type"
+                  "Property": "Deaths"
                 }
               },
-              "queryRef": "Calculations.Incidents by primary type",
-              "nativeQueryRef": "Incidents by primary type"
-            }
-          ]
-        },
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "d_type"
-                    }
-                  },
-                  "Property": "category_name"
-                }
-              },
-              "queryRef": "d_type.category_name",
-              "nativeQueryRef": "category_name"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Incidents Solved (%)"
-                }
-              },
-              "queryRef": "Calculations.Incidents Solved (%)",
-              "nativeQueryRef": "Incidents Solved (%)"
+              "queryRef": "Calculations.Deaths",
+              "nativeQueryRef": "Deaths",
+              "displayName": "Deaths"
             }
           ]
         }
@@ -78,7 +43,7 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Incidents by primary type"
+                "Property": "Deaths"
               }
             },
             "direction": "Descending"
@@ -88,51 +53,170 @@
       }
     },
     "objects": {
-      "smallMultiplesLayout": [
+      "referenceLabel": [
         {
           "properties": {
-            "orientation": {
+            "value": {
               "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "rowCount": {
-              "expr": {
-                "Literal": {
-                  "Value": "4L"
-                }
-              }
-            },
-            "columnCount": {
-              "expr": {
-                "Literal": {
-                  "Value": "4L"
-                }
-              }
-            },
-            "headerPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Top'"
-                }
-              }
-            },
-            "titleOrientation": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "cellPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "1L"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Deaths PY"
                 }
               }
             }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Calculations.Deaths",
+            "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c",
+            "order": 0
+          }
+        }
+      ],
+      "referenceLabelTitle": [
+        {
+          "properties": {
+            "titleContentType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'custom'"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vs PY'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths",
+            "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
+          }
+        }
+      ],
+      "referenceLabelDetail": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths",
+            "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
+          }
+        },
+        {
+          "properties": {
+            "detailValue": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Deaths YoY(%) format"
+                }
+              }
+            },
+            "detailFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calculations"
+                        }
+                      },
+                      "Property": "Deaths YoY Color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Calculations.Deaths",
+            "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
+          }
+        }
+      ],
+      "accentBar": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths"
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calculations"
+                        }
+                      },
+                      "Property": "Deaths YoY Color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Calculations.Deaths"
           }
         }
       ],
@@ -155,20 +239,15 @@
             }
           },
           "selector": {
-            "id": "default"
+            "metadata": "Calculations.Deaths"
           }
         },
         {
           "properties": {
             "imageData": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Icon SVG"
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -181,214 +260,22 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents by primary type"
+            "metadata": "Calculations.Deaths"
           }
         },
         {
           "properties": {
-            "imageDataFit": {
+            "paddingRight": {
               "expr": {
                 "Literal": {
-                  "Value": "'Fit'"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        }
-      ],
-      "image": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
+                  "Value": "5L"
                 }
               }
             },
-            "imageType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'imageData'"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        },
-        {
-          "properties": {
-            "imageData": {
-              "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Icon SVG"
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 0
-                }
-              }
-            ],
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        }
-      ],
-      "label": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "d_type"
-                    }
-                  },
-                  "Property": "SELECTEDVALUE of category_name"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        }
-      ],
-      "fillCustom": [
-        {
-          "properties": {
-            "fillColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Calculations"
-                        }
-                      },
-                      "Property": "Icon color"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        },
-        {
-          "properties": {
-            "fillColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Calculations"
-                        }
-                      },
-                      "Property": "Icon color"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 0
-                }
-              }
-            ],
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        },
-        {
-          "properties": {
-            "transparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "50D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        }
-      ],
-      "value": [
-        {
-          "properties": {
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        },
-        {
-          "properties": {
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "20D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ],
-      "smallMultiplesHeader": [
-        {
-          "properties": {
             "paddingIndividual": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "paddingUniform": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
+                  "Value": "true"
                 }
               }
             }
@@ -401,6 +288,20 @@
       "layout": [
         {
           "properties": {
+            "collage": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Default'"
+                }
+              }
+            },
+            "contentOrder": {
+              "expr": {
+                "Literal": {
+                  "Value": "'callout_referenceLabel_image'"
+                }
+              }
+            },
             "orientation": {
               "expr": {
                 "Literal": {
@@ -421,6 +322,13 @@
                   "Value": "1L"
                 }
               }
+            },
+            "cellPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
             }
           }
         }
@@ -428,72 +336,30 @@
       "padding": [
         {
           "properties": {
-            "leftMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "4L"
-                }
-              }
-            },
-            "bottomMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "4L"
-                }
-              }
-            },
             "rightMargin": {
               "expr": {
                 "Literal": {
                   "Value": "4L"
-                }
-              }
-            },
-            "topMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "4L"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Calculations.Incidents by primary type"
-          }
-        },
-        {
-          "properties": {
-            "leftMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
-                }
-              }
-            },
-            "topMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
-                }
-              }
-            },
-            "bottomMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
-                }
-              }
-            },
-            "rightMargin": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "bottomMargin": {
+              "expr": {
+                "Literal": {
+                  "Value": "4L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths"
           }
         }
       ],
@@ -512,6 +378,113 @@
             "id": "default"
           }
         }
+      ],
+      "value": [
+        {
+          "properties": {
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths"
+          }
+        },
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "referenceLabelLayout": [
+        {
+          "properties": {
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "labelSpace": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "valueDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "valuePrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths",
+            "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
+          }
+        }
+      ],
+      "outline": [
+        {
+          "properties": {
+            "weight": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -528,13 +501,34 @@
           }
         }
       ],
-      "visualTooltip": [
+      "padding": [
         {
           "properties": {
-            "show": {
+            "left": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "0D"
+                }
+              }
+            },
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }

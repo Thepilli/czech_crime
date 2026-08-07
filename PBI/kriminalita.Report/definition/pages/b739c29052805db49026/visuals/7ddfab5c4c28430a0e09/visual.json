@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "7ddfab5c4c28430a0e09",
+  "position": {
+    "x": 797.14285714285722,
+    "y": 178.57142857142858,
+    "z": 16000,
+    "height": 475.71428571428572,
+    "width": 641.42857142857144,
+    "tabOrder": 16000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "zkratka_kraje"
+                }
+              },
+              "queryRef": "mv_d_uzemi.zkratka_kraje",
+              "nativeQueryRef": "zkratka_kraje",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Avg Annual Population"
+                }
+              },
+              "queryRef": "Calculations.Avg Annual Population",
+              "nativeQueryRef": "Avg Annual Population"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Crude Birth Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Crude Birth Rate (per 1k)",
+              "nativeQueryRef": "Crude Birth Rate (per 1k)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Crude Death Rate (per 1k)"
+                }
+              },
+              "queryRef": "Calculations.Crude Death Rate (per 1k)",
+              "nativeQueryRef": "Crude Death Rate (per 1k)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

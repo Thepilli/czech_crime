@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "39bd117c36e55c9a3552",
+  "name": "307d3e665645c63c6877",
   "position": {
-    "x": 1065,
-    "y": 65.555555555555557,
-    "z": 5000,
+    "x": 846.92143677218314,
+    "y": 62.824339839265207,
+    "z": 14000,
     "height": 110,
-    "width": 425,
-    "tabOrder": 5000
+    "width": 210,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,12 +23,12 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as False Alarm (%)"
+                  "Property": "In-migration"
                 }
               },
-              "queryRef": "Calculations.Incidents Closed as False Alarm (%)",
-              "nativeQueryRef": "Closed as False Alarm (%)",
-              "displayName": "Closed as False Alarm (%)"
+              "queryRef": "Calculations.In-migration",
+              "nativeQueryRef": "In-migration",
+              "displayName": "In-migration"
             }
           ]
         }
@@ -43,7 +43,7 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Incidents Closed as False Alarm (%)"
+                "Property": "In-migration"
               }
             },
             "direction": "Descending"
@@ -64,7 +64,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as False Alarm (%) PY"
+                  "Property": "In-migration PY"
                 }
               }
             }
@@ -77,7 +77,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
+            "metadata": "Calculations.In-migration",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c",
             "order": 0
           }
@@ -102,7 +102,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
+            "metadata": "Calculations.In-migration",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -119,7 +119,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
+            "metadata": "Calculations.In-migration",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         },
@@ -133,7 +133,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed as False Alarm (%) YoY(%) format"
+                  "Property": "In-migration YoY(%) format"
                 }
               }
             },
@@ -147,7 +147,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Closed as False Alarm (%) YoY Color"
+                      "Property": "In-migration YoY Color"
                     }
                   }
                 }
@@ -162,7 +162,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
+            "metadata": "Calculations.In-migration",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -186,7 +186,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         },
         {
@@ -201,7 +201,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Closed as False Alarm (%) YoY Color"
+                      "Property": "In-migration YoY Color"
                     }
                   }
                 }
@@ -216,7 +216,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         }
       ],
@@ -226,7 +226,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -239,20 +239,15 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         },
         {
           "properties": {
             "imageData": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Incidents Closed as False Alarm (%) sparkline"
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -265,7 +260,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         },
         {
@@ -364,7 +359,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         }
       ],
@@ -404,13 +399,13 @@
             "labelPrecision": {
               "expr": {
                 "Literal": {
-                  "Value": "1L"
+                  "Value": "0L"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         },
         {
@@ -464,13 +459,13 @@
             "valuePrecision": {
               "expr": {
                 "Literal": {
-                  "Value": "1L"
+                  "Value": "0L"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)",
+            "metadata": "Calculations.In-migration",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -487,7 +482,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed as False Alarm (%)"
+            "metadata": "Calculations.In-migration"
           }
         }
       ]

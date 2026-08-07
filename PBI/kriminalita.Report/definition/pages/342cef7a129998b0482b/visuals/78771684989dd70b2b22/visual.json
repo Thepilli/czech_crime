@@ -3,10 +3,11 @@
   "name": "78771684989dd70b2b22",
   "position": {
     "x": 0,
-    "y": 0,
+    "y": 40,
     "z": 0,
-    "height": 300,
-    "width": 400
+    "height": 260,
+    "width": 400,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "tableEx",
@@ -26,7 +27,8 @@
                 }
               },
               "queryRef": "mv_d_uzemi.název_obce",
-              "nativeQueryRef": "název_obce"
+              "nativeQueryRef": "Obec",
+              "displayName": "Obec"
             },
             {
               "field": {
@@ -112,7 +114,15 @@
       ],
       "columnHeaders": [
         {
-          "properties": {}
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            }
+          }
         }
       ],
       "grid": [
@@ -121,7 +131,7 @@
             "rowPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "0D"
                 }
               }
             }
@@ -148,48 +158,6 @@
   },
   "filterConfig": {
     "filters": [
-      {
-        "name": "00be6fc9cc5d597955c2",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents by primary type"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ce1d17b64b166bb20763",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d5489920200b7acea506",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Solved (%)"
-          }
-        },
-        "type": "Advanced"
-      },
       {
         "name": "d9472d616b80a109b3c0",
         "field": {

@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 0,
-    "z": 1,
+    "z": 0,
     "height": 200,
     "width": 400,
-    "tabOrder": 1
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "donutChart",
@@ -255,65 +255,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "7796dda98c2763d2eca2",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Solved (%)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "281440dc494151677209",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Closed as False Alarm (%)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1d8144f425c3cde75386",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Closed as Not a Crime (%)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1633afd2b02062352a20",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Closed without Resolution (%)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

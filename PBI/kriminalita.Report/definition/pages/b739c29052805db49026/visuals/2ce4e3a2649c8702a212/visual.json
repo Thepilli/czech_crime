@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "32e2c3222a06733c4015",
+  "name": "2ce4e3a2649c8702a212",
   "position": {
-    "x": 635,
-    "y": 65.555555555555557,
-    "z": 4000,
+    "x": 1493.8428735443661,
+    "y": 62.824339839265207,
+    "z": 10000,
     "height": 110,
-    "width": 425,
-    "tabOrder": 4000
+    "width": 210,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,12 +23,12 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed without Resolution (%)"
+                  "Property": "Crude Birth Rate (per 1k)"
                 }
               },
-              "queryRef": "Calculations.Incidents Closed without Resolution (%)",
-              "nativeQueryRef": "Closed without Resolution (%)",
-              "displayName": "Closed without Resolution (%)"
+              "queryRef": "Calculations.Crude Birth Rate (per 1k)",
+              "nativeQueryRef": "Crude Birth Rate (per 1k)",
+              "displayName": "Crude Birth Rate (per 1k)"
             }
           ]
         }
@@ -43,7 +43,7 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Incidents Closed without Resolution (%)"
+                "Property": "Crude Birth Rate (per 1k)"
               }
             },
             "direction": "Descending"
@@ -64,7 +64,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed without Resolution (%) PY"
+                  "Property": "Crude Birth Rate (per 1k) PY"
                 }
               }
             }
@@ -77,7 +77,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed without Resolution (%)",
+            "metadata": "Calculations.Crude Birth Rate (per 1k)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c",
             "order": 0
           }
@@ -102,7 +102,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)",
+            "metadata": "Calculations.Crude Birth Rate (per 1k)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -119,7 +119,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)",
+            "metadata": "Calculations.Crude Birth Rate (per 1k)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         },
@@ -133,7 +133,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents Closed without Resolution (%) YoY(%) format"
+                  "Property": "Crude Birth Rate (per 1k) YoY(%) format"
                 }
               }
             },
@@ -147,7 +147,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Closed without Resolution (%) YoY Color"
+                      "Property": "Crude Birth Rate (per 1k) YoY Color"
                     }
                   }
                 }
@@ -162,7 +162,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed without Resolution (%)",
+            "metadata": "Calculations.Crude Birth Rate (per 1k)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -186,7 +186,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         },
         {
@@ -201,7 +201,7 @@
                           "Entity": "Calculations"
                         }
                       },
-                      "Property": "Incidents Closed without Resolution (%) YoY Color"
+                      "Property": "Crude Birth Rate (per 1k) YoY Color"
                     }
                   }
                 }
@@ -216,7 +216,7 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         }
       ],
@@ -226,7 +226,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -239,20 +239,15 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         },
         {
           "properties": {
             "imageData": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Incidents Closed without Resolution (%) sparkline"
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -265,22 +260,22 @@
                 }
               }
             ],
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         },
         {
           "properties": {
-            "paddingIndividual": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "paddingRight": {
               "expr": {
                 "Literal": {
                   "Value": "5L"
+                }
+              }
+            },
+            "paddingIndividual": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -364,7 +359,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         }
       ],
@@ -410,7 +405,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         },
         {
@@ -470,7 +465,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)",
+            "metadata": "Calculations.Crude Birth Rate (per 1k)",
             "id": "field-60dba8e3-f839-5a50-bf8c-538b844b517c"
           }
         }
@@ -487,23 +482,7 @@
             }
           },
           "selector": {
-            "metadata": "Calculations.Incidents Closed without Resolution (%)"
-          }
-        }
-      ],
-      "label": [
-        {
-          "properties": {
-            "textWrap": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
+            "metadata": "Calculations.Crude Birth Rate (per 1k)"
           }
         }
       ]

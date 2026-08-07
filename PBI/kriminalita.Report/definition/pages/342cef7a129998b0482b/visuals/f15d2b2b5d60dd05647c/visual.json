@@ -1,79 +1,79 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "c26a7f8b00510758584d",
+  "name": "f15d2b2b5d60dd05647c",
   "position": {
-    "x": 1059.2307692307693,
-    "y": 0.76923076923076916,
-    "z": 3000,
-    "height": 55,
-    "width": 200,
-    "tabOrder": 3000
+    "x": 0,
+    "y": 0,
+    "z": 1000,
+    "height": 40,
+    "width": 400,
+    "tabOrder": 0
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "cardVisual",
     "query": {
       "queryState": {
-        "Values": {
+        "Data": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "název_kraje"
+                  "Property": "SELECTEDVALUE of název_okresu"
                 }
               },
-              "queryRef": "mv_d_uzemi.název_kraje",
-              "nativeQueryRef": "název_kraje",
-              "active": true
+              "queryRef": "mv_d_uzemi.SELECTEDVALUE of název_okresu",
+              "nativeQueryRef": "SELECTEDVALUE of název_okresu"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
       }
     },
     "objects": {
-      "general": [
-        {
-          "properties": {}
-        }
-      ],
-      "data": [
+      "padding": [
         {
           "properties": {
-            "mode": {
+            "rightMargin": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dropdown'"
+                  "Value": "4L"
                 }
               }
             }
+          },
+          "selector": {
+            "id": "default"
           }
         }
       ],
-      "selection": [
+      "layout": [
         {
           "properties": {
-            "singleSelect": {
+            "columnCount": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "1L"
                 }
               }
             },
-            "strictSingleSelect": {
+            "cellPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "0L"
                 }
               }
             }
           }
         }
       ],
-      "pendingChangesIcon": [
+      "fillCustom": [
         {
           "properties": {
             "show": {
@@ -86,57 +86,42 @@
           }
         }
       ],
-      "header": [
+      "label": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "textSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            },
-            "outlineStyle": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Kraj'"
+                  "Value": "false"
                 }
               }
             }
+          },
+          "selector": {
+            "id": "default"
           }
         }
       ],
-      "items": [
+      "value": [
         {
           "properties": {
-            "textSize": {
+            "horizontalAlignment": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "'center'"
                 }
               }
             },
-            "padding": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "3D"
+                  "Value": "15D"
                 }
               }
             }
+          },
+          "selector": {
+            "id": "default"
           }
         }
       ]
@@ -155,56 +140,45 @@
           }
         }
       ],
-      "background": [
+      "visualHeader": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
           }
         }
       ],
-      "border": [
+      "padding": [
+        {
+          "properties": {
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": -0.1
-                    }
-                  }
+                  "Value": "false"
                 }
               }
             }
           }
         }
       ]
-    },
-    "syncGroup": {
-      "groupName": "název_kraje",
-      "fieldChanges": true,
-      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   }

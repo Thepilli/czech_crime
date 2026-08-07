@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "afd48261016341bc770e",
+  "name": "42ae7868ee5a378ea948",
   "position": {
-    "x": 205.07183010618363,
-    "y": 175.09056839475329,
-    "z": 11000,
-    "height": 550.45596502186129,
-    "width": 853.86633354153651,
-    "tabOrder": 11000
+    "x": 205.71428571428572,
+    "y": 175.71428571428572,
+    "z": 15000,
+    "height": 380,
+    "width": 550,
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "shapeMap",
@@ -41,11 +41,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents by primary type"
+                  "Property": "Avg Annual Population"
                 }
               },
-              "queryRef": "Calculations.Incidents by primary type",
-              "nativeQueryRef": "Incidents by primary type"
+              "queryRef": "Calculations.Avg Annual Population",
+              "nativeQueryRef": "Avg Annual Population"
             }
           ]
         }
