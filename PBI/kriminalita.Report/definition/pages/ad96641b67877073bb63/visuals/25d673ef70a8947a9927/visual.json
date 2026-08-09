@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "25d673ef70a8947a9927",
   "position": {
-    "x": 945.55555555555554,
-    "y": 630,
-    "z": 11003,
-    "height": 450,
-    "width": 321.11111111111109,
-    "tabOrder": 11003
+    "x": 601.11111111111109,
+    "y": 666.66666666666663,
+    "z": 8000,
+    "height": 413.33333333333331,
+    "width": 676.66666666666663,
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "scatterChart",
@@ -219,6 +219,83 @@
             "id": "2"
           }
         }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calculations"
+                        }
+                      },
+                      "Property": "Icon color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableBackground": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -226,35 +303,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "ac1ffbea9b07318a8ae4",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1f0f88c03739738308a0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate YoY(%)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ce10547b69c0ea876e04",
+        "name": "922b0812d60087a06c2a",
         "field": {
           "Column": {
             "Expression": {
@@ -268,7 +317,7 @@
         "type": "Categorical"
       },
       {
-        "name": "35a2064503da7c633c00",
+        "name": "14a19e28d0a415149b9a",
         "field": {
           "Measure": {
             "Expression": {
@@ -277,6 +326,34 @@
               }
             },
             "Property": "Incidents by primary type"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "be4c8cfca16ce10901c9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "29351743028e99067b55",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate YoY(%)"
           }
         },
         "type": "Advanced"

@@ -1,2 +1,2 @@
 EVALUATE
-SUMMARIZECOLUMNS(d_type[category_name],d_type[type_name])
+SUMMARIZECOLUMNS(f_populace[populace],f_populace[year],mv_d_uzemi[název_obce])

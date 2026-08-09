@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "42ae7868ee5a378ea948",
+  "name": "8e484240d17c30902165",
   "position": {
-    "x": 205.71428571428572,
-    "y": 175.71428571428572,
-    "z": 15000,
-    "height": 380,
-    "width": 550,
-    "tabOrder": 15000
+    "x": 206.66666666666666,
+    "y": 177.77777777777777,
+    "z": 18000,
+    "height": 362.22222222222223,
+    "width": 790,
+    "tabOrder": 18000
   },
   "visual": {
     "visualType": "shapeMap",
@@ -23,11 +23,11 @@
                       "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "název_kraje"
+                  "Property": "název_okresu"
                 }
               },
-              "queryRef": "mv_d_uzemi.název_kraje",
-              "nativeQueryRef": "název_kraje"
+              "queryRef": "mv_d_uzemi.název_okresu",
+              "nativeQueryRef": "název_okresu"
             }
           ]
         },
@@ -41,11 +41,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Avg Annual Population"
+                  "Property": "Natural Increase Rate (per 1k)"
                 }
               },
-              "queryRef": "Calculations.Avg Annual Population",
-              "nativeQueryRef": "Avg Annual Population"
+              "queryRef": "Calculations.Natural Increase Rate (per 1k)",
+              "nativeQueryRef": "Natural Increase Rate (per 1k)"
             }
           ]
         }
@@ -81,7 +81,7 @@
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'kraje_new.json'"
+                      "Value": "'okresy_new.json'"
                     }
                   }
                 },
@@ -90,7 +90,7 @@
                     "ResourcePackageItem": {
                       "PackageName": "RegisteredResources",
                       "PackageType": 1,
-                      "ItemName": "kraje_new8236291672099522.json"
+                      "ItemName": "okresy_new3711283553756338.json"
                     }
                   }
                 }
@@ -110,12 +110,28 @@
         {
           "properties": {
             "fillRule": {
-              "linearGradient2": {
+              "linearGradient3": {
                 "min": {
                   "color": {
                     "expr": {
                       "Literal": {
+                        "Value": "'#D64550'"
+                      }
+                    }
+                  }
+                },
+                "mid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
                         "Value": "'#FFFFFF'"
+                      }
+                    }
+                  },
+                  "value": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "0D"
                       }
                     }
                   }
@@ -124,7 +140,7 @@
                   "color": {
                     "expr": {
                       "Literal": {
-                        "Value": "'#D64550'"
+                        "Value": "'#43D674'"
                       }
                     }
                   }
@@ -145,13 +161,78 @@
       ]
     },
     "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Subtitle"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Regional Crime Rate'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "spaceAboveSubtitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "spaceAbovePlotArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
       "visualTooltip": [
         {
           "properties": {
             "section": {
               "expr": {
                 "Literal": {
-                  "Value": "'c8f24b41e82030a01245'"
+                  "Value": "'342cef7a129998b0482b'"
                 }
               }
             }
@@ -160,5 +241,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fb4284912865a8858700",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6883100ba1500380a5e5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Natural Increase Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "a334d0141669ebe4cda5",
   "position": {
-    "x": 1302,
-    "y": 180,
-    "z": 11002,
-    "height": 634,
-    "width": 618,
-    "tabOrder": 11002
+    "x": 1277.5,
+    "y": 175,
+    "z": 7000,
+    "height": 591.25,
+    "width": 642.5,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -150,7 +150,7 @@
             "gridPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "4D"
                 }
               }
             }
@@ -164,6 +164,33 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "sharedAxis": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "roundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

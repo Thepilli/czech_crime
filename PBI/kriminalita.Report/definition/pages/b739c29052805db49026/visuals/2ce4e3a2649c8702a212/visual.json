@@ -537,5 +537,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c0d7fecd122eb6dc57cc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crude Birth Rate (per 1k)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "b5b5e2b5142b9e8970ad",
+  "name": "f25b87372a055199bb66",
   "position": {
-    "x": 847.69230769230762,
+    "x": 1272.3076923076924,
     "y": 0,
-    "z": 2000,
+    "z": 13000,
     "height": 55,
     "width": 200,
-    "tabOrder": 2000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "mv_d_date"
+                      "Entity": "d_type"
                     }
                   },
-                  "Property": "Year"
+                  "Property": "category_name"
                 }
               },
-              "queryRef": "mv_d_date.Year",
-              "nativeQueryRef": "Year",
+              "queryRef": "d_type.category_name",
+              "nativeQueryRef": "category_name",
               "active": true
             }
           ]
@@ -37,49 +37,7 @@
     "objects": {
       "general": [
         {
-          "properties": {
-            "filter": {
-              "filter": {
-                "Version": 2,
-                "From": [
-                  {
-                    "Name": "m",
-                    "Entity": "mv_d_date",
-                    "Type": 0
-                  }
-                ],
-                "Where": [
-                  {
-                    "Condition": {
-                      "In": {
-                        "Expressions": [
-                          {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "m"
-                                }
-                              },
-                              "Property": "Year"
-                            }
-                          }
-                        ],
-                        "Values": [
-                          [
-                            {
-                              "Literal": {
-                                "Value": "2023L"
-                              }
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "data": [
@@ -108,7 +66,7 @@
             "strictSingleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -149,6 +107,13 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Category'"
                 }
               }
             }
@@ -237,7 +202,7 @@
       ]
     },
     "syncGroup": {
-      "groupName": "Year",
+      "groupName": "category_name1",
       "fieldChanges": true,
       "filterChanges": true
     },

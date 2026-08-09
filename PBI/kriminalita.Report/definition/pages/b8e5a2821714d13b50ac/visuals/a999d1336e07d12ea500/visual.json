@@ -84,7 +84,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'bez Prestupku'"
+                                "Value": "'vc Prestupku'"
                               }
                             }
                           ]
@@ -128,5 +128,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6184523300280818179a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "H_prestupky"
+              }
+            },
+            "Property": "Name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

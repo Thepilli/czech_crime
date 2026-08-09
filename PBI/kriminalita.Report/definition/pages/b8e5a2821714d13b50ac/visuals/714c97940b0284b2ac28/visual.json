@@ -168,5 +168,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1a13a3804ad0c5b6eded",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "kód_obce"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2c7698a3360a14e22b50",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "SELECTEDVALUE of název_obce"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e84e59b8e65309e194e0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

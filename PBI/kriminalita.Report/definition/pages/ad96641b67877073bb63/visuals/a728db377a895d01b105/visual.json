@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 103.33333333333333,
-    "z": 8000,
+    "z": 5000,
     "height": 75,
     "width": 200,
-    "tabOrder": 8000
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "actionButton",

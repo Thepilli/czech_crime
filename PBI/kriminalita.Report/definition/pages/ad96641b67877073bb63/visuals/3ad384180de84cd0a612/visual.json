@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "b5b5e2b5142b9e8970ad",
+  "name": "3ad384180de84cd0a612",
   "position": {
-    "x": 847.69230769230762,
-    "y": 0,
-    "z": 2000,
+    "x": 1059.2307692307693,
+    "y": 0.76923076923076916,
+    "z": 12000,
     "height": 55,
     "width": 200,
-    "tabOrder": 2000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "mv_d_date"
+                      "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "Year"
+                  "Property": "název_kraje"
                 }
               },
-              "queryRef": "mv_d_date.Year",
-              "nativeQueryRef": "Year",
+              "queryRef": "mv_d_uzemi.název_kraje",
+              "nativeQueryRef": "název_kraje",
               "active": true
             }
           ]
@@ -37,49 +37,7 @@
     "objects": {
       "general": [
         {
-          "properties": {
-            "filter": {
-              "filter": {
-                "Version": 2,
-                "From": [
-                  {
-                    "Name": "m",
-                    "Entity": "mv_d_date",
-                    "Type": 0
-                  }
-                ],
-                "Where": [
-                  {
-                    "Condition": {
-                      "In": {
-                        "Expressions": [
-                          {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "m"
-                                }
-                              },
-                              "Property": "Year"
-                            }
-                          }
-                        ],
-                        "Values": [
-                          [
-                            {
-                              "Literal": {
-                                "Value": "2023L"
-                              }
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "data": [
@@ -108,7 +66,7 @@
             "strictSingleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -149,6 +107,13 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Kraj'"
                 }
               }
             }
@@ -237,7 +202,7 @@
       ]
     },
     "syncGroup": {
-      "groupName": "Year",
+      "groupName": "název_kraje",
       "fieldChanges": true,
       "filterChanges": true
     },

@@ -137,7 +137,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "37a8ccacda48a0d48b78",
+        "name": "4bdc44bdde30a0b08842",
         "field": {
           "Column": {
             "Expression": {
@@ -148,53 +148,7 @@
             "Property": "Name"
           }
         },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "h",
-              "Entity": "H_prestupky",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "h"
-                          }
-                        },
-                        "Property": "Name"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'bez Prestupku'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'vc Prestupku'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        }
+        "type": "Categorical"
       }
     ]
   }
