@@ -6,6 +6,14 @@ table mv_d_uzemi
 	measure 'SELECTEDVALUE of název_obce' = SELECTEDVALUE( mv_d_uzemi[název_obce] )
 		lineageTag: d6dc74c3-ed63-4bb9-a7e5-421a1d4dcd53
 
+	/// This measure is the SELECTEDVALUE of 'mv_d_uzemi'[název_kraje]
+	measure 'SELECTEDVALUE of název_kraje' = SELECTEDVALUE( 'mv_d_uzemi'[název_kraje] )
+		lineageTag: 4741e3a9-8c94-48bd-a87b-b37b1a8de64a
+
+	/// This measure is the SELECTEDVALUE of 'mv_d_uzemi'[název_okresu]
+	measure 'SELECTEDVALUE of název_okresu' = SELECTEDVALUE( 'mv_d_uzemi'[název_okresu] )
+		lineageTag: f6ec24bf-1b3a-4eb7-969a-03d16d92a799
+
 	column název_obce
 		dataType: string
 		isHidden
@@ -115,6 +123,7 @@ table mv_d_uzemi
 
 	column název_okresu
 		dataType: string
+		isHidden
 		lineageTag: fc770690-3ade-4959-8fee-b3b0a10d9871
 		sourceLineageTag: název_okresu
 		summarizeBy: none
@@ -154,6 +163,7 @@ table mv_d_uzemi
 
 	column název_kraje
 		dataType: string
+		isHidden
 		lineageTag: 2fed9879-2441-44cf-9210-a031cb960c5c
 		sourceLineageTag: název_kraje
 		summarizeBy: none

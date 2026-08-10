@@ -1,4 +1,5 @@
 table H_prestupky
+	isHidden
 	lineageTag: 23e10bd0-acaa-4c5e-94b6-60c6d5abd513
 
 	calculationGroup
@@ -6,8 +7,6 @@ table H_prestupky
 		calculationItem 'vc Prestupku' = SELECTEDMEASURE()
 
 		calculationItem 'bez Prestupku' = CALCULATE(SELECTEDMEASURE(),KEEPFILTERS(d_type[category_code]<>97))
-
-		calculationItem 'bez Prahy' = CALCULATE(SELECTEDMEASURE(),KEEPFILTERS(d_type[category_code]<>97),KEEPFILTERS(mv_d_uzemi[název_kraje]<>"Hlavní město Praha"))
 
 	column Name
 		dataType: string

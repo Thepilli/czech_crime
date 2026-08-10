@@ -60,3 +60,7 @@ relationship 2c12a5cf-bcb4-4834-bc1d-189be6420211
 	fromColumn: d_type.category_code
 	toColumn: H_Icons.type_code
 
+relationship 1fc13924-f943-418e-a15f-eea0577d0b65
+	fromColumn: mv_f_crime.CrimeTime
+	toColumn: d_time.Minute
+

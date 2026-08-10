@@ -410,260 +410,1126 @@ function 'Common.FormatString_SSM' =
 		    )
 	lineageTag: f0bb6d62-eabc-4924-9061-14926f95f7a0
 
-/// Renders a compact inline SVG trend/sparkline chart as a data URI.
-/// Returns a `data:image/svg+xml;utf8,...` string that can be displayed in a
-/// Power BI table/matrix column formatted as Image URL, or in a card visual.
-/// The chart shows the N most recent periods (grain-agnostic: day / month / year / etc.),
-/// with a polyline, dot markers, vertical guides, and period axis labels.
-/// When `hover` is TRUE, additional shading (green rising / red falling) and bold
-/// value labels are included.
-/// @param valueExpression The measure or scalar expression to plot (evaluated per period).
-/// @param periodDateColumn The date/period column used for the X axis (e.g. 'Date'[Month]).
-/// @param numberOfPeriods How many of the most recent periods to include (e.g. 12).
-/// @param axisLabelCharactersToShow Number of characters to keep from the formatted period label (e.g. 3 for "JAN").
-/// @param dateFormatString FORMAT string for the period axis labels (e.g. "MMM", "yyyy").
-/// @param valueFormatString FORMAT string for the value data labels (e.g. "#,0", "$#,0", "0.0%").
-/// @param lineColor Hex color used for the line and markers (e.g. "#0078D4").
-/// @param hover TRUE to include hover-only shading and value labels, FALSE for a minimal chart.
-/// @returns A `data:image/svg+xml;utf8,...` string, or BLANK when there is insufficient data.
-function 'DataZoe.SVG.TrendSVG' =
-		(
-		    valueExpression: ANYREF EXPR,
-		    periodDateColumn: ANYREF EXPR,
-		    numberOfPeriods: INT64,
-		    axisLabelCharactersToShow: INT64,
-		    dateFormatString: STRING,
-		    valueFormatString: STRING,
-		    lineColor: STRING,
-		    hover: BOOLEAN
-		) =>
-		VAR _LastPeriod = MAX ( periodDateColumn )
-		VAR _BasePeriods =
-		    TOPN (
-		        numberOfPeriods,
-		        FILTER ( ALL ( periodDateColumn ), periodDateColumn <= _LastPeriod ),
-		        periodDateColumn,
-		        DESC
-		    )
-		VAR _Data =
-		    ADDCOLUMNS (
-		        _BasePeriods,
-		        "Value",
-		            VAR _v = CALCULATE ( valueExpression )
-		            RETURN IF ( ISBLANK ( _v ), 0, _v )
-		    )
-		VAR _DataIndexed =
-		    ADDCOLUMNS (
-		        _Data,
-		        "Idx",
-		            RANKX ( _Data, periodDateColumn, periodDateColumn, ASC, DENSE ),
-		        "PeriodLabel",
-		            UPPER ( LEFT ( FORMAT ( periodDateColumn, dateFormatString ), axisLabelCharactersToShow ) )
-		    )
-		VAR _Count = COUNTROWS ( _DataIndexed )
-		VAR _MaxVal = MAXX ( _DataIndexed, [Value] )
-		VAR _PerPointX = 32
-		VAR _PadX = 18
-		VAR _Width = 2 * _PadX + MAX ( 1, _Count - 1 ) * _PerPointX
-		VAR _Height = 86
-		VAR _PadTop = 10
-		VAR _LabelBandH = 26
-		VAR _ChartBottom = _Height - _LabelBandH
-		VAR _GoodColor = "#107C10"
-		VAR _BadColor = "#A80000"
-		VAR _LineColor = lineColor
-		VAR _XStep =
-		    IF ( _Count > 1, DIVIDE ( _Width - 2 * _PadX, _Count - 1 ), 0 )
-		VAR _HasData =
-		    _Count >= 2 && NOT ISBLANK ( _MaxVal )
-		VAR _Points =
-		    CONCATENATEX (
-		        _DataIndexed,
-		        VAR _Idx = [Idx]
-		        VAR _Val = [Value]
-		        VAR _Norm = IF ( _MaxVal = 0, 0, DIVIDE ( _Val, _MaxVal ) )
-		        VAR _X = _PadX + ( _Idx - 1 ) * _XStep
-		        VAR _Y = _ChartBottom - _Norm * ( _ChartBottom - _PadTop )
-		        RETURN FORMAT ( _X, "0.0" ) & "," & FORMAT ( _Y, "0.0" ),
-		        " ",
-		        [Idx], ASC
-		    )
-		VAR _Markers =
-		    CONCATENATEX (
-		        _DataIndexed,
-		        VAR _mIdx = [Idx]
-		        VAR _mVal = [Value]
-		        VAR _mNorm = IF ( _MaxVal = 0, 0, DIVIDE ( _mVal, _MaxVal ) )
-		        VAR _mX = _PadX + ( _mIdx - 1 ) * _XStep
-		        VAR _mY = _ChartBottom - _mNorm * ( _ChartBottom - _PadTop )
-		        RETURN
-		            "<circle cx='" & FORMAT ( _mX, "0.0" )
-		                & "' cy='" & FORMAT ( _mY, "0.0" )
-		                & "' r='2.2' fill='" & _LineColor & "' />",
-		        "",
-		        [Idx], ASC
-		    )
-		VAR _GuideBottom = _ChartBottom
-		VAR _Guides =
-		    CONCATENATEX (
-		        _DataIndexed,
-		        VAR _gIdx = [Idx]
-		        VAR _gVal = [Value]
-		        VAR _gNorm = IF ( _MaxVal = 0, 0, DIVIDE ( _gVal, _MaxVal ) )
-		        VAR _gX = _PadX + ( _gIdx - 1 ) * _XStep
-		        VAR _gY = _ChartBottom - _gNorm * ( _ChartBottom - _PadTop )
-		        RETURN
-		            "<line x1='" & FORMAT ( _gX, "0.0" )
-		                & "' y1='" & FORMAT ( _gY, "0.0" )
-		                & "' x2='" & FORMAT ( _gX, "0.0" )
-		                & "' y2='" & FORMAT ( _GuideBottom, "0.0" )
-		                & "' stroke='#CCCCCC' stroke-width='0.75' />",
-		        "",
-		        [Idx], ASC
-		    )
-		VAR _LabelY = _Height - 16
-		VAR _Labels =
-		    CONCATENATEX (
-		        _DataIndexed,
-		        VAR _lIdx = [Idx]
-		        VAR _lX = _PadX + ( _lIdx - 1 ) * _XStep
-		        RETURN
-		            "<text x='" & FORMAT ( _lX, "0.0" )
-		                & "' y='" & FORMAT ( _LabelY, "0.0" )
-		                & "' text-anchor='middle' font-family='DIN, &quot;DIN Alternate&quot;, &quot;DIN Next&quot;, &quot;Segoe UI&quot;, Tahoma, Arial, sans-serif' font-size='8' fill='#666'>"
-		                & [PeriodLabel]
-		                & "</text>",
-		        "",
-		        [Idx], ASC
-		    )
-		VAR _Shades =
-		    CONCATENATEX (
-		        FILTER ( _DataIndexed, [Idx] < _Count ),
-		        VAR _sIdx = [Idx]
-		        VAR _sVal = [Value]
-		        VAR _sNext = MAXX ( FILTER ( _DataIndexed, [Idx] = _sIdx + 1 ), [Value] )
-		        VAR _sNorm1 = IF ( _MaxVal = 0, 0, DIVIDE ( _sVal, _MaxVal ) )
-		        VAR _sNorm2 = IF ( _MaxVal = 0, 0, DIVIDE ( _sNext, _MaxVal ) )
-		        VAR _sX1 = _PadX + ( _sIdx - 1 ) * _XStep
-		        VAR _sX2 = _PadX + _sIdx * _XStep
-		        VAR _sY1 = _ChartBottom - _sNorm1 * ( _ChartBottom - _PadTop )
-		        VAR _sY2 = _ChartBottom - _sNorm2 * ( _ChartBottom - _PadTop )
-		        VAR _sColor = IF ( _sNext >= _sVal, _GoodColor, _BadColor )
-		        RETURN
-		            "<polygon points='"
-		                & FORMAT ( _sX1, "0.0" ) & "," & FORMAT ( _sY1, "0.0" ) & " "
-		                & FORMAT ( _sX2, "0.0" ) & "," & FORMAT ( _sY2, "0.0" ) & " "
-		                & FORMAT ( _sX2, "0.0" ) & "," & FORMAT ( _ChartBottom, "0.0" ) & " "
-		                & FORMAT ( _sX1, "0.0" ) & "," & FORMAT ( _ChartBottom, "0.0" )
-		                & "' fill='" & _sColor & "' fill-opacity='0.05' stroke='none' />",
-		        "",
-		        [Idx], ASC
-		    )
-		VAR _ValueLabelY = _Height - 6
-		VAR _DataLabels =
-		    CONCATENATEX (
-		        _DataIndexed,
-		        VAR _dIdx = [Idx]
-		        VAR _dVal = [Value]
-		        VAR _dX = _PadX + ( _dIdx - 1 ) * _XStep
-		        RETURN
-		            "<text x='" & FORMAT ( _dX, "0.0" )
-		                & "' y='" & FORMAT ( _ValueLabelY, "0.0" )
-		                & "' text-anchor='middle' font-family='DIN, &quot;DIN Alternate&quot;, &quot;DIN Next&quot;, &quot;Segoe UI&quot;, Tahoma, Arial, sans-serif' font-size='7' font-weight='bold' fill='#333'>"
-		                & FORMAT ( _dVal, valueFormatString )
-		                & "</text>",
-		        "",
-		        [Idx], ASC
-		    )
-		VAR _HoverExtras = IF ( hover, _Shades, "" )
-		VAR _HoverLabels = IF ( hover, _DataLabels, "" )
-		VAR _SVGContent =
-		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 "
-		        & FORMAT ( _Width, "0" ) & " " & FORMAT ( _Height, "0" )
-		        & "' preserveAspectRatio='xMidYMid meet'>"
-		        & _HoverExtras
-		        & _Guides
-		        & "<polyline fill='none' stroke='" & _LineColor
-		        & "' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' points='"
-		        & _Points
-		        & "' />"
-		        & _Markers
-		        & _Labels
-		        & _HoverLabels
-		        & "</svg>"
-		RETURN
-		    IF (
-		        _HasData,
-		        "data:image/svg+xml;utf8," & _SVGContent,
-		        BLANK ()
-		    )
-	lineageTag: 4792ba92-d00d-45ca-9286-c60f233b4ae6
-
 function 'Common.SVG.sparkline' =
+		/*
+		================================================================================
+		FUNCTION: Sparkline SVG (data URI)
+		================================================================================
+		PURPOSE
+		    Returns an inline SVG "data:image/svg+xml;utf8," string that renders a
+		    12-point (or n-point) sparkline: gradient-filled area, coloured line,
+		    white end-point marker, and an optional month-letter axis.
+		
+		OUTPUT
+		    Scalar TEXT. Assign to a measure and set the measure's Data category to
+		    "Image URL" so it renders in a Table/Matrix visual.
+		
+		MODEL DEPENDENCIES (hard-coded, not parameterised)
+		    mv_d_date[YearMonthNumber]  -> x-axis ordering / point granularity
+		    mv_d_date[MonthLetter]      -> axis tick labels (e.g. J F M A M J ...)
+		
+		EVALUATION CONTEXT
+		    Call inside a row/filter context that spans the periods to plot
+		    (e.g. a matrix row for a product, with a 12-month window applied by a
+		    CALCULATE or by the visual/report filters). VALUES() over
+		    YearMonthNumber in the current filter context defines the points.
+		
+		SIZING
+		    Drawn on a 180 x 50 canvas with a -7 padding margin (viewBox -7 -7 194 74).
+		    Set the visual's row height to give the image room; increase
+		    SparklineWidth/SparklineHeight below to change the aspect ratio.
+		
+		EDGE CASES
+		    - Single period, or a flat series (YMax = YMin): DIVIDE returns BLANK,
+		      so all points collapse to the baseline. Guard upstream if needed.
+		    - BLANK measure values are plotted as 0 after the DIVIDE, not skipped.
+		
+		EXAMPLE
+		    Sales Spark =
+		        fnSparkline( [Sales], [Sales YoY %], FALSE(), FALSE() )
+		
+		    Returns %-based delta colouring: positive YoY = green, negative = red.
+		================================================================================
+		*/
 		(
+		    // The measure/expression plotted on the y-axis. Evaluated once per period
+		    // inside CALCULATE, so it must be a valid scalar measure expression.
 		    _measureValue: SCALAR EXPR,
-		    _measureValueComparison:SCALAR EXPR,
+		
+		    // Drives the line/marker colour only - it is NOT plotted. Typically a
+		    // variance measure (YoY %, vs budget, delta). Evaluated once, in the
+		    // function's outer filter context (i.e. across the whole window).
+		    // Sign is all that matters: > 0 vs <= 0.
+		    _measureValueComparison: SCALAR EXPR,
+		
+		    // Inverts the colour logic for metrics where "up is bad"
+		    // (e.g. cost, churn, defects, days-to-close).
+		    //   FALSE (default) : _comparison > 0 -> green, else red
+		    //   TRUE            : _comparison > 0 -> red,   else green
 		    _isnegativeConotation: BOOLEAN = FALSE(),
+		
+		    // TRUE suppresses the month-letter labels under the chart.
+		    // Use for narrow columns or when the axis is already implied by a header.
 		    _hideAxis: BOOLEAN = FALSE()
 		) =>
-		VAR _comparison = _measureValueComparison
-		VAR _good = "#78be20"
-		VAR _bad = "#e01223"
-		VAR LineColour = IF(_isnegativeConotation,IF(_comparison>0,_bad,_good),IF(_comparison>0,_good,_bad))   // was %23118DFF / #118DFF
-		VAR PointColour = "white"
+		
+		// --- Colour resolution ---------------------------------------------------
+		VAR _comparison = _measureValue - _measureValueComparison          // materialise once; avoids re-evaluating the expr
+		VAR _good = "#78be20"                              // brand green
+		VAR _bad  = "#e01223"                              // brand red
+		VAR LineColour =
+		    IF(
+		        _isnegativeConotation,
+		        IF( _comparison > 0, _bad,  _good ),       // inverted: growth is bad
+		        IF( _comparison > 0, _good, _bad  )        // standard: growth is good
+		    )                                               // was %23118DFF / #118DFF (Power BI default blue)
+		VAR PointColour = "white"                          // fill of the last-point circle
+		
+		// --- Area fill gradient --------------------------------------------------
+		// Vertical gradient in user space: solid LineColour from y=25 down to ~y=32.5
+		// (offset 0.3), fading to white at y=50. Rendered at 0.3 opacity below.
 		VAR Defs =
 		    "<defs><linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>" &
 		        "<stop stop-color='" & LineColour & "' offset='0'/>" &
 		        "<stop stop-color='" & LineColour & "' offset='0.3'/>" &
 		        "<stop stop-color='white' offset='1'/>" &
 		    "</linearGradient></defs>"
+		
+		// --- Build the point table ----------------------------------------------
 		// Months + rank + value in one pass
-		VAR Months = VALUES( mv_d_date[YearMonthNumber] )
+		VAR Months = VALUES( mv_d_date[YearMonthNumber] )   // the periods visible in the current filter context
 		VAR Ranked =
 		    ADDCOLUMNS(
 		        Months,
-		        "@Rank",  RANKX( Months, mv_d_date[YearMonthNumber], , ASC ),
-		        "@Value", CALCULATE( _measureValue ),
-		        "@Letter", CALCULATE( SELECTEDVALUE( mv_d_date[MonthLetter] ) )
+		        "@Rank",   RANKX( Months, mv_d_date[YearMonthNumber], , ASC ),   // 1..n, left-to-right x order
+		        "@Value",  CALCULATE( _measureValue ),                           // y value for this period
+		        "@Letter", CALCULATE( SELECTEDVALUE( mv_d_date[MonthLetter] ) )  // axis tick label
 		    )
+		
+		// Domain of the data, used to scale into the SVG canvas
 		VAR MinRank = MINX( Ranked, [@Rank] )
 		VAR MaxRank = MAXX( Ranked, [@Rank] )
 		VAR YMin    = MINX( Ranked, [@Value] )
 		VAR YMax    = MAXX( Ranked, [@Value] )
+		
+		// --- Scale to canvas coordinates ----------------------------------------
 		// Coordinates
-		VAR SparklineWidth = 180
-		VAR SparklineHeight = 50
+		VAR SparklineWidth  = 180                          // drawable width  in SVG user units
+		VAR SparklineHeight = 50                           // drawable height in SVG user units
 		VAR Points =
 		    ADDCOLUMNS(
 		        Ranked,
-		        "@X", INT( SparklineWidth * DIVIDE( [@Rank] - MinRank, MaxRank - MinRank ) ),
-		        "@Y", INT( SparklineHeight * DIVIDE( [@Value] - YMin, YMax - YMin ) )
+		        // Normalise rank to 0..SparklineWidth. INT() keeps the string short.
+		        "@X", INT( SparklineWidth  * DIVIDE( [@Rank]  - MinRank, MaxRank - MinRank ) ),
+		        // Normalise value to 0..SparklineHeight, measured UP from the baseline.
+		        // Flipped to SVG's top-left origin below via (50 - [@Y]).
+		        "@Y", INT( SparklineHeight * DIVIDE( [@Value] - YMin,    YMax    - YMin    ) )
 		    )
-		VAR Lines  = CONCATENATEX( Points, [@X] & "," & 50 - [@Y], " ", [@Rank], ASC )
-		VAR Last   = TOPN( 1, Points, [@Rank], DESC )
-		VAR LastX  = MAXX( Last, [@X] )
-		VAR LastY  = MAXX( Last, [@Y] )
+		
+		// Space-delimited "x,y" pairs in rank order - the polyline geometry
+		VAR Lines = CONCATENATEX( Points, [@X] & "," & 50 - [@Y], " ", [@Rank], ASC )
+		
+		// --- Last data point (marker) -------------------------------------------
+		VAR Last  = TOPN( 1, Points, [@Rank], DESC )       // highest rank = most recent period
+		VAR LastX = MAXX( Last, [@X] )
+		VAR LastY = MAXX( Last, [@Y] )
+		
+		// --- Optional x-axis labels ---------------------------------------------
+		// y=61 sits below the 0..50 plot area, inside the padded viewBox.
 		VAR Labels =
 		    CONCATENATEX( Points, "<text x='" & [@X] & "' y='61'>" & [@Letter] & "</text>", "", [@Rank], ASC )
-		VAR _showxis = SWITCH(_hideAxis,
-		    TRUE(),"",
-		    "<g font-family='Segoe UI,Arial,sans-serif' font-size='7' text-anchor='middle' fill='rgb(150,158,170)'>" & Labels & "</g>"
-		)
+		VAR _showxis =
+		    SWITCH( _hideAxis,
+		        TRUE(), "",                                // axis suppressed
+		        "<g font-family='Segoe UI,Arial,sans-serif' font-size='7' text-anchor='middle' fill='rgb(150,158,170)'>" & Labels & "</g>"
+		    )
+		
+		// --- Assemble the SVG ----------------------------------------------------
+		// viewBox has a 7-unit bleed on all sides so the stroke caps and the r=4
+		// marker are not clipped at the edges.
 		VAR SVG =
 		    "data:image/svg+xml;utf8," &
 		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='-7 -7 " & (SparklineWidth + 14) & " 74'>" & Defs &
-		    //"<animate attributeName='opacity' from='0' to='1' dur='3s' fill='freeze'/>" &
-		    // Area (closes flat on baseline at 150 50)
+		    //"<animate attributeName='opacity' from='0' to='1' dur='3s' fill='freeze'/>" &   // fade-in; most PBI renderers ignore SMIL
+		
+		    // Area: same path as the line, but anchored at (0,50) and (width,50)
+		    // so the shape closes flat along the baseline.
 		    "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='none'
 		    points='0 50 " & Lines & " " & SparklineWidth & " 50'/>" &
+		
 		    // Line
 		    "<polyline fill='none' stroke='" & LineColour &
 		        "' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' points='" & Lines & "'/>" &
-		    // Last point
+		
+		    // Last point: filled marker highlighting the most recent period
 		    "<circle cx='" & LastX & "' cy='" & 50 - LastY &
 		        "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "'/>" &
+		
 		    _showxis &
 		    "</svg>"
 		RETURN SVG
 	lineageTag: 27c8fade-b468-475f-a833-eba1606226ca
+
+function 'Common.SVG.sparkbars' =
+		/*
+		================================================================================
+		FUNCTION: Diverging Monthly Bar Chart (SVG data URI)
+		================================================================================
+		PURPOSE
+		    Returns an inline SVG "data:image/svg+xml;utf8," string: one bar per period,
+		    drawn up from a centre zero line for positive values and down for negative.
+		    Green above, red below. Intended for variance-style measures (YoY delta,
+		    vs budget, net change) where the sign is the story.
+		
+		OUTPUT
+		    Scalar TEXT. Assign to a measure and set the measure's Data category to
+		    "Image URL" so it renders in a Table/Matrix visual.
+		
+		MODEL DEPENDENCIES (hard-coded, not parameterised)
+		    mv_d_date[YearMonthNumber]  -> slot ordering / point granularity
+		    mv_d_date[MonthLetter]      -> axis tick labels
+		
+		EVALUATION CONTEXT
+		    Groups on YearMonthNumber, so each year-month is its own slot and a
+		    multi-year window produces a genuine multi-year sequence.
+		    (Contrast the CY-vs-PY column function, which groups on MonthNumber and
+		    collapses years - the two are not interchangeable.)
+		
+		SCALE
+		    Symmetric around zero: MaxAbs is the largest absolute value in the window,
+		    and both directions use it. A bar reaching the top edge and a bar reaching
+		    the bottom edge represent the same magnitude.
+		    Consequence: if every value shares a sign, only half the canvas is used and
+		    the chart looks half empty. That is correct behaviour, not a bug, but it is
+		    the main reason to prefer the plain sparkline for same-sign series.
+		
+		COLOUR
+		    Driven purely by the sign of _measureValue: >= 0 green, < 0 red.
+		    There is no negative-connotation switch here, unlike the sparkline
+		    function. For "up is bad" metrics (cost, churn, defects) the colours read
+		    backwards - negate the measure at the call site, or add an invert flag.
+		
+		SIZING
+		    150 x 50 plot area with the zero line at y = 25, plus a 12px band below for
+		    month letters (viewBox 0 0 150 62). The 12px band is reserved even when
+		    _hideAxis = TRUE, so hiding the axis leaves whitespace rather than
+		    shrinking the image.
+		
+		KNOWN GAP
+		    No zero line is drawn. Direction is implied by bar position alone, which is
+		    hard to read when values are small and bars are short. Adding
+		    "<line x1='0' y1='25' x2='150' y2='25' stroke='rgb(200,205,215)'
+		    stroke-width='0.5'/>" before Rects fixes it.
+		
+		EDGE CASES
+		    - MaxAbs blank or 0: DIVIDE's alternate result (0) gives every bar zero
+		      height, so the image renders effectively empty rather than erroring.
+		    - BLANK values: BLANK() >= 0 evaluates TRUE in DAX, so blank periods are
+		      classed positive and drawn green at zero height (invisible).
+		    - Periods absent from the date table under the current filter are skipped -
+		      ranks compress and the remaining bars widen to fill 150px. Bars are
+		      positioned by rank, not by calendar position.
+		    - No horizontal bleed in the viewBox. Safe at Fill = 0.55; pushing Fill
+		      toward 1.0 will clip the outer bars.
+		
+		EXAMPLE
+		    Sales YoY Bars =
+		        fnDivergingBars( [Sales YoY], FALSE() )
+		================================================================================
+		*/
+		(
+		    // Plotted as bar magnitude AND source of the bar colour via its sign.
+		    // Should be a signed variance measure - an always-positive measure will
+		    // render as an all-green chart using only the top half of the canvas.
+		    _measureValue: SCALAR EXPR,
+		
+		    // TRUE suppresses the month-letter labels. The 12px label band is still
+		    // reserved in the viewBox (see SIZING above).
+		    _hideAxis: BOOLEAN = FALSE()
+		) =>
+		
+		// --- Palette -------------------------------------------------------------
+		VAR PosColour = "#82c136"                  // green
+		VAR NegColour = "#c53a32"                  // red
+		
+		// --- layout knobs ---
+		VAR ViewW  = 150                           // plot width in SVG user units
+		VAR ViewH  = 50                            // plot height in SVG user units
+		VAR Base   = ViewH / 2                     // zero line (25) - bars grow up or down from here
+		VAR HalfH  = Base - 2                      // usable half-height (23), 2px padding at top and bottom
+		VAR Fill   = 0.55                          // bar width as fraction of slot; remainder is the gap
+		
+		// --- periods + value in one pass ---
+		// Months + rank + value in one pass
+		VAR Months = VALUES( mv_d_date[YearMonthNumber] )   // the periods visible in the current filter context
+		VAR Ranked =
+		    ADDCOLUMNS(
+		        Months,
+		        "@Rank",   RANKX( Months, mv_d_date[YearMonthNumber], , ASC ),   // 1..N, left-to-right slot order
+		        "@Value",  CALCULATE( _measureValue ),                           // signed magnitude
+		        "@Letter", CALCULATE( SELECTEDVALUE( mv_d_date[MonthLetter] ) )  // axis tick label
+		    )
+		
+		VAR N      = COUNTROWS( Ranked )                    // number of slots actually present
+		VAR MaxAbs = MAXX( Ranked, ABS( [@Value] ) )        // symmetric scale for both directions
+		VAR SlotW  = DIVIDE( ViewW, N )                     // full slot width per period
+		VAR BarW   = SlotW * Fill                           // drawn bar width; gap = SlotW - BarW
+		
+		// --- Bar geometry per period --------------------------------------------
+		// Note: @Y repeats the height expression rather than referencing [@H].
+		// ADDCOLUMNS cannot reference a column being added in the same call, so the
+		// duplication is required - do not "simplify" it to HalfH * ... or [@H].
+		VAR Bars =
+		    ADDCOLUMNS(
+		        Ranked,
+		        // Left edge: start of slot + half the gap, centring the bar in its slot.
+		        "@X", ROUND( ( [@Rank] - 1 ) * SlotW + ( SlotW - BarW ) / 2, 2 ),
+		        // Height is always positive - direction is carried by @Y, not @H.
+		        "@H", ROUND( HalfH * DIVIDE( ABS( [@Value] ), MaxAbs, 0 ), 2 ),
+		        // SVG rects are drawn downward from y, so:
+		        //   positive -> top edge sits above the zero line, rect grows down to it
+		        //   negative -> top edge IS the zero line, rect grows down from it
+		        "@Y", IF(
+		                [@Value] >= 0,
+		                ROUND( Base - HalfH * DIVIDE( ABS( [@Value] ), MaxAbs, 0 ), 2 ),
+		                Base
+		              ),
+		        // Sign-based colour. BLANK() >= 0 is TRUE, so blanks land here as green.
+		        "@C", IF( [@Value] >= 0, PosColour, NegColour )
+		    )
+		
+		// --- Bars ----------------------------------------------------------------
+		// Square corners here, unlike the CY/PY column function which uses rx='1'.
+		VAR Rects =
+		    CONCATENATEX(
+		        Bars,
+		        "<rect x='" & [@X] & "' y='" & [@Y] &
+		        "' width='" & ROUND( BarW, 2 ) & "' height='" & [@H] &
+		        "' fill='" & [@C] & "'/>",
+		        "",
+		        [@Rank], ASC
+		    )
+		
+		// --- Optional x-axis labels ---------------------------------------------
+		// Fixed at y = 60, below the deepest possible negative bar (y = 48), so
+		// downward bars never collide with the labels.
+		VAR Labels =
+		    CONCATENATEX(
+		        Bars,
+		        "<text x='" & ROUND( [@X] + BarW / 2, 2 ) & "' y='60'>" & [@Letter] & "</text>",
+		        "",
+		        [@Rank], ASC
+		    )
+		VAR _showxis =
+		    SWITCH( _hideAxis,
+		        TRUE(), "",                        // axis suppressed
+		        "<g font-family='Segoe UI,Arial,sans-serif' font-size='7' text-anchor='middle' fill='rgb(150,158,170)'>" & Labels & "</g>"
+		    )
+		
+		// --- Assemble the SVG ----------------------------------------------------
+		// viewBox height is ViewH + 12: plot area plus the label band.
+		// Relies on DAX precedence (+ binds tighter than &) so ViewH + 12 resolves to
+		// 62 before concatenation. Parenthesise if you change this line.
+		VAR SVG =
+		    "data:image/svg+xml;utf8," &
+		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " & ViewW & " " & ViewH + 12 & "'>" &
+		    Rects &
+		    _showxis &
+		    "</svg>"
+		RETURN SVG
+	lineageTag: f832922f-c62f-4a74-bd99-53744935f227
+
+function 'Common.SVG.sparkbullets' =
+		/*
+		================================================================================
+		FUNCTION: Monthly Column Chart with PY Reference Ticks (SVG data URI)
+		================================================================================
+		PURPOSE
+		    Returns an inline SVG "data:image/svg+xml;utf8," string: one column per
+		    month for the current-period measure, overlaid with a horizontal tick
+		    marking the comparison (prior-year) value for that same month.
+		    Bullet-chart style - the tick is the target, the bar is actual.
+		
+		OUTPUT
+		    Scalar TEXT. Assign to a measure and set the measure's Data category to
+		    "Image URL" so it renders in a Table/Matrix visual.
+		
+		MODEL DEPENDENCIES (hard-coded, not parameterised)
+		    mv_d_date[MonthNumber]  -> slot ordering (1..12)
+		    mv_d_date[MonthLetter]  -> axis tick labels (J F M A M J ...)
+		
+		EVALUATION CONTEXT - IMPORTANT
+		    Grouping is on MonthNumber, NOT YearMonthNumber. Months collapse across
+		    years: a filter context spanning 2+ years aggregates every January into
+		    one bar. This is deliberate for the CY-vs-PY pattern - filter to a single
+		    year and let _measureValueComparison shift the period via time
+		    intelligence (SAMEPERIODLASTYEAR / DATEADD).
+		    Do NOT feed it a multi-year window expecting a multi-year trend; use the
+		    sparkline function for that.
+		
+		SCALE
+		    Bars and ticks share one y-scale: MaxV = max of all CY and all PY values,
+		    so the tick is directly comparable to the bar height.
+		
+		SIZING
+		    150 x 50 plot area, plus a 12px band below for month letters
+		    (viewBox 0 0 150 62). Note the 12px band is reserved even when
+		    _hideAxis = TRUE, so hiding the axis leaves whitespace rather than
+		    shrinking the image.
+		
+		EDGE CASES
+		    - MaxV blank or 0: DIVIDE's alternate result (0) flattens everything to
+		      the baseline instead of erroring.
+		    - Months absent from the date table under the current filter are skipped
+		      entirely - ranks compress and the remaining bars widen to fill 150px.
+		      Bars are positioned by rank, not by calendar month.
+		    - No left/right bleed in the viewBox. Safe at Fill = 0.55, but reducing
+		      Fill toward 1.0 will clip the tick overhang at the first/last slot.
+		
+		EXAMPLE
+		    Sales vs PY Bars =
+		        fnColumnPYTicks( [Sales], [Sales PY], FALSE() )
+		================================================================================
+		*/
+		(
+		    // Plotted as the column height. The "actual" / current-period measure.
+		    _measureValue: SCALAR EXPR,
+		
+		    // Plotted as the horizontal reference tick - this one IS evaluated per
+		    // month, unlike the sparkline function where the comparison only drives
+		    // colour. Normally a prior-year or target measure.
+		    _measureValueComparison: SCALAR EXPR,
+		
+		    // TRUE suppresses the month-letter labels. The 12px label band is still
+		    // reserved in the viewBox (see SIZING above).
+		    _hideAxis: BOOLEAN = FALSE()
+		) =>
+		
+		// --- Palette -------------------------------------------------------------
+		VAR BarColour  = "#8ca4f0"                 // CY bars
+		VAR TickColour = "#ed8936"                 // PY reference ticks
+		
+		// --- layout knobs ---
+		VAR ViewW = 150                            // plot width  in SVG user units
+		VAR ViewH = 50                             // plot height in SVG user units (baseline y = 50)
+		VAR Pad   = 3                              // top headroom (px) - tallest bar reaches y = 3, not y = 0
+		VAR Fill  = 0.55                           // bar width as fraction of slot; remainder is the gap
+		
+		// --- months + CY + PY in one pass ---
+		// SUMMARIZE (not VALUES) so MonthLetter travels with MonthNumber and can be
+		// referenced directly in the Labels expression below.
+		VAR Months =
+		    SUMMARIZE ( mv_d_date, mv_d_date[Month], mv_d_date[MonthLetter] )
+		VAR Ranked =
+		    ADDCOLUMNS (
+		        Months,
+		        "@Rank", RANKX ( Months, mv_d_date[Month], , ASC ),   // 1..N, left-to-right slot order
+		        "@CY",   CALCULATE ( _measureValue ),                       // bar height source
+		        "@PY",   CALCULATE ( _measureValueComparison )              // tick position source
+		    )
+		
+		VAR N     = COUNTROWS ( Ranked )                                    // number of slots actually present
+		VAR MaxV  = MAX ( MAXX ( Ranked, [@CY] ), MAXX ( Ranked, [@PY] ) )  // shared scale across bars and ticks
+		VAR SlotW = DIVIDE ( ViewW, N )                                     // full slot width per month
+		VAR BarW  = SlotW * Fill                                            // drawn bar width; gap = SlotW - BarW
+		
+		// --- geometry per month ---
+		VAR Geo =
+		    ADDCOLUMNS (
+		        Ranked,
+		        // Left edge of the bar: start of slot + half the gap, so bars are centred in their slot.
+		        "@X",   ROUND ( ( [@Rank] - 1 ) * SlotW + ( SlotW - BarW ) / 2, 2 ),
+		        // Bar height scaled into (ViewH - Pad). Measured UP from the baseline.
+		        "@H",   ROUND ( ( ViewH - Pad ) * DIVIDE ( [@CY], MaxV, 0 ), 2 ),
+		        // Tick y in SVG coordinates (top-left origin), already flipped.
+		        "@PYy", ROUND ( ViewH - ( ViewH - Pad ) * DIVIDE ( [@PY], MaxV, 0 ), 2 )
+		    )
+		
+		// --- Columns -------------------------------------------------------------
+		// y = ViewH - H converts the bottom-anchored height into SVG's top-left origin.
+		// rx='1' gives slightly rounded corners.
+		VAR Bars =
+		    CONCATENATEX (
+		        Geo,
+		        "<rect x='" & [@X] & "' y='" & ROUND ( ViewH - [@H], 2 )
+		            & "' width='" & ROUND ( BarW, 2 ) & "' height='" & [@H]
+		            & "' rx='1' fill='" & BarColour & "'/>",
+		        "", [@Rank], ASC
+		    )
+		
+		// --- PY reference ticks --------------------------------------------------
+		// Drawn 0.5px wider than the bar on each side so the tick visibly overhangs
+		// and reads as a marker rather than part of the bar.
+		VAR Ticks =
+		    CONCATENATEX (
+		        Geo,
+		        "<line x1='" & ROUND ( [@X] - 0.5, 2 ) & "' y1='" & [@PYy]
+		            & "' x2='" & ROUND ( [@X] + BarW + 0.5, 2 ) & "' y2='" & [@PYy]
+		            & "' stroke='" & TickColour & "' stroke-width='2'/>",
+		        "", [@Rank], ASC
+		    )
+		
+		// --- Optional x-axis labels ---------------------------------------------
+		// Centred on the bar (X + BarW/2); y = 60 sits in the 12px band below the plot.
+		VAR Labels =
+		    CONCATENATEX (
+		        Geo,
+		        "<text x='" & ROUND ( [@X] + BarW / 2, 2 ) & "' y='60'>" & mv_d_date[MonthLetter] & "</text>",
+		        "", [@Rank], ASC
+		    )
+		VAR _showxis =
+		    SWITCH ( _hideAxis,
+		        TRUE(), "",                        // axis suppressed
+		        "<g font-family='Segoe UI,Arial,sans-serif' font-size='7' text-anchor='middle' fill='rgb(150,158,170)'>" & Labels & "</g>"
+		    )
+		
+		// --- Assemble the SVG ----------------------------------------------------
+		// viewBox height is ViewH + 12: plot area plus the label band.
+		// Relies on DAX precedence (+ binds tighter than &) so ViewH + 12 resolves to
+		// 62 before concatenation. Parenthesise if you change this line.
+		// Draw order: bars first, then ticks on top, then labels.
+		VAR SVG =
+		    "data:image/svg+xml;utf8," &
+		    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " & ViewW & " " & ViewH + 12 & "'>" &
+		    Bars & Ticks &
+		    _showxis &
+		    "</svg>"
+		RETURN
+		    SVG
+	lineageTag: 8e7e0ccd-3d1c-488b-94fe-0c315d097268
+
+function 'Common.Min_Max' =
+		/*
+		================================================================================
+		FUNCTION: Min / Max Highlight Colour
+		================================================================================
+		PURPOSE
+		    Returns a hex colour string identifying whether the current period holds the
+		    highest or lowest value of the measure across the selected window:
+		        highest -> green   #78be20
+		        lowest  -> red     #e01223
+		        neither -> orange  #e5a668
+		
+		OUTPUT
+		    Scalar TEXT (hex colour). Use via conditional formatting:
+		    Format > Cell elements > Background colour (or Font colour)
+		        > Format style = Field value > pick this measure.
+		    NOT an Image URL - this returns a colour, not an SVG.
+		
+		MODEL DEPENDENCIES (hard-coded, not parameterised)
+		    mv_d_date[yearmonth]  -> the window the min/max is evaluated over
+		
+		EVALUATION CONTEXT - IMPORTANT
+		    Must be called where the filter context resolves to a SINGLE yearmonth,
+		    i.e. yearmonth on the rows or columns of the visual. The function compares
+		    the current value against the window max/min, so:
+		    - On a total / subtotal row, _kpi is the aggregate across all months. That
+		      will not normally equal the max or the min of the individual months, so
+		      totals fall through to the default orange. Usually harmless, but it is
+		      why totals never highlight.
+		    - Without yearmonth in the visual, _kpi equals the whole-window aggregate
+		      and the result is effectively always orange.
+		
+		ALLSELECTED SEMANTICS
+		    ALLSELECTED( mv_d_date[yearmonth] ) removes only the yearmonth filter while
+		    respecting slicers and report/page filters. Any OTHER dimension on the rows
+		    still applies, so the min/max are computed per row group - each product,
+		    region, etc. gets its own highest and lowest month. That is normally what
+		    you want for row-wise conditional formatting.
+		
+		TIES AND EDGE CASES
+		    - SWITCH tests max before min. If every period holds the same value
+		      (single period in the window, or a flat series), _max = _min = _kpi and
+		      every cell returns GREEN - red is unreachable. Guard upstream if a flat
+		      series should render neutral.
+		    - Multiple periods sharing the max all colour green. Same for min.
+		    - BLANK: if the measure is blank for the current period and blank is also
+		      the window max, SWITCH matches and returns green. Blanks in the window
+		      will also drag _min to BLANK.
+		    - Floating point: SWITCH uses exact equality. _kpi and _max come from the
+		      same expression over the same rows so they normally match bit-for-bit,
+		      but for float-heavy measures (ratios, averages) wrap both sides in
+		      ROUND( ..., 6 ) if you see cells that should highlight and do not.
+		
+		NOTE ON CONSISTENCY WITH THE SVG FUNCTIONS
+		    This one groups on mv_d_date[yearmonth]; the sparkline and diverging-bar
+		    functions group on mv_d_date[YearMonthNumber]. If those columns sort or
+		    granulate differently, a cell can highlight as the max while the adjacent
+		    sparkline peaks elsewhere. Align the column if these are used side by side.
+		
+		EXAMPLE
+		    Self Service Colour =
+		        fnMinMaxColour( [Self Service Measure] )
+		================================================================================
+		*/
+		(
+		    // The measure to rank. Evaluated twice: once in the current filter context
+		    // (the cell being formatted) and once per period inside ADDCOLUMNS to build
+		    // the comparison window. Must be a valid scalar measure expression.
+		    _measureValue: SCALAR EXPR,
+		    _isWhite: BOOLEAN=FALSE()
+		)
+		=>
+		
+		// --- Palette -------------------------------------------------------------
+		VAR HighColour = "#78be20"                 // green  - window maximum
+		VAR LowColour  = "#e01223"                 // red    - window minimum
+		VAR MidColour  = IF( _isWhite,"#ffffff", "#e5a668" )                 // orange - everything else
+		
+		// --- Current cell --------------------------------------------------------
+		VAR _kpi = _measureValue                   // value for the period being formatted
+		
+		// --- Comparison window ---------------------------------------------------
+		// One row per selected yearmonth, each carrying that period's measure value.
+		VAR _tbl =
+		    ADDCOLUMNS(
+		        ALLSELECTED( mv_d_date[yearmonth],mv_d_date[YearMonthNumber] ),
+		        "@v", _measureValue
+		    )
+		VAR _max = MAXX( _tbl, [@v] )
+		VAR _min = MINX( _tbl, [@v] )
+		
+		// --- Resolve colour ------------------------------------------------------
+		// Order matters: max is tested first, so on a flat series green wins.
+		RETURN
+		    SWITCH(
+		        _kpi,
+		        _max, HighColour,
+		        _min, LowColour,
+		        MidColour
+		    )
+	lineageTag: 733b4b0f-c614-46c0-8048-8ee320e5744b
+
+function 'Common.AnnualAvg' =
+		(
+		    _measureValue: SCALAR EXPR
+		) =>
+		CALCULATE(
+		    AVERAGEX(
+		        VALUES( mv_d_date[yearmonth] ),
+		        _measureValue
+		    ),
+		    REMOVEFILTERS( mv_d_date ),
+		    KEEPFILTERS(
+		        mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
+		    )
+		)
+	lineageTag: 55906062-0e7e-468b-9357-aac66808efab
+
+function 'Common.AnnualMax' =
+		(
+		    _measureValue: SCALAR EXPR
+		) =>VAR _max =
+		    CALCULATE(
+		        MAXX(
+		            VALUES( mv_d_date[yearmonth] ),
+		            _measureValue
+		        ),
+		        REMOVEFILTERS( mv_d_date ),
+		        KEEPFILTERS(
+		            mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
+		        )
+		    )
+		RETURN
+		    IF(
+		        _measureValue = _max,
+		        _max,
+		        BLANK( )
+		    )
+	lineageTag: 7ac22aeb-7b09-4563-8d63-dab20fd39895
+
+function 'Common.AnnualMin' =
+		(
+		    _measureValue: SCALAR EXPR
+		) =>VAR _min =
+		    CALCULATE(
+		        MINX(
+		            VALUES( mv_d_date[yearmonth] ),
+		            _measureValue
+		        ),
+		        REMOVEFILTERS( mv_d_date ),
+		        KEEPFILTERS(
+		            mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
+		        )
+		    )
+		RETURN
+		    IF(
+		        _measureValue = _min,
+		        _min,
+		        BLANK( )
+		    )
+	lineageTag: bdd16862-8edc-4e13-a05d-50d6546c6cd0
+
+function 'Common.RefLine' =
+		(
+		    _measureValue: SCALAR EXPR,
+		    _refLineMultiplier: INT64=2
+		) =>
+		CALCULATE(
+		    MAXX(
+		        VALUES( mv_d_date[yearmonth] ),
+		        _measureValue
+		    ),
+		    REMOVEFILTERS( mv_d_date ),
+		    KEEPFILTERS(
+		        mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
+		    )
+		)
+		    * _refLineMultiplier
+	lineageTag: 5ca1b295-f8b5-4fc5-aab0-d49864e09083
+
+function 'Common.LabelYoY' =
+		(
+		    // The YoY percentage measure. Passed in rather than hard-coded so the same
+		    // caption logic serves any KPI. Expects a ratio (0.042), not 4.2.
+		    _yoyValue: SCALAR EXPR,
+		
+		    // Optional label placed before the comparison, joined with ": ".
+		    // Omit (default "") for the bare subtitle form.
+		    // Pass SELECTEDVALUE( H_SelfServiceMeasures[KPIName], "not selected" )
+		    // for the title form.
+		    _prefix: STRING = ""
+		) =>
+		VAR _year = SELECTEDVALUE( mv_d_date[Year] )        // BLANK when 0 or 2+ years are in context
+		
+		// Guard before the subtraction - this is the fix described above.
+		// FORMAT with "0" is explicit about suppressing a thousands separator.
+		VAR _pyLabel =
+		    IF( ISBLANK( _year ), "PY", FORMAT( _year - 1, "0" ) )
+		
+		// Signed percentage: positive;negative;zero
+		VAR _yoy = FORMAT( _yoyValue, "+0.0%;-0.0%;0.0%" )
+		
+		VAR _body = _yoy & " vs. " & _pyLabel
+		
+		RETURN
+		    IF( _prefix = "", _body, _prefix & ": " & _body )
+	lineageTag: a6059521-5580-48d9-bbf9-9f46d9de2707
+
+function 'Common.LabelDateRange' =
+		(
+		    // Text placed before the date. Include its own trailing separator -
+		    // "Overview for: " and "For: " both end with ": " already.
+		    _prefix: STRING) =>
+		VAR _lastDate  = CALCULATE( MAX( mv_d_date[Date] ) )
+		VAR _firstDate = CALCULATE( MIN( mv_d_date[Date] ) )
+		
+		VAR _dateMax = FORMAT( _lastDate,  "mmm" ) & ", " & FORMAT( _lastDate,  "YYYY" )
+		VAR _dateMin = FORMAT( _firstDate, "mmm" ) & ", " & FORMAT( _firstDate, "YYYY" )
+		
+		RETURN
+		    _prefix &
+		    IF(
+		        HASONEVALUE( mv_d_date[yearmonth] ),
+		        _dateMax,                              // single month - no range
+		        _dateMin & " - " & _dateMax            // full range
+		    )
+	lineageTag: f606e663-2fec-426e-8ec8-5b8366dc9ddc
+
+function 'Common.QuadrantColor' =
+		/*
+		================================================================================
+		FUNCTION: fnQuadrantColour
+		================================================================================
+		PURPOSE
+		    Classifies the current item against the average of two measures across all
+		    plotted items and returns a hex colour for the resulting quadrant:
+		
+		                        Y >= avg          Y < avg
+		        X >= avg    #2E7D32 green     #F9A825 amber
+		        X <  avg    #1976D2 blue      #C62828 red
+		
+		    Items missing either measure return grey rather than being forced into a
+		    quadrant.
+		
+		OUTPUT
+		    Scalar TEXT (hex colour). Not an SVG.
+		    Use via Format > Cell elements > Background/Font colour
+		        > Format style = Field value.
+		    The native scatter visual does not take marker colour from a measure, so if
+		    this feeds a scatter you are embedding it in an SVG or a custom visual.
+		
+		DROP-IN REPLACEMENT
+		    Signature is unchanged - same three parameters in the same order. No call
+		    sites need editing.
+		
+		WHAT CHANGED FROM THE PREVIOUS VERSION
+		    1. CALCULATE around every parameter reference inside an iterator. Previously
+		       the blank filter compared the OUTER context values, which are constant
+		       inside FILTER, so the predicate was TRUE for all rows or FALSE for all
+		       rows and never filtered per item.
+		    2. Both measures are now resolved ONCE per item into @X / @Y, then filtered
+		       and averaged from those columns. The old code evaluated each measure
+		       twice per item (once in FILTER, once in AVERAGEX); this halves it, and
+		       matches the one-pass ADDCOLUMNS pattern used in the SVG functions.
+		    3. Explicit blank guard. Blank items previously fell through to green,
+		       because both averages came back BLANK and BLANK >= BLANK is TRUE.
+		    4. Colours lifted into named vars; AvgValue/AvgMargin renamed AvgX/AvgY to
+		       match the generic parameter names.
+		
+		EXPECTED BEHAVIOUR CHANGE ON DEPLOY
+		    - Items blank on either measure turn grey (were green).
+		    - Midlines move, because items missing one measure are now excluded from
+		      BOTH averages instead of contributing to one of them.
+		    Compare quadrant counts before and after on a matrix so the shift is
+		    understood rather than discovered later.
+		
+		QUADRANT MIDLINES
+		    AVERAGEX gives an UNWEIGHTED mean of per-item values - every item counts
+		    equally regardless of size. This is not the same as total X / item count,
+		    and for ratio measures (margin %, conversion %) the two differ sharply.
+		    The current item is included in its own average, so with few items the
+		    midline is pulled toward the point being classified.
+		
+		TIES AND EDGE CASES
+		    - Comparisons use >=, so an item exactly on a midline classifies "high".
+		      An item on both midlines returns green.
+		    - A genuine zero is not blank, so zero-value items stay in the population
+		      and pull the midlines down. Filter them at the call site if that is wrong
+		      for your measure.
+		    - Empty population (no item has both measures) returns grey rather than
+		      comparing against BLANK midlines.
+		    - To leave the cell at its theme default instead of grey, return BLANK()
+		      in place of NoData below.
+		
+		EXAMPLE
+		    Brand Quadrant Colour =
+		        fnQuadrantColour( [Revenue], [Margin %], dimBrand[Brand] )
+		================================================================================
+		*/
+		(
+		    // First measure - the X axis. Drives AvgX.
+		    _measureValue_X: SCALAR EXPR,
+		
+		    // Second measure - the Y axis. Drives AvgY.
+		    _measureValue_Y: SCALAR EXPR,
+		
+		    // The column defining one row per plotted item, passed unquoted and
+		    // qualified, e.g. dimBrand[Brand]. Must be the SAME column used on the
+		    // visual's axis or legend - otherwise the midlines are computed over a
+		    // different population than the one displayed.
+		    _columnPlotted: COLUMNREF
+		) =>
+		
+		// --- Palette -------------------------------------------------------------
+		VAR StrongBoth = "#2E7D32"                 // green - above average on both
+		VAR StrongY    = "#1976D2"                 // blue  - below on X, above on Y
+		VAR StrongX    = "#F9A825"                 // amber - above on X, below on Y
+		VAR WeakBoth   = "#C62828"                 // red   - below average on both
+		VAR NoData     = "#9E9E9E"                 // grey  - item missing X or Y
+		
+		// --- Current item --------------------------------------------------------
+		// Evaluated in the outer filter context: the row/point being coloured.
+		VAR _KPI_X = _measureValue_X
+		VAR _KPI_Y = _measureValue_Y
+		
+		// --- Population, resolved in one pass ------------------------------------
+		// ALLSELECTED removes the filter on _columnPlotted while respecting slicers and
+		// report/page filters, giving every item visible in the visual.
+		// CALCULATE forces context transition so each measure is evaluated for THAT
+		// item, not for the outer context. This is the fix - without it the values are
+		// constant across rows.
+		VAR Items =
+		    ADDCOLUMNS(
+		        ALLSELECTED( _columnPlotted ),
+		        "@X", CALCULATE( _measureValue_X ),
+		        "@Y", CALCULATE( _measureValue_Y )
+		    )
+		
+		// Only items present on BOTH measures define the midlines, so AvgX and AvgY are
+		// computed over the same population.
+		VAR Plotted =
+		    FILTER(
+		        Items,
+		        NOT ISBLANK( [@X] ) && NOT ISBLANK( [@Y] )
+		    )
+		
+		// --- Midlines ------------------------------------------------------------
+		// Read from the materialised columns - no re-evaluation of the measures.
+		VAR AvgX = AVERAGEX( Plotted, [@X] )
+		VAR AvgY = AVERAGEX( Plotted, [@Y] )
+		
+		// --- Quadrant ------------------------------------------------------------
+		// Guards first, then high/high, low/high, high/low, then the implicit low/low.
+		RETURN
+		    SWITCH(
+		        TRUE( ),
+		        ISBLANK( _KPI_X ) || ISBLANK( _KPI_Y ),      NoData,      // item not plottable
+		        ISBLANK( AvgX )  || ISBLANK( AvgY ),         NoData,      // empty population
+		        _KPI_X >= AvgX && _KPI_Y >= AvgY,            StrongBoth,
+		        _KPI_X <  AvgX && _KPI_Y >= AvgY,            StrongY,
+		        _KPI_X >= AvgX && _KPI_Y <  AvgY,            StrongX,
+		        WeakBoth
+		    )
+	lineageTag: e37473b8-adb7-4e3a-b740-6074762e152c
+
+function 'Common.DiagonalColor' =
+		/*
+		================================================================================
+		FUNCTION: DiagonalColor
+		================================================================================
+		PURPOSE
+		    Classifies the current item against a ratio line drawn through the origin at
+		    the overall Y-per-X rate, and returns a hex colour:
+		        on or above the line -> #2E7D32 green
+		        below the line       -> #C62828 red
+		    Replaces [Diagonal Color].
+		
+		    In the original use case X = sales value, Y = sales quantity, so the line is
+		    overall units per currency unit. Above the line means more units per unit of
+		    value, i.e. a LOWER average selling price than the portfolio as a whole.
+		
+		OUTPUT
+		    Scalar TEXT (hex colour).
+		    Use via Format > Cell elements > Background/Font colour
+		        > Format style = Field value.
+		    The original measure carried FormatString = "#,0" - inert on a text measure,
+		    and worth dropping so nobody reads it as numeric.
+		
+		WHAT THE LINE IS - AND IS NOT
+		    Slope = SUM(Y) / SUM(X) over the plotted population: a single ratio line
+		    forced through the origin. This is NOT a least-squares regression line and
+		    will not match a trendline added by the visual. If you need a real fitted
+		    line, that is a different calculation with an intercept.
+		
+		    The test is algebraically the same as comparing the item's own Y/X ratio
+		    against the overall ratio. The line form is used because it avoids a
+		    per-item divide, but see the negative-values note below.
+		
+		WHAT CARRIED OVER UNCHANGED
+		    The blank FILTER in the original was CORRECT and is kept. Its predicate
+		    referenced measures directly rather than VARs, so each measure got context
+		    transition and was evaluated per brand. (This is the opposite of the
+		    quadrant function, where the same-looking filter compared frozen outer-
+		    context VARs and never varied per row.)
+		
+		    The filter is load-bearing, not defensive tidiness: SUMX treats blanks as
+		    zero, so a brand with a value but no quantity would add to SUM(X) while
+		    adding nothing to SUM(Y), tilting the slope. Excluding those keeps both
+		    sums over the same population.
+		
+		WHAT CHANGED
+		    1. Parameterised - the two measures and the plotted column are arguments, so
+		       the same logic serves any X/Y pair.
+		    2. One pass. Both measures resolve once per item into @X / @Y, then the
+		       filter and both SUMX calls read those columns. The original evaluated
+		       each measure twice per brand.
+		    3. Blank guards. Previously a brand blank on both measures gave
+		       ExpectedQty = BLANK, and BLANK >= BLANK is TRUE, so unplottable brands
+		       came out GREEN. Same for a blank Slope when SUM(X) is zero or blank -
+		       DIVIDE returned BLANK and any positive Y scored green.
+		    4. Optional colour inversion, since "above the line" is not inherently good.
+		
+		EXPECTED BEHAVIOUR CHANGE ON DEPLOY
+		    Brands that were green because they were blank, or because the slope could
+		    not be computed, now return grey. Slope itself is unchanged.
+		
+		NEGATIVE VALUES - REAL LIMITATION
+		    The geometry assumes X > 0. If X is negative (returns, credit notes,
+		    contra-revenue), Slope * X is negative and the >= test no longer means
+		    "above the line" in any useful sense - the comparison silently inverts.
+		    Exclude negative-X items at the call site, or switch to comparing
+		    DIVIDE( Y, X ) against Slope and handle the signs explicitly.
+		
+		TIES AND EDGE CASES
+		    - >= means an item sitting exactly on the line classifies as above/green.
+		    - A genuine zero is not blank, so zero-X items stay in the population. They
+		      contribute nothing to either sum but do sit at the origin.
+		    - The current item is included in the slope it is measured against, so with
+		      few items the line is pulled toward the point being classified.
+		    - To leave the cell at its theme default instead of grey, return BLANK() in
+		      place of NoData.
+		
+		EXAMPLE
+		    Diagonal Color =
+		        fnRatioLineColour(
+		            [Total Sales Value],
+		            [Total Sales Quantity],
+		            mv_d_product[Brand]
+		        )
+		================================================================================
+		*/
+		(
+		    // Horizontal axis / slope DENOMINATOR. Sales value in the original.
+		    // Assumed positive - see the negative-values note above.
+		    _measureValue_X: SCALAR EXPR,
+		
+		    // Vertical axis / slope NUMERATOR. Sales quantity in the original.
+		    // This is the measure compared against the line's prediction.
+		    _measureValue_Y: SCALAR EXPR,
+		
+		    // The column defining one row per plotted item, passed unquoted and
+		    // qualified, e.g. mv_d_product[Brand]. Must be the SAME column used on the
+		    // visual's axis or legend, or the slope is computed over a different
+		    // population than the one displayed.
+		    _columnPlotted: COLUMNREF,
+		
+		    // FALSE (default): on/above the line = green, below = red.
+		    // TRUE: swapped. Use when high Y-per-X is the bad outcome - e.g. when the
+		    // point of the chart is to reward a HIGHER average selling price, which
+		    // sits below the line.
+		    _invertColours: BOOLEAN = FALSE()
+		) =>
+		
+		// --- Palette -------------------------------------------------------------
+		VAR AboveColour = IF( _invertColours, "#C62828", "#2E7D32" )   // on or above the line
+		VAR BelowColour = IF( _invertColours, "#2E7D32", "#C62828" )   // below the line
+		VAR NoData      = "#9E9E9E"                                    // grey - not classifiable
+		
+		// --- Population, resolved in one pass ------------------------------------
+		// ALLSELECTED removes the filter on _columnPlotted while respecting slicers and
+		// report/page filters, giving every item visible in the visual.
+		// CALCULATE forces context transition so each measure is evaluated for THAT
+		// item. It also makes the function safe for raw expressions such as
+		// SUM( fSales[Amount] ), which would get no transition on their own.
+		VAR Items =
+		    ADDCOLUMNS(
+		        ALLSELECTED( _columnPlotted ),
+		        "@X", CALCULATE( _measureValue_X ),
+		        "@Y", CALCULATE( _measureValue_Y )
+		    )
+		
+		// Only items present on BOTH measures define the slope, so the two sums cover
+		// the same population. See "load-bearing" note above.
+		VAR Plotted =
+		    FILTER(
+		        Items,
+		        NOT ISBLANK( [@X] ) && NOT ISBLANK( [@Y] )
+		    )
+		
+		// --- The ratio line ------------------------------------------------------
+		// Read from the materialised columns - no re-evaluation of the measures.
+		VAR _SumX  = SUMX( Plotted, [@X] )
+		VAR _SumY  = SUMX( Plotted, [@Y] )
+		VAR _Slope = DIVIDE( _SumY, _SumX )           // overall Y per X; BLANK if SumX is 0 or blank
+		
+		// --- Current item --------------------------------------------------------
+		// Evaluated in the outer filter context: the row/point being coloured.
+		VAR _X = _measureValue_X
+		VAR _Y = _measureValue_Y
+		VAR ExpectedY = _Slope * _X                 // what the line predicts at this X
+		
+		// --- Classify ------------------------------------------------------------
+		// Guards first, so unclassifiable items cannot fall through to a colour that
+		// implies a verdict.
+		RETURN
+		    SWITCH(
+		        TRUE(),
+		        ISBLANK( _X ) || ISBLANK( _Y ),  NoData,        // item not plottable
+		        ISBLANK( _Slope ),                NoData,        // no line to compare against
+		        _Y >= ExpectedY,                 AboveColour,   // above line: lower ASP
+		        BelowColour                                     // below line: higher ASP
+		    )
+	lineageTag: ebe821a7-51c3-47fa-9a41-5f53b0774793
+
+function 'Common.TopByMeasure' =
+		/*
+		================================================================================
+		FUNCTION: TopByMeasure
+		================================================================================
+		PURPOSE
+		    Ranks a column's values by a measure, then returns an expression evaluated
+		    against the winning value(s). Replaces [Top Category by Incidents] and
+		    [Top Category by Incident Color] - the two differ only in what they return
+		    and how they treat ties, both of which are now parameters.
+		
+		OUTPUT
+		    Scalar. Text in both current uses (a category name, or a hex colour), but
+		    the return expression is caller-supplied so it can be anything scalar.
+		
+		WHY ONE FUNCTION WORKS HERE
+		    The ranking half of both measures was byte-identical. The differences:
+		      - label  -> returns the category name, comma-joins on ties
+		      - colour -> returns the icon colour, must pick ONE on ties, since
+		                  "#111, #222" is not a colour
+		    _returnValue covers the first, _tieSeparator the second.
+		
+		FILTER CONTEXT
+		    Uses VALUES( _groupBy ), so the winner is the top value WITHIN the current
+		    filter context - the top category for this row/slicer selection, not
+		    overall. Note this differs from fnQuadrantColour and fnRatioLineColour,
+		    which use ALLSELECTED to reach across the visual. Both are deliberate; do
+		    not "standardise" them onto one without checking what each visual needs.
+		
+		BLANK GUARD
+		    The outer NOT ISBLANK( _rankBy ) test is kept from the original. Without it
+		    an empty context still yields a TOPN row and the measure emits a stray label
+		    against no data.
+		
+		TIES
+		    TOPN( 1, ..., DESC ) returns EVERY row tied at the top, not one arbitrary
+		    row. This is why the tie policy has to be explicit:
+		      _tieSeparator = ""      -> MAXX picks a single value. Arbitrary but valid.
+		                                 Correct for colours, IDs, URLs, anything where
+		                                 a joined string would be malformed.
+		      _tieSeparator = ", "    -> CONCATENATEX joins all tied values.
+		                                 Correct for human-readable labels.
+		    With no tie the two behave identically, so the parameter only matters at the
+		    moment it matters.
+		
+		CHANGE FROM THE ORIGINAL - ONE FEWER EVALUATION
+		    [Top Category by Incident Color] added "@color" for EVERY category, then
+		    used only the winner's. Here the return expression is evaluated inside the
+		    iterator over the winning row(s), so [Icon color] is computed once rather
+		    than once per category. Context transition on the grouping column gives the
+		    same result.
+		
+		EDGE CASES
+		    - Blank per-value results sort last under DESC, so they only win if the
+		      outer guard has already let a non-blank total through.
+		    - MAXX over text returns the highest string value. For hex colours that is
+		      alphabetical, i.e. meaningless as a preference - it is a deterministic
+		      arbitrary pick, which is all that is needed.
+		    - _returnValue is evaluated in the row context of the winner. Pass a column
+		      reference to read it directly, or a measure to get context transition.
+		
+		EXAMPLES
+		    fnTopByMeasure( [Sales], dimProduct[Product], dimProduct[Product], ", " )
+		    fnTopByMeasure( [Sales], dimProduct[Product], [Product Colour] )
+		================================================================================
+		*/
+		(
+		    // The measure that decides the ranking. Evaluated once in the outer context
+		    // for the blank guard, then once per value of _groupBy.
+		    _rankBy: SCALAR EXPR,
+		
+		    // The column to rank, passed unquoted and qualified, e.g.
+		    // d_type[category_name]. VALUES() over this defines the candidate set.
+		    _groupBy: COLUMNREF,
+		
+		    // What to return for the winner, evaluated in the winning row's context.
+		    // Pass the grouping column itself for a label, or a measure such as
+		    // [Icon color] for an attribute of the winner.
+		    _returnValue: SCALAR EXPR,
+		
+		    // Tie policy - see TIES above.
+		    // ""    (default) pick one winner. Use for colours and other single-value
+		    //                 outputs where a joined string would be invalid.
+		    // ", "            join all tied winners. Use for display labels.
+		    _tieSeparator: STRING = ""
+		) =>
+		// --- Candidates, ranked --------------------------------------------------
+		// CALCULATE forces context transition so _rankBy is evaluated for each value of
+		// _groupBy rather than once for the outer context.
+		VAR _ranked =
+		    ADDCOLUMNS(
+		        VALUES( _groupBy ),
+		        "@rank", CALCULATE( _rankBy )
+		    )
+		
+		// Returns every row tied at the maximum, not just one.
+		VAR _top = TOPN( 1, _ranked, [@rank], DESC )
+		
+		// --- Resolve ------------------------------------------------------------
+		RETURN
+		    IF(
+		        // nothing in context -> blank, not a stray label
+		        NOT ISBLANK( _rankBy ),
+		        IF(
+		            _tieSeparator = "",
+		            MAXX( _top, _returnValue ),                       // single winner
+		            CONCATENATEX( _top, _returnValue, _tieSeparator )  // joined on ties
+		        )
+		    )
+	lineageTag: 429ab8b4-f594-403e-a324-37c364f9fba1
 

@@ -1,0 +1,77 @@
+table d_time
+	lineageTag: e97c012c-fb85-460a-8808-508f6560588f
+
+	column TimeKey
+		lineageTag: 08745893-ce97-4bf7-b15c-ac825e4bd17d
+		isNameInferred
+		sourceColumn: [TimeKey]
+
+	column Time
+		lineageTag: faa68c03-c5be-4dc3-a946-53fbd5a8941b
+		isNameInferred
+		sourceColumn: [Time]
+
+	column HourNumber
+		lineageTag: a86b597c-0ea6-43aa-b383-1d28096fb6b0
+		isNameInferred
+		sourceColumn: [HourNumber]
+
+	column Hour
+		lineageTag: b5c6293b-7590-407a-8b28-3f8148806a7a
+		isNameInferred
+		sourceColumn: [Hour]
+
+	column MinuteNumber
+		lineageTag: 6bcba5b0-4996-419a-ac0b-a97fb99d4efa
+		isNameInferred
+		sourceColumn: [MinuteNumber]
+
+	column Minute
+		lineageTag: 82c7aa75-3f10-4c61-a5f2-54cdb6a64184
+		isNameInferred
+		sourceColumn: [Minute]
+
+	column HourStart
+		lineageTag: 82544ada-22a9-4000-89ea-a786a8ef943a
+		isNameInferred
+		sourceColumn: [HourStart]
+
+	column 15MinuteBand
+		lineageTag: e744cfce-dd9c-4025-ac52-cbefc49c9bda
+		isNameInferred
+		sourceColumn: [15MinuteBand]
+
+	column 30MinuteBand
+		lineageTag: 5382244f-20cb-4914-9b62-1a0f13d9f8d2
+		isNameInferred
+		sourceColumn: [30MinuteBand]
+
+	partition d_time = calculated
+		mode: import
+		source =
+				VAR BaseTime =
+				    GENERATESERIES ( 0, 1439, 1 )
+				RETURN
+				    SELECTCOLUMNS (
+				        ADDCOLUMNS (
+				            BaseTime,
+				            "TimeValue", TIME ( 0, [Value], 0 ),
+				            "HourNumber", INT ( [Value] / 60 ),
+				            "MinuteNumber", MOD ( [Value], 60 ),
+				            "HourStart", TIME ( 0, INT ( [Value] / 60 ) * 60, 0 ),
+				            "MinuteStart15", TIME ( 0, INT ( [Value] / 15 ) * 15, 0 ),
+				            "MinuteStart30", TIME ( 0, INT ( [Value] / 30 ) * 30, 0 )
+				        ),
+				        "TimeKey", [Value],
+				        "Time", [TimeValue],
+				        "HourNumber", [HourNumber],
+				        "Hour", FORMAT ( [TimeValue], "HH:00" ),
+				        "MinuteNumber", [MinuteNumber],
+				        "Minute", FORMAT ( [TimeValue], "HH:mm" ),
+				        "HourStart", [HourStart],
+				        "15MinuteBand", FORMAT ( [MinuteStart15], "HH:mm" ),
+				        "30MinuteBand", FORMAT ( [MinuteStart30], "HH:mm" )
+				    )
+
+	annotation TabularEditor_TableGroup = DIMs
+

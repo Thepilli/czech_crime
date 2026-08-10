@@ -1,0 +1,21 @@
+table H_Praha
+	isHidden
+	lineageTag: 61fb3a90-e6f8-4603-837e-1da754ec81fa
+
+	calculationGroup
+		precedence: 1
+
+		calculationItem 'bez Prahy' = CALCULATE( SELECTEDMEASURE( ), KEEPFILTERS( mv_d_uzemi[název_obce] <> "Praha" ) )
+
+	column Name
+		dataType: string
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		sourceColumn: Ordinal
+
+	annotation TabularEditor_TableGroup = PARAMs
+

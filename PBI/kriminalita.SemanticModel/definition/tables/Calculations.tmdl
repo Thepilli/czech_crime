@@ -90,9 +90,8 @@ table Calculations
 			            f_populace[year] = _y
 			        )
 			)
+		displayFolder: Demographics\Population
 		lineageTag: ca0d1fbf-772f-46e5-b45c-626129c5e0c0
-
-		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
 
 	measure _BlankKPI = BLANK( )
 		formatString: #,0
@@ -311,26 +310,6 @@ table Calculations
 		displayFolder: SelfService
 		lineageTag: 2c7a26d2-4004-4f59-889d-a1ed7877e854
 
-	measure 'Self Service Measure Title Range' =
-			VAR __KPI =
-			    SELECTEDVALUE(
-			        H_SelfServiceMeasures[KPIName],
-			        "not selected"
-			    )
-			VAR _lastDate = CALCULATE( MAX( mv_d_date[Date] ) )
-			VAR _firstDate = CALCULATE( MIN( mv_d_date[Date] ) )
-			VAR _yearMax = FORMAT( _lastDate, "YYYY" )
-			VAR _monthMax = FORMAT( _lastDate, "mmm" )
-			VAR _yearMin = FORMAT( _firstDate, "YYYY" )
-			VAR _monthMin = FORMAT( _firstDate, "mmm" )
-			VAR _dateMax = _monthMax & ", " & _yearMax
-			VAR _dateMin = _monthMin & ", " & _yearMin
-			VAR _date = _dateMin & " - " & _dateMax
-			RETURN
-			    __KPI & " for: " & _date
-		displayFolder: SelfService
-		lineageTag: 1db7be03-56f7-43a6-a6c4-da3790acf53f
-
 	measure 'Self Service Measure Title' =
 			SELECTEDVALUE(
 			    H_SelfServiceMeasures[KPIName],
@@ -339,61 +318,26 @@ table Calculations
 		displayFolder: SelfService
 		lineageTag: e8faaf29-1b3c-4b15-b24b-b21462d3916c
 
-	measure 'Self Service Measure PY Subtitle' =
-			VAR _PY = SELECTEDVALUE( mv_d_date[Year] ) - 1
-			RETURN
-			    FORMAT(
-			        [Self Service Measure YoY(%)],
-			        "+0.0%;-0.0%;0.0%"
-			    )
-			        & " vs. "
-			        & IF( ISBLANK( _PY ), "PY", _PY )
+	measure 'Self Service Measure Subtitle PY' = Common.LabelYoY( [Self Service Measure YoY(%)] )
 		displayFolder: SelfService
 		lineageTag: 202acd47-f312-4431-8a6b-ed092e6d7579
 
-	measure 'Self Service Measure PY Subtitle Color' = Common.TI.CARD.COLOR( [Self Service Measure YoY], FALSE )
+	measure 'Self Service Measure Subtitle PY Color' = Common.TI.CARD.COLOR( [Self Service Measure YoY], FALSE )
 		displayFolder: SelfService
 		lineageTag: 56932811-c095-4f3b-8fdb-b81f5a6be9e0
 
-	measure 'Self Service Measure YoY Title' =
-			VAR _selectedKPI =
-			    SELECTEDVALUE(
-			        H_SelfServiceMeasures[KPIName],
-			        "not selected"
-			    )
-			VAR _YoY =
-			    FORMAT(
-			        [Self Service Measure YoY(%)],
-			        "+0.0%;-0.0%;0.0%"
-			    )
-			        & " vs. "
-			        & SELECTEDVALUE( mv_d_date[Year] ) - 1
-			RETURN
-			    _selectedKPI & ": " & _YoY
+	measure 'Self Service Measure Title YoY ' =
+			Common.LabelYoY(
+			    [Self Service Measure YoY(%)],
+			    SELECTEDVALUE( H_SelfServiceMeasures[KPIName], "not selected" )
+			)
 		displayFolder: SelfService
 		lineageTag: 66cd7421-dc06-45fa-be83-2a888b3a41ff
 
-	measure 'Self Service Measure Title Last' =
-			VAR __KPI =
-			    SELECTEDVALUE(
-			        H_SelfServiceMeasures[KPIName],
-			        "not selected"
-			    )
-			VAR _lastDate = CALCULATE( MAX( mv_d_date[Date] ) )
-			VAR _firstDate = CALCULATE( MIN( mv_d_date[Date] ) )
-			VAR _yearMax = FORMAT( _lastDate, "YYYY" )
-			VAR _monthMax = FORMAT( _lastDate, "mmm" )
-			VAR _yearMin = FORMAT( _firstDate, "YYYY" )
-			VAR _monthMin = FORMAT( _firstDate, "mmm" )
-			VAR _dateMax = _monthMax & ", " & _yearMax
-			VAR _dateMin = _monthMin & ", " & _yearMin
-			VAR _date = _dateMin & " - " & _dateMax
-			RETURN
-			    IF(
-			        HASONEVALUE( mv_d_date[yearmonth] ),
-			        __KPI & " for: " & _dateMax,
-			        __KPI & " for: " & _date
-			    )
+	measure 'Self Service Measure Title Date' =
+			Common.LabelDateRange(
+			    SELECTEDVALUE( H_SelfServiceMeasures[KPIName], "not selected" ) & " for: "
+			)
 		displayFolder: SelfService
 		lineageTag: 0a3e7185-05b7-4959-9258-cbfbdd6bbe9d
 
@@ -410,17 +354,7 @@ table Calculations
 
 		formatStringDefinition = Common.FormatString_SSM( SELECTEDMEASURE( ) )
 
-	measure 'Self Service Measure Annual Avg' =
-			CALCULATE(
-			    AVERAGEX(
-			        VALUES( mv_d_date[yearmonth] ),
-			        [Self Service Measure]
-			    ),
-			    REMOVEFILTERS( mv_d_date ),
-			    KEEPFILTERS(
-			        mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
-			    )
-			)
+	measure 'Self Service Measure Annual Avg' = Common.AnnualAvg([Self Service Measure])
 		displayFolder: SelfService
 		lineageTag: 0de48b44-3b1e-43f5-9eab-fac5f0215247
 
@@ -470,47 +404,13 @@ table Calculations
 
 		formatStringDefinition = Common.FormatString_SSM( SELECTEDMEASURE( ) )
 
-	measure 'Self Service Measure Annual Max' =
-			VAR _max =
-			    CALCULATE(
-			        MAXX(
-			            VALUES( mv_d_date[yearmonth] ),
-			            [Self Service Measure]
-			        ),
-			        REMOVEFILTERS( mv_d_date ),
-			        KEEPFILTERS(
-			            mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
-			        )
-			    )
-			RETURN
-			    IF(
-			        [Self Service Measure] = _max,
-			        _max,
-			        BLANK( )
-			    )
+	measure 'Self Service Measure Annual Max' = Common.AnnualMax([Self Service Measure])
 		displayFolder: SelfService
 		lineageTag: f07b78c7-16e0-49d5-b5c4-61119668046b
 
 		formatStringDefinition = Common.FormatString_SSM( SELECTEDMEASURE( ) )
 
-	measure 'Self Service Measure Annual Min' =
-			VAR _min =
-			    CALCULATE(
-			        MINX(
-			            VALUES( mv_d_date[yearmonth] ),
-			            [Self Service Measure]
-			        ),
-			        REMOVEFILTERS( mv_d_date ),
-			        KEEPFILTERS(
-			            mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
-			        )
-			    )
-			RETURN
-			    IF(
-			        [Self Service Measure] = _min,
-			        _min,
-			        BLANK( )
-			    )
+	measure 'Self Service Measure Annual Min' = Common.AnnualMin([Self Service Measure])
 		displayFolder: SelfService
 		lineageTag: 72aeab14-0c09-49fc-a3e7-25d5852a8211
 
@@ -540,57 +440,16 @@ table Calculations
 
 		formatStringDefinition = Common.FormatString_SSM( SELECTEDMEASURE( ) )
 
-	measure 'Self Service Measure Ref Line' =
-			CALCULATE(
-			    MAXX(
-			        VALUES( mv_d_date[yearmonth] ),
-			        [Self Service Measure]
-			    ),
-			    REMOVEFILTERS( mv_d_date ),
-			    KEEPFILTERS(
-			        mv_d_date[Year] = SELECTEDVALUE( mv_d_date[Year] )
-			    )
-			)
-			    * 2
+	measure 'Self Service Measure Ref Line' = Common.RefLine([Self Service Measure])
 		formatString: 0.0%
 		displayFolder: SelfService
 		lineageTag: cd8d1f8b-5742-43e2-8e88-3a9d69f0fb99
 
-	measure 'Self Service Measure min_max' =
-			VAR _kpi = [Self Service Measure]
-			VAR _tbl =
-			    ADDCOLUMNS(
-			        ALLSELECTED( mv_d_date[yearmonth] ),
-			        "@v", [Self Service Measure]
-			    )
-			VAR _max = MAXX( _tbl, [@v] )
-			VAR _min = MINX( _tbl, [@v] )
-			RETURN
-			    SWITCH(
-			        _kpi,
-			        _max, "#78be20",
-			        _min, "#e01223",
-			        "#e5a668"
-			    )
+	measure 'Self Service Measure min_max' = Common.Min_Max([Self Service Measure])
 		displayFolder: SelfService
 		lineageTag: 7c1b7cf6-18a7-41e9-a7e1-2f718be9204c
 
-	measure 'Self Service Measure min_max_white' =
-			VAR _kpi = [Self Service Measure]
-			VAR _tbl =
-			    ADDCOLUMNS(
-			        ALLSELECTED( mv_d_date[yearmonth] ),
-			        "@v", [Self Service Measure]
-			    )
-			VAR _max = MAXX( _tbl, [@v] )
-			VAR _min = MINX( _tbl, [@v] )
-			RETURN
-			    SWITCH(
-			        _kpi,
-			        _max, "#78be20",
-			        _min, "#e01223",
-			        "#ffffff"
-			    )
+	measure 'Self Service Measure min_max_white' = Common.Min_Max( [Self Service Measure], TRUE )
 		displayFolder: SelfService
 		lineageTag: 706157df-b084-4e3d-b179-567e1d0a0f13
 
@@ -641,23 +500,6 @@ table Calculations
 		formatString: 0.0%
 		displayFolder: SelfService
 		lineageTag: f3a8b99b-6f85-44d6-8a7b-6cb44185cd20
-
-	measure 'Self Service Measure Title-copy' =
-			SWITCH(
-			    SELECTEDVALUE(
-			        H_SelfServiceMeasures[KPIName],
-			        "Blank"
-			    ),
-			    "Total Sales Margin(%)", "Total Sales Margin(%)",
-			    "Total COGS", "Total COGS",
-			    "Total Sales Margin", "Total Sales Margin",
-			    "Total Sales Quantity", "Total Sales Quantity",
-			    "Total Sales Value", "Total Sales Value",
-			    "Blank", "Blank",
-			    BLANK( )
-			)
-		displayFolder: SelfService
-		lineageTag: 2e41be1c-3c8c-41a4-a702-06961de9da6a
 
 	measure 'Crime rate (daily avg)' =
 			VAR _days = DISTINCTCOUNT( mv_d_date[Date] )
@@ -1087,6 +929,7 @@ table Calculations
 			    [Incidents by primary type],
 			    KEEPFILTERS( d_state[state_code] = 1 )
 			)
+		displayFolder: Incidents resolution
 		lineageTag: 51fa3459-6c69-499d-af71-751efb4db150
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1096,6 +939,7 @@ table Calculations
 			    [Incidents by primary type],
 			    KEEPFILTERS( d_state[state_code] = 2 )
 			)
+		displayFolder: Incidents resolution
 		lineageTag: d91838df-540f-408f-b780-fd503f472154
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1105,6 +949,7 @@ table Calculations
 			    [Incidents by primary type],
 			    KEEPFILTERS( d_state[state_code] = 3 )
 			)
+		displayFolder: Incidents resolution
 		lineageTag: ad8f3180-7532-40b0-a348-fa2e0ed0439b
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1117,6 +962,7 @@ table Calculations
 			        REMOVEFILTERS( d_state )
 			    )
 			)
+		displayFolder: Incidents resolution
 		lineageTag: 33366f80-121a-478b-8d91-df51fe5f25fe
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1126,6 +972,7 @@ table Calculations
 			    [Incidents Solved],
 			    [Incidents by primary type]
 			)
+		displayFolder: Incidents resolution
 		lineageTag: 67ccec04-b48f-4d0f-8905-6a39532256e7
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1135,6 +982,7 @@ table Calculations
 			    [Incidents Closed without Resolution],
 			    [Incidents by primary type]
 			)
+		displayFolder: Incidents resolution
 		lineageTag: b94a3332-52cc-4fbe-bbd4-7438175fb590
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1144,6 +992,7 @@ table Calculations
 			    [Incidents Closed as False Alarm],
 			    [Incidents by primary type]
 			)
+		displayFolder: Incidents resolution
 		lineageTag: 2d8c01a0-3583-406f-865f-b321ea74f8e3
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1266,7 +1115,8 @@ table Calculations
 		displayFolder: TI\Incidents Solved (%)\YoY
 		lineageTag: 87f0ebf8-2ec7-47c3-b18c-39d96270812d
 
-	measure 'Incidents Solved (%) sparkline' = Common.SVG.sparkline( [Incidents Solved (%)] , [Incidents Solved (%) YoY(%)] , , )
+	measure 'Incidents Solved (%) sparkline' = Common.SVG.sparkline( [Incidents Solved (%)] , [Incidents Solved (%) PY], , )
+		displayFolder: Incidents resolution
 		lineageTag: b3e6fff6-0c55-44be-913c-a261743e0fcb
 		dataCategory: ImageUrl
 
@@ -1277,6 +1127,7 @@ table Calculations
 			    [Incidents by primary type],
 			    KEEPFILTERS( d_state[state_code] = 4 )
 			)
+		displayFolder: Incidents resolution
 		lineageTag: c8f18946-5bdd-4974-a014-827004a2c550
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1286,6 +1137,7 @@ table Calculations
 			    [Incidents Closed as Not a Crime],
 			    [Incidents by primary type]
 			)
+		displayFolder: Incidents resolution
 		lineageTag: df396c4d-3ea4-4007-9b4b-e200bd6b26bc
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
@@ -1695,27 +1547,30 @@ table Calculations
 	measure 'Incidents Closed as False Alarm (%) sparkline' =
 			Common.SVG.sparkline(
 			    [Incidents Closed as False Alarm (%)],
-			    [Incidents Closed as False Alarm (%) YoY(%)],
+			    [Incidents Closed as False Alarm (%) PY],
 			    TRUE
 			)
+		displayFolder: Incidents resolution
 		lineageTag: 3ec13ebd-c7eb-41ed-a7ed-d8182b685c2b
 		dataCategory: ImageUrl
 
 	measure 'Incidents Closed as Not a Crime (%) sparkline' =
 			Common.SVG.sparkline(
 			    [Incidents Closed as Not a Crime (%)],
-			    [Incidents Closed as Not a Crime (%) YoY(%)],
+			    [Incidents Closed as Not a Crime (%) PY],
 			    TRUE
 			)
+		displayFolder: Incidents resolution
 		lineageTag: a311a2ac-005f-4ac5-a367-3be56fef496e
 		dataCategory: ImageUrl
 
 	measure 'Incidents Closed without Resolution (%) sparkline' =
 			Common.SVG.sparkline(
 			    [Incidents Closed without Resolution (%)],
-			    [Incidents Closed without Resolution (%) YoY(%)],
+			    [Incidents Closed without Resolution (%) PY],
 			    TRUE
 			)
+		displayFolder: Incidents resolution
 		lineageTag: 65d20e7e-30a9-4006-a8a1-393ea03f775a
 		dataCategory: ImageUrl
 
@@ -1862,17 +1717,12 @@ table Calculations
 		lineageTag: 012a5ee4-ccdf-4b35-aa90-c21fda6483cf
 
 	measure 'Top Category by Incidents' =
-			VAR _byCategory =
-			    ADDCOLUMNS(
-			        VALUES( d_type[category_name] ),
-			        "@inc", [Incidents by primary type]
-			    )
-			VAR _top = TOPN( 1, _byCategory, [@inc], DESC )
-			RETURN
-			    IF(
-			        NOT ISBLANK( [Incidents by primary type] ),   -- nothing in context → blank, not a stray label
-			        CONCATENATEX( _top, d_type[category_name], ", " )   -- comma-joins on ties
-			    )
+			common.TopByMeasure(
+			    [Incidents by primary type],
+			    d_type[category_name],
+			    d_type[category_name],      -- return the name itself
+			    ", "                        -- comma-join on ties, as before
+			)
 		displayFolder: Labels
 		lineageTag: 146686e2-d0ec-4f2e-ae26-293288935c4c
 
@@ -1896,61 +1746,38 @@ table Calculations
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
 
-	measure 'Incidents by primary type sparkline' = Common.SVG.sparkline( [Incidents by primary type] , [Incidents by primary type YoY(%)] , , TRUE )
+	measure 'Incidents by primary type sparkline' = Common.SVG.sparkline( [Incidents by primary type] , [Incidents by primary type PY], , TRUE )
 		lineageTag: 7581cfb1-a2d5-42d0-98c8-ca6729108611
 		dataCategory: ImageUrl
 
-	measure Subtitle =
-			VAR _lastDate = CALCULATE( MAX( mv_d_date[Date] ) )
-			VAR _firstDate = CALCULATE( MIN( mv_d_date[Date] ) )
-			VAR _yearMax = FORMAT( _lastDate, "YYYY" )
-			VAR _monthMax = FORMAT( _lastDate, "mmm" )
-			VAR _yearMin = FORMAT( _firstDate, "YYYY" )
-			VAR _monthMin = FORMAT( _firstDate, "mmm" )
-			VAR _dateMax = _monthMax & ", " & _yearMax
-			VAR _dateMin = _monthMin & ", " & _yearMin
-			VAR _date = _dateMin & " - " & _dateMax
-			RETURN
-			    IF(
-			        HASONEVALUE( mv_d_date[yearmonth] ),
-			        "For: " & _dateMax,
-			        "For: " & _date
-			    )
+	measure Subtitle = Common.LabelDateRange( "For: " )
 		displayFolder: Technical Measures
 		lineageTag: 5854923d-6e25-4c5e-a3e4-1bfe7fd2d089
 
-	measure Title =
-			VAR _lastDate = CALCULATE( MAX( mv_d_date[Date] ) )
-			VAR _firstDate = CALCULATE( MIN( mv_d_date[Date] ) )
-			VAR _yearMax = FORMAT( _lastDate, "YYYY" )
-			VAR _monthMax = FORMAT( _lastDate, "mmm" )
-			VAR _yearMin = FORMAT( _firstDate, "YYYY" )
-			VAR _monthMin = FORMAT( _firstDate, "mmm" )
-			VAR _dateMax = _monthMax & ", " & _yearMax
-			VAR _dateMin = _monthMin & ", " & _yearMin
-			VAR _date = _dateMin & " - " & _dateMax
-			RETURN
-			    IF(
-			        HASONEVALUE( mv_d_date[yearmonth] ),
-			        "Overview for: " & _dateMax,
-			        "Overview for: " & _date
-			    )
+	measure Title = Common.LabelDateRange( "Overview for: " )
 		displayFolder: Technical Measures
 		lineageTag: edf38157-c007-4678-8f06-62a4394063ee
 
 	measure 'Top Category by Incident Color' =
-			VAR _byCategory =
-			    ADDCOLUMNS(
-			        VALUES( d_type[category_name] ),
-			        "@inc", [Incidents by primary type],
-			        "@color", [Icon color]
-			    )
-			VAR _top = TOPN( 1, _byCategory, [@inc], DESC )
-			RETURN
-			    IF(
-			        NOT ISBLANK( [Incidents by primary type] ),
-			        MAXX( _top, [@color] )
-			    )
+			//VAR _byCategory =
+			//    ADDCOLUMNS(
+			//        VALUES( d_type[category_name] ),
+			//        "@inc", [Incidents by primary type],
+			//        "@color", [Icon color]
+			//    )
+			//VAR _top = TOPN( 1, _byCategory, [@inc], DESC )
+			//RETURN
+			//    IF(
+			//        NOT ISBLANK( [Incidents by primary type] ),
+			//        MAXX( _top, [@color] )
+			//    )
+			
+			common.TopByMeasure(
+			    [Incidents by primary type],
+			    d_type[category_name],
+			    [Icon color]                -- return the winner's colour
+			-- _tieSeparator omitted: pick one
+			)
 		displayFolder: Labels
 		lineageTag: eea8c621-dcde-4e8a-8b3f-adc332cdcd1e
 
@@ -1965,6 +1792,875 @@ table Calculations
 		formatString: #,0.0%;-#,0.0%;#,0.0%
 		displayFolder: Demographics\Population
 		lineageTag: ab6be45e-57fb-4c94-bc8f-da9a66d51c94
+
+	measure 'Avg Annual Population sparkline' =
+			VAR BarColour  = "rgb(140,164,240)"
+			VAR TickColour = "rgb(237,137,54)"
+			// --- layout knobs ---
+			VAR ViewW    = 150
+			VAR ViewH    = 50
+			VAR Pad      = 3
+			VAR Fill     = 0.55
+			VAR MaxBarW  = 26                          // cap so 2-3 years don't look like blocks
+			VAR LabelSize = 8
+			// --- axis: all years, slicer-independent ---
+			VAR AllYears =
+			    CALCULATETABLE (
+			        VALUES ( mv_d_date[Year] ),
+			        REMOVEFILTERS ( mv_d_date )
+			    )
+			VAR WithVals =
+			    ADDCOLUMNS (
+			        AllYears,
+			        "@CY",
+			            VAR y = mv_d_date[Year]
+			            RETURN CALCULATE (
+			                [Self Service Measure],
+			                REMOVEFILTERS ( mv_d_date ),
+			                mv_d_date[Year] = y
+			            ),
+			        "@PY",
+			            VAR y = mv_d_date[Year]
+			            RETURN CALCULATE (
+			                [Self Service Measure PY],
+			                REMOVEFILTERS ( mv_d_date ),
+			                mv_d_date[Year] = y
+			            )
+			    )
+			// drop empty years (dim usually extends past the fact data)
+			VAR Populated = FILTER ( WithVals, NOT ISBLANK ( [@CY] ) || NOT ISBLANK ( [@PY] ) )
+			VAR Ranked =
+			    ADDCOLUMNS (
+			        Populated,
+			        "@Rank", RANKX ( Populated, mv_d_date[Year], , ASC )
+			    )
+			VAR N     = COUNTROWS ( Ranked )
+			VAR MaxV  = MAX ( MAXX ( Ranked, [@CY] ), MAXX ( Ranked, [@PY] ) )
+			VAR SlotW = DIVIDE ( ViewW, N )
+			VAR BarW  = MIN ( SlotW * Fill, MaxBarW )
+			VAR Geo =
+			    ADDCOLUMNS (
+			        Ranked,
+			        "@X",   ROUND ( ( [@Rank] - 1 ) * SlotW + ( SlotW - BarW ) / 2, 2 ),
+			        "@H",   ROUND ( ( ViewH - Pad ) * DIVIDE ( [@CY], MaxV, 0 ), 2 ),
+			        "@PYy", ROUND ( ViewH - ( ViewH - Pad ) * DIVIDE ( [@PY], MaxV, 0 ), 2 )
+			    )
+			VAR Bars =
+			    CONCATENATEX (
+			        Geo,
+			        "<rect x='" & [@X] & "' y='" & ROUND ( ViewH - [@H], 2 )
+			            & "' width='" & ROUND ( BarW, 2 ) & "' height='" & [@H]
+			            & "' rx='1' fill='" & BarColour & "'/>",
+			        "", [@Rank], ASC
+			    )
+			VAR Ticks =
+			    CONCATENATEX (
+			        Geo,
+			        "<line x1='" & ROUND ( [@X] - 0.5, 2 ) & "' y1='" & [@PYy]
+			            & "' x2='" & ROUND ( [@X] + BarW + 0.5, 2 ) & "' y2='" & [@PYy]
+			            & "' stroke='" & TickColour & "' stroke-width='2'/>",
+			        "", [@Rank], ASC
+			    )
+			VAR Labels =
+			    CONCATENATEX (
+			        Geo,
+			        "<text x='" & ROUND ( [@X] + BarW / 2, 2 ) & "' y='" & ViewH + LabelSize + 2 & "'>"
+			            & mv_d_date[Year] & "</text>",
+			        "", [@Rank], ASC
+			    )
+			VAR SVG =
+			    "data:image/svg+xml;utf8," &
+			    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " & ViewW & " " & ( ViewH + LabelSize + 4 ) & "'>" &
+			    Bars & Ticks &
+			    "<g font-family='Segoe UI,Arial,sans-serif' font-size='" & LabelSize &
+			    "' text-anchor='middle' fill='rgb(150,158,170)'>" & Labels & "</g>" &
+			    "</svg>"
+			RETURN
+			    SVG
+		displayFolder: Demographics\Population
+		lineageTag: 7a607274-a98a-4366-aee0-4e0d257ce9df
+		dataCategory: ImageUrl
+
+	/// TI of Births
+	measure 'Births PD' = Common.TI.CARD.PD([Births])
+		formatString: #,0
+		displayFolder: TI\Births\DoD
+		lineageTag: 9fb84d4f-c7ec-4b91-9cc0-4c96de45152c
+
+	/// TI of Births
+	measure 'Births PM' = Common.TI.CARD.PM([Births],FALSE())
+		formatString: #,0
+		displayFolder: TI\Births\MoM
+		lineageTag: 98d29e7e-8864-478e-a96d-e8ea5b62b80b
+
+	/// TI of Births
+	measure 'Births PY' = Common.TI.CARD.PY([Births],FALSE())
+		formatString: #,0
+		displayFolder: TI\Births\YoY
+		lineageTag: 9a0759fb-d17b-46f0-b89f-e036fc1bc8bc
+
+	/// TI of Births
+	measure 'Births MTD' = TOTALMTD([Births], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Births\MoM
+		lineageTag: e256e1c8-004b-4fae-ac12-fa302461de0c
+
+	/// TI of Births
+	measure 'Births YTD' = TOTALYTD([Births], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Births\YoY
+		lineageTag: 321160ce-886f-4008-925e-f8f77fb24fc7
+
+	/// TI of Births
+	measure 'Births DoD' = Common.TI.CARD.DIFF([Births],[Births PD])
+		formatString: #,0
+		displayFolder: TI\Births\DoD
+		lineageTag: ecc7e3a9-9f85-4b5c-83f6-f975714ce773
+
+	/// TI of Births
+	measure 'Births DoD(%)' = Common.TI.CARD.DIFF_PRC([Births DoD],[Births PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Births\DoD
+		lineageTag: 4adc31c8-c3fd-4ab0-ade1-eb35210bacff
+
+	/// TI of Births
+	measure 'Births MoM' = Common.TI.CARD.DIFF([Births],[Births PM])
+		formatString: #,0
+		displayFolder: TI\Births\MoM
+		lineageTag: 5ff0e5bf-e4f9-4ef7-9320-975aeb59cb76
+
+	/// TI of Births
+	measure 'Births MoM(%)' = Common.TI.CARD.DIFF_PRC([Births MoM],[Births PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Births\MoM
+		lineageTag: 829f982c-0d1e-4735-8b7d-c2ab39a85be2
+
+	/// TI of Births
+	measure 'Births MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Births PM],[Births MoM])
+		formatString: #,0
+		displayFolder: TI\Births\MoM
+		lineageTag: 11bc9b61-ac2c-41aa-85d5-e648a8944575
+
+	/// TI of Births
+	measure 'Births MoM Color' = Common.TI.CARD.COLOR([Births MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Births\MoM
+		lineageTag: ddb82666-b831-4f0e-a4d0-4f80110bf743
+
+	/// TI of Births
+	measure 'Births YoY' = Common.TI.CARD.DIFF([Births],[Births PY])
+		formatString: #,0
+		displayFolder: TI\Births\YoY
+		lineageTag: 3ffe769e-f7da-4be7-b9df-de070985eba3
+
+	/// TI of Births
+	measure 'Births YoY(%)' = Common.TI.CARD.DIFF_PRC([Births YoY],[Births PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Births\YoY
+		lineageTag: 2449d94e-7805-4261-b817-f189fe4a9776
+
+	/// TI of Births
+	measure 'Births YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Births PY],[Births YoY])
+		formatString: #,0
+		displayFolder: TI\Births\YoY
+		lineageTag: 0be257e8-047a-47cb-83e9-596a94281b94
+
+	/// TI of Births
+	measure 'Births YoY Color' = Common.TI.CARD.COLOR([Births YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Births\YoY
+		lineageTag: 320df703-092a-4170-bea2-9382f0e316f4
+
+	/// TI of Deaths
+	measure 'Deaths PD' = Common.TI.CARD.PD([Deaths])
+		formatString: #,0
+		displayFolder: TI\Deaths\DoD
+		lineageTag: aa80c850-ba82-4972-95b5-67a123343bf8
+
+	/// TI of Deaths
+	measure 'Deaths PM' = Common.TI.CARD.PM([Deaths],FALSE())
+		formatString: #,0
+		displayFolder: TI\Deaths\MoM
+		lineageTag: 55adcee7-7593-4f44-826c-7caf377f8313
+
+	/// TI of Deaths
+	measure 'Deaths PY' = Common.TI.CARD.PY([Deaths],FALSE())
+		formatString: #,0
+		displayFolder: TI\Deaths\YoY
+		lineageTag: 996479fe-3321-4802-89e6-32b7e7152cae
+
+	/// TI of Deaths
+	measure 'Deaths MTD' = TOTALMTD([Deaths], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Deaths\MoM
+		lineageTag: 630e37f3-25e4-4f7d-8e33-5aa89dd2b2d2
+
+	/// TI of Deaths
+	measure 'Deaths YTD' = TOTALYTD([Deaths], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Deaths\YoY
+		lineageTag: 97bb69cc-d40f-44ac-96b2-786536846b06
+
+	/// TI of Deaths
+	measure 'Deaths DoD' = Common.TI.CARD.DIFF([Deaths],[Deaths PD])
+		formatString: #,0
+		displayFolder: TI\Deaths\DoD
+		lineageTag: a9b0fb4c-de73-4c12-87a1-3833ce20522f
+
+	/// TI of Deaths
+	measure 'Deaths DoD(%)' = Common.TI.CARD.DIFF_PRC([Deaths DoD],[Deaths PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Deaths\DoD
+		lineageTag: 078b3a93-fe9a-4e7c-980b-dd232e9906a8
+
+	/// TI of Deaths
+	measure 'Deaths MoM' = Common.TI.CARD.DIFF([Deaths],[Deaths PM])
+		formatString: #,0
+		displayFolder: TI\Deaths\MoM
+		lineageTag: e11290c6-704d-4508-be40-05c56b303ed9
+
+	/// TI of Deaths
+	measure 'Deaths MoM(%)' = Common.TI.CARD.DIFF_PRC([Deaths MoM],[Deaths PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Deaths\MoM
+		lineageTag: db76dce3-ee8d-4006-8062-73d9a4e16e35
+
+	/// TI of Deaths
+	measure 'Deaths MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Deaths PM],[Deaths MoM])
+		formatString: #,0
+		displayFolder: TI\Deaths\MoM
+		lineageTag: a303afad-8e6b-4542-bb6a-4f86abaf1eeb
+
+	/// TI of Deaths
+	measure 'Deaths MoM Color' = Common.TI.CARD.COLOR([Deaths MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Deaths\MoM
+		lineageTag: 9e33160c-4d5e-448f-bb17-798d43e9ec12
+
+	/// TI of Deaths
+	measure 'Deaths YoY' = Common.TI.CARD.DIFF([Deaths],[Deaths PY])
+		formatString: #,0
+		displayFolder: TI\Deaths\YoY
+		lineageTag: e7d01ba3-1b9f-4c10-9cf3-d5be207553fa
+
+	/// TI of Deaths
+	measure 'Deaths YoY(%)' = Common.TI.CARD.DIFF_PRC([Deaths YoY],[Deaths PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Deaths\YoY
+		lineageTag: 8c7c898d-a586-45cc-9d65-f2856b0ae832
+
+	/// TI of Deaths
+	measure 'Deaths YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Deaths PY],[Deaths YoY])
+		formatString: #,0
+		displayFolder: TI\Deaths\YoY
+		lineageTag: 83136e49-bf1c-441f-b6ea-c5dfc3d1eb0a
+
+	/// TI of Deaths
+	measure 'Deaths YoY Color' = Common.TI.CARD.COLOR([Deaths YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Deaths\YoY
+		lineageTag: 115bab74-0118-47b5-bc87-52fdd36c0400
+
+	/// TI of In-migration
+	measure 'In-migration PD' = Common.TI.CARD.PD([In-migration])
+		formatString: #,0
+		displayFolder: TI\In-migration\DoD
+		lineageTag: 97892fc5-32d7-478f-aadc-0f82d0c126c6
+
+	/// TI of In-migration
+	measure 'In-migration PM' = Common.TI.CARD.PM([In-migration],FALSE())
+		formatString: #,0
+		displayFolder: TI\In-migration\MoM
+		lineageTag: 493d73d6-b534-4411-aa52-ec4af53da3ae
+
+	/// TI of In-migration
+	measure 'In-migration PY' = Common.TI.CARD.PY([In-migration],FALSE())
+		formatString: #,0
+		displayFolder: TI\In-migration\YoY
+		lineageTag: c495a58e-ba90-4fa5-86b5-91ec4d342635
+
+	/// TI of In-migration
+	measure 'In-migration MTD' = TOTALMTD([In-migration], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\In-migration\MoM
+		lineageTag: 5d514bd8-1919-4059-ae52-301637aa9891
+
+	/// TI of In-migration
+	measure 'In-migration YTD' = TOTALYTD([In-migration], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\In-migration\YoY
+		lineageTag: 1fb44fbd-28d2-45f2-8bb6-9bc40efba57b
+
+	/// TI of In-migration
+	measure 'In-migration DoD' = Common.TI.CARD.DIFF([In-migration],[In-migration PD])
+		formatString: #,0
+		displayFolder: TI\In-migration\DoD
+		lineageTag: 4599782a-f369-490b-8392-11d7796bcf6c
+
+	/// TI of In-migration
+	measure 'In-migration DoD(%)' = Common.TI.CARD.DIFF_PRC([In-migration DoD],[In-migration PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\In-migration\DoD
+		lineageTag: 9d72c9b8-c9df-4262-83c9-80abb32604e4
+
+	/// TI of In-migration
+	measure 'In-migration MoM' = Common.TI.CARD.DIFF([In-migration],[In-migration PM])
+		formatString: #,0
+		displayFolder: TI\In-migration\MoM
+		lineageTag: df5e6a7d-1ac9-417b-b037-17a2ed0e7ae6
+
+	/// TI of In-migration
+	measure 'In-migration MoM(%)' = Common.TI.CARD.DIFF_PRC([In-migration MoM],[In-migration PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\In-migration\MoM
+		lineageTag: 19b51ba0-1467-4a00-81b0-8f967ca02a98
+
+	/// TI of In-migration
+	measure 'In-migration MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([In-migration PM],[In-migration MoM])
+		formatString: #,0
+		displayFolder: TI\In-migration\MoM
+		lineageTag: f4847625-e0e0-4e01-b218-389bdbef43e2
+
+	/// TI of In-migration
+	measure 'In-migration MoM Color' = Common.TI.CARD.COLOR([In-migration MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\In-migration\MoM
+		lineageTag: c4890077-ce01-49e8-95e1-1b32fa1a4bb6
+
+	/// TI of In-migration
+	measure 'In-migration YoY' = Common.TI.CARD.DIFF([In-migration],[In-migration PY])
+		formatString: #,0
+		displayFolder: TI\In-migration\YoY
+		lineageTag: 8d48f7fd-8e84-4cd7-9e69-6bfbdb56a991
+
+	/// TI of In-migration
+	measure 'In-migration YoY(%)' = Common.TI.CARD.DIFF_PRC([In-migration YoY],[In-migration PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\In-migration\YoY
+		lineageTag: 2fb499a0-db16-4ba3-8a7b-e1655194f5d8
+
+	/// TI of In-migration
+	measure 'In-migration YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([In-migration PY],[In-migration YoY])
+		formatString: #,0
+		displayFolder: TI\In-migration\YoY
+		lineageTag: 45380b37-3a58-4f6a-bc04-e08dcf8d2a6d
+
+	/// TI of In-migration
+	measure 'In-migration YoY Color' = Common.TI.CARD.COLOR([In-migration YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\In-migration\YoY
+		lineageTag: f90997b2-eae3-485e-bd93-8e1c85b94578
+
+	/// TI of Out-migration
+	measure 'Out-migration PD' = Common.TI.CARD.PD([Out-migration])
+		formatString: #,0
+		displayFolder: TI\Out-migration\DoD
+		lineageTag: 777eaf16-2d29-4d42-bd44-0479b0243c7f
+
+	/// TI of Out-migration
+	measure 'Out-migration PM' = Common.TI.CARD.PM([Out-migration],FALSE())
+		formatString: #,0
+		displayFolder: TI\Out-migration\MoM
+		lineageTag: 55e01ea1-6207-478a-b4c9-dfac0d2b7a49
+
+	/// TI of Out-migration
+	measure 'Out-migration PY' = Common.TI.CARD.PY([Out-migration],FALSE())
+		formatString: #,0
+		displayFolder: TI\Out-migration\YoY
+		lineageTag: b5ffcfb0-59e8-453e-89f5-79a5fb67696b
+
+	/// TI of Out-migration
+	measure 'Out-migration MTD' = TOTALMTD([Out-migration], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Out-migration\MoM
+		lineageTag: 6f6f86a0-cfc8-4bc8-af03-a24fb221fa46
+
+	/// TI of Out-migration
+	measure 'Out-migration YTD' = TOTALYTD([Out-migration], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Out-migration\YoY
+		lineageTag: 3a9d91ca-601b-44ba-bcee-2051d8cb1426
+
+	/// TI of Out-migration
+	measure 'Out-migration DoD' = Common.TI.CARD.DIFF([Out-migration],[Out-migration PD])
+		formatString: #,0
+		displayFolder: TI\Out-migration\DoD
+		lineageTag: 9239b27c-d81b-48cc-9472-4163588ed09d
+
+	/// TI of Out-migration
+	measure 'Out-migration DoD(%)' = Common.TI.CARD.DIFF_PRC([Out-migration DoD],[Out-migration PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Out-migration\DoD
+		lineageTag: d2a57493-57f6-463c-bfe3-84f0a1a0579c
+
+	/// TI of Out-migration
+	measure 'Out-migration MoM' = Common.TI.CARD.DIFF([Out-migration],[Out-migration PM])
+		formatString: #,0
+		displayFolder: TI\Out-migration\MoM
+		lineageTag: d29d28a3-2428-4333-b1c1-1d3058f63d9b
+
+	/// TI of Out-migration
+	measure 'Out-migration MoM(%)' = Common.TI.CARD.DIFF_PRC([Out-migration MoM],[Out-migration PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Out-migration\MoM
+		lineageTag: d31873c1-b98c-483d-b57c-9aebf5988131
+
+	/// TI of Out-migration
+	measure 'Out-migration MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Out-migration PM],[Out-migration MoM])
+		formatString: #,0
+		displayFolder: TI\Out-migration\MoM
+		lineageTag: 7d7d40cf-b747-416b-82d2-25ff35f00087
+
+	/// TI of Out-migration
+	measure 'Out-migration MoM Color' = Common.TI.CARD.COLOR([Out-migration MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Out-migration\MoM
+		lineageTag: 2486c227-8e99-4ea6-a192-9952e1b3deaf
+
+	/// TI of Out-migration
+	measure 'Out-migration YoY' = Common.TI.CARD.DIFF([Out-migration],[Out-migration PY])
+		formatString: #,0
+		displayFolder: TI\Out-migration\YoY
+		lineageTag: 28c6ab37-3fef-4bb4-a23c-4dbc9c747ff8
+
+	/// TI of Out-migration
+	measure 'Out-migration YoY(%)' = Common.TI.CARD.DIFF_PRC([Out-migration YoY],[Out-migration PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Out-migration\YoY
+		lineageTag: b85ee9b9-b302-490c-ab6b-f7c7d39ae0a6
+
+	/// TI of Out-migration
+	measure 'Out-migration YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Out-migration PY],[Out-migration YoY])
+		formatString: #,0
+		displayFolder: TI\Out-migration\YoY
+		lineageTag: 696a87fb-f124-4308-9d78-e81d77b9c4ae
+
+	/// TI of Out-migration
+	measure 'Out-migration YoY Color' = Common.TI.CARD.COLOR([Out-migration YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Out-migration\YoY
+		lineageTag: cd19032b-2e5d-47ec-b02d-4a4ecc23b407
+
+	/// TI of Total increase
+	measure 'Total increase PD' = Common.TI.CARD.PD([Total increase])
+		formatString: #,0
+		displayFolder: TI\Total increase\DoD
+		lineageTag: c67c24a3-541d-43e7-8202-44bb6e017f0d
+
+	/// TI of Total increase
+	measure 'Total increase PM' = Common.TI.CARD.PM([Total increase],FALSE())
+		formatString: #,0
+		displayFolder: TI\Total increase\MoM
+		lineageTag: 637455ac-b2e9-4b10-bf1c-e62be984d4aa
+
+	/// TI of Total increase
+	measure 'Total increase PY' = Common.TI.CARD.PY([Total increase],FALSE())
+		formatString: #,0
+		displayFolder: TI\Total increase\YoY
+		lineageTag: 94a2fe44-8385-40ba-8047-5852c45bad99
+
+	/// TI of Total increase
+	measure 'Total increase MTD' = TOTALMTD([Total increase], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Total increase\MoM
+		lineageTag: 9bd8789a-289c-4f9d-8ac6-2953505c59d7
+
+	/// TI of Total increase
+	measure 'Total increase YTD' = TOTALYTD([Total increase], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Total increase\YoY
+		lineageTag: 31881c64-a22b-4822-96e0-340197f5b1cf
+
+	/// TI of Total increase
+	measure 'Total increase DoD' = Common.TI.CARD.DIFF([Total increase],[Total increase PD])
+		formatString: #,0
+		displayFolder: TI\Total increase\DoD
+		lineageTag: e372a6cb-0d4f-4bb9-ab0d-49cf426c3763
+
+	/// TI of Total increase
+	measure 'Total increase DoD(%)' = Common.TI.CARD.DIFF_PRC([Total increase DoD],[Total increase PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Total increase\DoD
+		lineageTag: c0006ab3-c95c-41d3-b2a9-9dc41e0c6821
+
+	/// TI of Total increase
+	measure 'Total increase MoM' = Common.TI.CARD.DIFF([Total increase],[Total increase PM])
+		formatString: #,0
+		displayFolder: TI\Total increase\MoM
+		lineageTag: a13b5ac9-a50b-4b1d-898b-9b9c3427bfd3
+
+	/// TI of Total increase
+	measure 'Total increase MoM(%)' = Common.TI.CARD.DIFF_PRC([Total increase MoM],[Total increase PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Total increase\MoM
+		lineageTag: 5c05197b-fb2a-459f-8193-57ab3a26068d
+
+	/// TI of Total increase
+	measure 'Total increase MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Total increase PM],[Total increase MoM])
+		formatString: #,0
+		displayFolder: TI\Total increase\MoM
+		lineageTag: bd7b54c7-788f-4b5a-ac72-8c41e2e226fd
+
+	/// TI of Total increase
+	measure 'Total increase MoM Color' = Common.TI.CARD.COLOR([Total increase MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Total increase\MoM
+		lineageTag: 1e4c5de0-f427-40af-970f-18685a57de57
+
+	/// TI of Total increase
+	measure 'Total increase YoY' = Common.TI.CARD.DIFF([Total increase],[Total increase PY])
+		formatString: #,0
+		displayFolder: TI\Total increase\YoY
+		lineageTag: 5f5dc560-d859-4c2d-a1a6-56b4afb13b67
+
+	/// TI of Total increase
+	measure 'Total increase YoY(%)' = Common.TI.CARD.DIFF_PRC([Total increase YoY],[Total increase PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Total increase\YoY
+		lineageTag: 70bf8aef-3f7c-4eb7-b89a-617d83498289
+
+	/// TI of Total increase
+	measure 'Total increase YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Total increase PY],[Total increase YoY])
+		formatString: #,0
+		displayFolder: TI\Total increase\YoY
+		lineageTag: f06f2948-747b-4513-881c-1dbb2a243d44
+
+	/// TI of Total increase
+	measure 'Total increase YoY Color' = Common.TI.CARD.COLOR([Total increase YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Total increase\YoY
+		lineageTag: abee8bb4-348b-4858-8c7c-63ed78a8b727
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population PD' = Common.TI.CARD.PD([Avg Annual Population])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\DoD
+		lineageTag: bb346a5f-67d3-4b55-abf7-4c5aac9dd21d
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population PM' = Common.TI.CARD.PM([Avg Annual Population],FALSE())
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\MoM
+		lineageTag: 5a1d13f0-e31d-433c-8a59-ade3567c02cb
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population PY' = Common.TI.CARD.PY([Avg Annual Population],FALSE())
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\YoY
+		lineageTag: 21c130a3-2ed0-4413-a81d-5997763726f1
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population MTD' = TOTALMTD([Avg Annual Population], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\MoM
+		lineageTag: c8154db8-e96a-4573-a378-5df7a73cc7c3
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population YTD' = TOTALYTD([Avg Annual Population], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\YoY
+		lineageTag: e50d583e-aa28-42d7-91d6-ceba389fd69e
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population DoD' = Common.TI.CARD.DIFF([Avg Annual Population],[Avg Annual Population PD])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\DoD
+		lineageTag: ee6b05a0-10f9-4cc0-8b09-2bc224d1d945
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population DoD(%)' = Common.TI.CARD.DIFF_PRC([Avg Annual Population DoD],[Avg Annual Population PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Avg Annual Population\DoD
+		lineageTag: 2e7a44c7-939d-4e4b-b5d2-d9ca40a88606
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population MoM' = Common.TI.CARD.DIFF([Avg Annual Population],[Avg Annual Population PM])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\MoM
+		lineageTag: 118a86c0-04b6-49cf-a653-7a720a2b465f
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population MoM(%)' = Common.TI.CARD.DIFF_PRC([Avg Annual Population MoM],[Avg Annual Population PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Avg Annual Population\MoM
+		lineageTag: 4d60abfc-10e7-405e-baea-82997df9a8ef
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Avg Annual Population PM],[Avg Annual Population MoM])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\MoM
+		lineageTag: b0c66279-d660-4751-ac73-6d4c52fda90a
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population MoM Color' = Common.TI.CARD.COLOR([Avg Annual Population MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\MoM
+		lineageTag: 64f27ec4-3871-46c2-9134-0623ba1d610a
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population YoY' = Common.TI.CARD.DIFF([Avg Annual Population],[Avg Annual Population PY])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\YoY
+		lineageTag: 8b06c2c8-f9b9-4796-a40b-ba84ff87047c
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population YoY(%)' = Common.TI.CARD.DIFF_PRC([Avg Annual Population YoY],[Avg Annual Population PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Avg Annual Population\YoY
+		lineageTag: 247c68bc-abf3-4586-8e60-7d392ad9983c
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Avg Annual Population PY],[Avg Annual Population YoY])
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\YoY
+		lineageTag: ea219ffa-6419-4dff-95a7-8a1ec2ccdf7e
+
+	/// TI of Avg Annual Population
+	measure 'Avg Annual Population YoY Color' = Common.TI.CARD.COLOR([Avg Annual Population YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Avg Annual Population\YoY
+		lineageTag: c4d7dd6c-aee7-4fe4-9251-6696f6e8d1dc
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) PD' = Common.TI.CARD.PD([Crude Birth Rate (per 1k)])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\DoD
+		lineageTag: b03a316a-b6e5-452e-a976-14b101aa9fb5
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) PM' = Common.TI.CARD.PM([Crude Birth Rate (per 1k)],FALSE())
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\MoM
+		lineageTag: 471cb461-f42b-4d1d-b557-c11ab47889dc
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) PY' = Common.TI.CARD.PY([Crude Birth Rate (per 1k)],FALSE())
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\YoY
+		lineageTag: bcbde789-dc88-4e4b-b1b9-7508a0b47730
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) MTD' = TOTALMTD([Crude Birth Rate (per 1k)], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\MoM
+		lineageTag: 6a700d74-14a2-4c70-8b5e-2316749bb31a
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) YTD' = TOTALYTD([Crude Birth Rate (per 1k)], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\YoY
+		lineageTag: 25595588-de3e-481a-962a-d35bfc2d4e41
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) DoD' = Common.TI.CARD.DIFF([Crude Birth Rate (per 1k)],[Crude Birth Rate (per 1k) PD])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\DoD
+		lineageTag: e8888ad0-7f06-4891-9242-5ef81266f77e
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) DoD(%)' = Common.TI.CARD.DIFF_PRC([Crude Birth Rate (per 1k) DoD],[Crude Birth Rate (per 1k) PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Crude Birth Rate (per 1k)\DoD
+		lineageTag: c35ef6b6-922d-4156-accd-33b8ffc91f37
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) MoM' = Common.TI.CARD.DIFF([Crude Birth Rate (per 1k)],[Crude Birth Rate (per 1k) PM])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\MoM
+		lineageTag: 921275df-52ec-4822-8810-7eb62dd62f7f
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) MoM(%)' = Common.TI.CARD.DIFF_PRC([Crude Birth Rate (per 1k) MoM],[Crude Birth Rate (per 1k) PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Crude Birth Rate (per 1k)\MoM
+		lineageTag: 200fc75b-bb0b-4bcf-b986-66820bca1845
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Crude Birth Rate (per 1k) PM],[Crude Birth Rate (per 1k) MoM])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\MoM
+		lineageTag: 1e5cf42a-bb63-425d-bea5-e1e0bcbd148a
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) MoM Color' = Common.TI.CARD.COLOR([Crude Birth Rate (per 1k) MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\MoM
+		lineageTag: 010a8f46-3095-4f4b-9b9f-9545493a8091
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) YoY' = Common.TI.CARD.DIFF([Crude Birth Rate (per 1k)],[Crude Birth Rate (per 1k) PY])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\YoY
+		lineageTag: b969e4d8-411a-40c6-865b-2e1f1d902fa9
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) YoY(%)' = Common.TI.CARD.DIFF_PRC([Crude Birth Rate (per 1k) YoY],[Crude Birth Rate (per 1k) PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Crude Birth Rate (per 1k)\YoY
+		lineageTag: 764c877d-2fd6-47f3-8c32-d2abcc1bd2b8
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Crude Birth Rate (per 1k) PY],[Crude Birth Rate (per 1k) YoY])
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\YoY
+		lineageTag: 72e1aa32-0d4f-4eb1-a0bb-b34387d3b1de
+
+	/// TI of Crude Birth Rate (per 1k)
+	measure 'Crude Birth Rate (per 1k) YoY Color' = Common.TI.CARD.COLOR([Crude Birth Rate (per 1k) YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Crude Birth Rate (per 1k)\YoY
+		lineageTag: 713dd768-24c0-4bad-8c1a-0e0f8b73ca10
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) PD' = Common.TI.CARD.PD([Crude Death Rate (per 1k)])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\DoD
+		lineageTag: c0951063-1453-4448-9fe5-69b418453ccf
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) PM' = Common.TI.CARD.PM([Crude Death Rate (per 1k)],FALSE())
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\MoM
+		lineageTag: 15c728e2-eb5e-4914-a37e-e3dc2f4f8e9a
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) PY' = Common.TI.CARD.PY([Crude Death Rate (per 1k)],FALSE())
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\YoY
+		lineageTag: 0d7e7874-0f37-4003-a287-00db0f31704d
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) MTD' = TOTALMTD([Crude Death Rate (per 1k)], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\MoM
+		lineageTag: 56f03a09-0d5d-4934-866d-653252fe76dd
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) YTD' = TOTALYTD([Crude Death Rate (per 1k)], mv_d_date[Date])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\YoY
+		lineageTag: 56f18242-45a5-4d22-a43c-e787077090c2
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) DoD' = Common.TI.CARD.DIFF([Crude Death Rate (per 1k)],[Crude Death Rate (per 1k) PD])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\DoD
+		lineageTag: d56d07b6-8456-47ea-b275-b48a97bd1ffb
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) DoD(%)' = Common.TI.CARD.DIFF_PRC([Crude Death Rate (per 1k) DoD],[Crude Death Rate (per 1k) PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Crude Death Rate (per 1k)\DoD
+		lineageTag: f68e2414-66da-4d5f-abe5-6f2c984366ae
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) MoM' = Common.TI.CARD.DIFF([Crude Death Rate (per 1k)],[Crude Death Rate (per 1k) PM])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\MoM
+		lineageTag: 0491f661-33f0-4d13-aab2-66b34f32d11e
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) MoM(%)' = Common.TI.CARD.DIFF_PRC([Crude Death Rate (per 1k) MoM],[Crude Death Rate (per 1k) PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Crude Death Rate (per 1k)\MoM
+		lineageTag: ac1c60dd-cdc1-4822-9e48-817d9e41fd8b
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) MoM(%) format' = Common.TI.CARD.DIFF_FORMAT([Crude Death Rate (per 1k) PM],[Crude Death Rate (per 1k) MoM])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\MoM
+		lineageTag: d0849093-1391-4bef-809d-b0245bddc1ad
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) MoM Color' = Common.TI.CARD.COLOR([Crude Death Rate (per 1k) MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\MoM
+		lineageTag: e3f2c5c4-25fd-44f6-b150-74b873ea51ea
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) YoY' = Common.TI.CARD.DIFF([Crude Death Rate (per 1k)],[Crude Death Rate (per 1k) PY])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\YoY
+		lineageTag: 6796a085-c6eb-4e3c-9692-cae0c4694482
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) YoY(%)' = Common.TI.CARD.DIFF_PRC([Crude Death Rate (per 1k) YoY],[Crude Death Rate (per 1k) PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Crude Death Rate (per 1k)\YoY
+		lineageTag: 3c76b28f-6a68-4e06-bd91-5c131596e9e4
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) YoY(%) format' = Common.TI.CARD.DIFF_FORMAT([Crude Death Rate (per 1k) PY],[Crude Death Rate (per 1k) YoY])
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\YoY
+		lineageTag: 754e394e-a712-49c4-a960-ee49a8cec13f
+
+	/// TI of Crude Death Rate (per 1k)
+	measure 'Crude Death Rate (per 1k) YoY Color' = Common.TI.CARD.COLOR([Crude Death Rate (per 1k) YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Crude Death Rate (per 1k)\YoY
+		lineageTag: 1a429f1e-30ca-4476-a0ac-d7f86bcef7a6
+
+	measure 'Incidents Closed' =
+			CALCULATE(
+			    [Incidents by primary type],
+			    KEEPFILTERS( d_state[state_code]  <> 1 )
+			)
+		displayFolder: Incidents resolution
+		lineageTag: 6c84b1c2-0dd1-42ee-bc2e-b8bc3bb73b51
+
+		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
+
+	measure 'Incidents Closed (%)' =
+			DIVIDE(
+			    [Incidents Closed],
+			    [Incidents by primary type]
+			)
+		displayFolder: Incidents resolution
+		lineageTag: 82ffe36f-953d-4ace-8301-5b13d45dc34e
+
+		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
+
+	measure 'Quadrant Color' = Common.QuadrantColor([Incidents by primary type],[Crime rate],mv_d_uzemi[zkratka_kraje])
+		displayFolder: Technical Measures
+		lineageTag: d97c5fa8-1d71-4f5b-9739-03189f42f8ed
+
+	measure selected_date_range_SVG =
+			VAR __minCurr = MIN( mv_d_date[Date] )
+			VAR __maxCurr = MAX( mv_d_date[Date] )
+			VAR __pmDates  = DATEADD( mv_d_date[Date], -1, MONTH )
+			VAR __minPM    = MINX( __pmDates, mv_d_date[Date] )
+			VAR __maxPM    = MAXX( __pmDates, mv_d_date[Date] )
+			VAR __pyDates  = SAMEPERIODLASTYEAR( mv_d_date[Date] )
+			VAR __minPY    = MINX( __pyDates, mv_d_date[Date] )
+			VAR __maxPY    = MAXX( __pyDates, mv_d_date[Date] )
+			
+			VAR __actual = "Actual: " & FORMAT(__minCurr,"dd.mm.yyyy") & "–" & FORMAT(__maxCurr,"dd.mm.yyyy")
+			VAR __pm     = "PM:     " & FORMAT(__minPM,  "dd.mm.yyyy") & "–" & FORMAT(__maxPM,  "dd.mm.yyyy")
+			VAR __py     = "PY:     " & FORMAT(__minPY,  "dd.mm.yyyy") & "–" & FORMAT(__maxPY,  "dd.mm.yyyy")
+			
+			RETURN
+			"data:image/svg+xml;utf8," &
+			"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 55' preserveAspectRatio='xMidYMid meet'>" &
+			"<style>text{font-family:Segoe UI,Arial,sans-serif;font-size:12px;fill:#FFFFFF;text-anchor:middle;}</style>" &
+			"<text x='100' y='12'>" & __actual & "</text>" &
+			"<text x='100' y='28'>" & __pm     & "</text>" &
+			"<text x='100' y='44'>" & __py     & "</text>" &
+			"</svg>"
+		displayFolder: Technical Measures
+		lineageTag: 5de35f8d-6301-4993-b132-f637faea4a57
+
+	measure Zero = 0
+		displayFolder: Technical Measures
+		lineageTag: caf2d7a2-29b5-4029-a747-d47c9c46c63d
+
+	measure 'Zero 2' = 0
+		displayFolder: Technical Measures
+		lineageTag: 20e5f703-1cca-4dc0-a7cc-e0455acaf450
+
+	measure One = 1
+		displayFolder: Technical Measures
+		lineageTag: b90bb1e1-fb1a-4354-a754-2c5d840337a0
 
 	column Value
 		formatString: 0

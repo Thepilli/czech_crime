@@ -1,4 +1,5 @@
 table H_Map
+	isHidden
 	lineageTag: cc8b8a0d-e2bf-4bf3-8f7e-70fd95dbf938
 
 	/// This measure is the SELECTEDVALUE of 'jsons'[topojson]

@@ -1,4 +1,5 @@
 table bridge_group_type
+	isHidden
 	lineageTag: ca5dcde1-fb5b-495a-8e35-a2602c7a5481
 	sourceLineageTag: [crime].[bridge_group_type]
 
