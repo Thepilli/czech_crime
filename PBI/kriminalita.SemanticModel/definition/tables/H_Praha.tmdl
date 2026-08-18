@@ -9,12 +9,14 @@ table H_Praha
 
 	column Name
 		dataType: string
+		lineageTag: be72e405-63c2-4e8c-9471-ccf319623793
 		sourceColumn: Name
 		sortByColumn: Ordinal
 
 	column Ordinal
 		dataType: int64
 		isHidden
+		lineageTag: e1bab6f0-ddad-4279-b510-f1fd25bceceb
 		sourceColumn: Ordinal
 
 	annotation TabularEditor_TableGroup = PARAMs

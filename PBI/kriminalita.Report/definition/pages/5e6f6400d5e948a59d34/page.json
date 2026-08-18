@@ -49,7 +49,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'Havlíčkův Brod'"
+                          "Value": "'Beroun'"
                         }
                       }
                     ]
@@ -84,12 +84,6 @@
     ],
     "acceptsFilterContext": "None"
   },
-  "type": "Drillthrough",
-  "visualInteractions": [
-    {
-      "source": "6c727320199b06ab5c90",
-      "target": "dc8224d7097744b737b0",
-      "type": "NoFilter"
-    }
-  ]
+  "visibility": "HiddenInViewMode",
+  "type": "Drillthrough"
 }

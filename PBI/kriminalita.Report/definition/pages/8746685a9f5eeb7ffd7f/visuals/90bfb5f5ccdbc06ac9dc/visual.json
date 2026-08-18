@@ -1,0 +1,168 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "90bfb5f5ccdbc06ac9dc",
+  "position": {
+    "x": 338.03602556653107,
+    "y": 0,
+    "z": 3000,
+    "height": 431.74898314933176,
+    "width": 651.52818128994772,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_date"
+                    }
+                  },
+                  "Property": "DayName"
+                }
+              },
+              "queryRef": "mv_d_date.DayName",
+              "nativeQueryRef": "DayName",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_time"
+                    }
+                  },
+                  "Property": "HourBand6"
+                }
+              },
+              "queryRef": "d_time.HourBand6",
+              "nativeQueryRef": "HourBand6"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Incidents by primary type"
+                }
+              },
+              "queryRef": "Calculations.Incidents by primary type",
+              "nativeQueryRef": "Incidents by primary type",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Incidents Solved (%)"
+                }
+              },
+              "queryRef": "Calculations.Incidents Solved (%)",
+              "nativeQueryRef": "Incidents Solved (%)"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "roundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "bubbles": [
+        {
+          "properties": {
+            "bubbleSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            },
+            "markerRangeType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'auto'"
+                }
+              }
+            },
+            "preventOverflow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calculations"
+                        }
+                      },
+                      "Property": "hourband6 color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "roles": [
+                  "Series"
+                ]
+              }
+            ],
+            "hierarchyMatching": 1
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,2 +1,0 @@
-EVALUATE
-SUMMARIZECOLUMNS(f_populace[populace],f_populace[year],mv_d_uzemi[název_obce])

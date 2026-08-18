@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "ca7e18a99256db1a74d0",
   "position": {
-    "x": 205.55555555555554,
-    "y": 730,
-    "z": 9000,
-    "height": 350,
-    "width": 1714.4444444444443,
-    "tabOrder": 9000
+    "x": 205.71428571428572,
+    "y": 671.42857142857144,
+    "z": 4000,
+    "height": 408.57142857142861,
+    "width": 1714.2857142857144,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -747,6 +747,132 @@
             }
           ]
         }
+      },
+      {
+        "name": "b2ae04f6d20692e31f60",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_kraje"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7551456cbb463bb700b5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "35cecd5ec5b534e51bd4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type || ALL(%)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6a17291ab5d00c5839e9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate YoY(%)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "dfe4489a037341888215",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type YoY(%)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "97f5cfe7f941f7a19de1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Top Category by Incidents"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "75a8c600f810f9643d9e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Top Category Incidents"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "167c451280d3f5cb8185",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Top Category Incidents || ALL(%)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d12bdcf45b7103ccc57a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type sparkline"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

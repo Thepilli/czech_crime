@@ -11,7 +11,7 @@
       "type": "SharedResources"
     },
     "customTheme": {
-      "name": "JP6707770465126138.json",
+      "name": "JP03166391603309038.json",
       "reportVersionAtImport": {
         "visual": "2.11.0",
         "report": "3.4.0",
@@ -40,7 +40,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "false"
+                "Value": "true"
               }
             }
           }
@@ -70,8 +70,18 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "JP6707770465126138.json",
-          "path": "JP6707770465126138.json",
+          "name": "accounting7586424366709535.png",
+          "path": "accounting7586424366709535.png",
+          "type": "Image"
+        },
+        {
+          "name": "demographic24402137280126612.png",
+          "path": "demographic24402137280126612.png",
+          "type": "Image"
+        },
+        {
+          "name": "JP03166391603309038.json",
+          "path": "JP03166391603309038.json",
           "type": "CustomTheme"
         },
         {
@@ -87,6 +97,11 @@
         {
           "name": "Overview23350199807871042.png",
           "path": "Overview23350199807871042.png",
+          "type": "Image"
+        },
+        {
+          "name": "region06727120354879568.png",
+          "path": "region06727120354879568.png",
           "type": "Image"
         },
         {

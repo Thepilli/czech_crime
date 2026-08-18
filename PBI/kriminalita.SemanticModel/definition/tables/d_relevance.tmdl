@@ -1,6 +1,5 @@
 table d_relevance
 	isHidden
-	
 	lineageTag: 25bf1db0-a535-4d56-a8ed-768219bebd7f
 	sourceLineageTag: [crime].[d_relevance]
 

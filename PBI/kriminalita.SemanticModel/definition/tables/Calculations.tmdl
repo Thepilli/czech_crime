@@ -6,15 +6,6 @@ table Calculations
 		displayFolder: Aggregations
 		lineageTag: 33fcf400-73b6-49bd-8ef4-10e7482e67ab
 
-	measure 'Incidents by primary type' =
-			CALCULATE(
-			    [COUNTROWS of mv_f_crime ],
-			    USERELATIONSHIP( mv_f_crime[primary_type], d_type[type_code] )
-			)
-		lineageTag: 39c511e7-fe0e-4a6d-aeaa-e281a4a7fcbf
-
-		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
-
 	measure 'Incident share' =
 			DIVIDE(
 			    [COUNTROWS of mv_f_crime ],
@@ -90,6 +81,7 @@ table Calculations
 			            f_populace[year] = _y
 			        )
 			)
+		formatString: #,0
 		displayFolder: Demographics\Population
 		lineageTag: ca0d1fbf-772f-46e5-b45c-626129c5e0c0
 
@@ -2661,6 +2653,28 @@ table Calculations
 	measure One = 1
 		displayFolder: Technical Measures
 		lineageTag: b90bb1e1-fb1a-4354-a754-2c5d840337a0
+
+	measure 'Incidents by primary type' =
+			CALCULATE(
+			    [COUNTROWS of mv_f_crime ],
+			    USERELATIONSHIP( mv_f_crime[primary_type], d_type[type_code] )
+			)
+		lineageTag: 39c511e7-fe0e-4a6d-aeaa-e281a4a7fcbf
+
+		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
+
+	measure 'hourband6 color' =
+			SWITCH(
+			    SELECTEDVALUE( d_time[HourBand6] ),
+			    "00-03", "#16255C",
+			    "04-07", "#2A5FA5",
+			    "08-11", "#5E9BC9",
+			    "12-15", "#EFA13C",
+			    "16-19", "#D2601F",
+			    "20-23", "#8B1A1A"
+			)
+		displayFolder: Technical Measures
+		lineageTag: 5db4dc69-50a8-45a8-8f3a-b87e1bb1a005
 
 	column Value
 		formatString: 0

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "8e484240d17c30902165",
   "position": {
-    "x": 206.66666666666666,
-    "y": 177.77777777777777,
-    "z": 18000,
-    "height": 362.22222222222223,
-    "width": 790,
-    "tabOrder": 18000
+    "x": 200,
+    "y": 117.14285714285715,
+    "z": 11000,
+    "height": 474.28571428571433,
+    "width": 857.14285714285722,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "shapeMap",
@@ -199,7 +199,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Regional Crime Rate'"
+                  "Value": "'Natural Increase Rate per 1,000'"
                 }
               }
             }
@@ -232,7 +232,7 @@
             "section": {
               "expr": {
                 "Literal": {
-                  "Value": "'342cef7a129998b0482b'"
+                  "Value": "'10173fb01c710284e026'"
                 }
               }
             }
@@ -241,37 +241,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "fb4284912865a8858700",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "mv_d_uzemi"
-              }
-            },
-            "Property": "název_okresu"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "6883100ba1500380a5e5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Natural Increase Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

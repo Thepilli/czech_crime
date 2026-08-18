@@ -258,6 +258,15 @@ table mv_d_uzemi
 
 		annotation SummarizationSetBy = Automatic
 
+	column název_kraje_short
+		dataType: string
+		lineageTag: eee427d5-df73-4505-8888-08399ce89f93
+		sourceLineageTag: název_kraje_short
+		summarizeBy: none
+		sourceColumn: název_kraje_short
+
+		annotation SummarizationSetBy = Automatic
+
 	partition mv_d_uzemi = entity
 		mode: directLake
 		source

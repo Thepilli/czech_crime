@@ -159,6 +159,7 @@ table mv_d_date
 		sourceLineageTag: DayName
 		summarizeBy: none
 		sourceColumn: DayName
+		sortByColumn: DayofWeek
 
 		annotation SummarizationSetBy = Automatic
 

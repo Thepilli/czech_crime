@@ -2,11 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "ec11622210197ddcd71d",
   "position": {
-    "x": 0,
-    "y": 667.14285714285722,
-    "z": 13002,
-    "height": 412.85714285714289,
-    "width": 601.42857142857144
+    "x": 206.25,
+    "y": 601.25,
+    "z": 8000,
+    "height": 478.75,
+    "width": 942.5,
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "lineChart",
@@ -94,6 +95,19 @@
               "expr": {
                 "Literal": {
                   "Value": "'Data labels - straight line'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Hourly Incident Occurence'"
                 }
               }
             }

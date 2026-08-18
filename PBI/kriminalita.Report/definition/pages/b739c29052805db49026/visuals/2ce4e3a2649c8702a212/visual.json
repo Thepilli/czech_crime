@@ -3,11 +3,11 @@
   "name": "2ce4e3a2649c8702a212",
   "position": {
     "x": 1493.8428735443661,
-    "y": 62.824339839265207,
-    "z": 10000,
+    "y": 0.32433983926520682,
+    "z": 4000,
     "height": 110,
     "width": 210,
-    "tabOrder": 10000
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -537,23 +537,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "c0d7fecd122eb6dc57cc",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crude Birth Rate (per 1k)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "dc8224d7097744b737b0",
   "position": {
-    "x": 1065.5555555555554,
-    "y": 477.91359718200135,
+    "x": 1065,
+    "y": 422.5,
     "z": 1000,
     "height": 250,
-    "width": 854.44444444444446,
+    "width": 855,
     "tabOrder": 0
   },
   "visual": {
@@ -421,6 +421,13 @@
                   "Value": "1L"
                 }
               }
+            },
+            "calloutSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "70D"
+                }
+              }
             }
           }
         }
@@ -512,6 +519,135 @@
             "id": "default"
           }
         }
+      ],
+      "referenceLabel": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Incidents Solved (%)"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Calculations.Incidents by primary type",
+            "id": "field-bd1b7d47-8136-55df-0f6c-51be59174991",
+            "order": 0
+          }
+        }
+      ],
+      "referenceLabelLayout": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'right'"
+                }
+              }
+            },
+            "arrangement": {
+              "expr": {
+                "Literal": {
+                  "Value": "'rows'"
+                }
+              }
+            },
+            "labelSpace": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Incidents by primary type"
+          }
+        },
+        {
+          "properties": {
+            "showBlankAs": {
+              "expr": {
+                "Literal": {
+                  "Value": "'N/A'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Incidents by primary type",
+            "id": "field-bd1b7d47-8136-55df-0f6c-51be59174991"
+          }
+        }
+      ],
+      "referenceLabelTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Incidents by primary type"
+          }
+        },
+        {
+          "properties": {
+            "titleContentType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'custom'"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Solved:'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Incidents by primary type",
+            "id": "field-bd1b7d47-8136-55df-0f6c-51be59174991"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -537,11 +673,64 @@
                   "Value": "true"
                 }
               }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'aae7fd30ce0368267924'"
+                }
+              }
             }
           }
         }
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f75301d38d77e9a91c81",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fff4871554f2501f64c5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "d_type"
+              }
+            },
+            "Property": "category_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5d38b907b64f34f6f73c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents Solved (%)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

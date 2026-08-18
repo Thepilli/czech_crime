@@ -11,7 +11,7 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_QueryOrder = ["DirectLake - LH_Catalogue"]
 
-annotation __LastRPTime = 134302156355096174
+annotation __LastRPTime = 134310790809830824
 
 annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit"]
 

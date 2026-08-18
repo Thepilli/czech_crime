@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 0,
-    "z": 12000,
+    "z": 7000,
     "height": 40,
-    "width": 100,
-    "tabOrder": 12000
+    "width": 205.71428571428572,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "actionButton",
@@ -19,6 +19,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'back'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "fill": [
+        {
+          "properties": {
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#00766E'"
+                    }
+                  }
                 }
               }
             }
@@ -44,6 +64,19 @@
               "expr": {
                 "Literal": {
                   "Value": "'Back'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

@@ -9,6 +9,7 @@ between requests and back off on HTTP 429.
 The script is resumable: an already-present, valid (JSON-parseable) file is
 skipped, so you can re-run it after an interruption.
 """
+
 import gzip
 import io
 import json
@@ -21,7 +22,7 @@ BASE = "https://kriminalita.policie.gov.cz/api/v2/downloads/{ym}.geojson"
 OUT_DIR = "data"
 START = (2012, 1)
 END = (2026, 6)
-DELAY = 1.8          # seconds between requests (~33/min, under the 40 limit)
+DELAY = 1.8  # seconds between requests (~33/min, under the 40 limit)
 MAX_RETRIES = 5
 
 
@@ -48,10 +49,13 @@ def is_valid(path):
 
 def fetch(ym):
     url = BASE.format(ym=ym)
-    req = urllib.request.Request(url, headers={
-        "Accept-Encoding": "gzip",
-        "User-Agent": "data-fetch/1.0",
-    })
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Accept-Encoding": "gzip",
+            "User-Agent": "data-fetch/1.0",
+        },
+    )
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
@@ -60,12 +64,12 @@ def fetch(ym):
                     raw = gzip.decompress(raw)
                 return raw
         except urllib.error.HTTPError as e:
-            if e.code == 429:                     # rate limited -> back off
+            if e.code == 429:  # rate limited -> back off
                 wait = min(60, 5 * attempt)
                 print(f"  429 rate-limited, waiting {wait}s (attempt {attempt})")
                 time.sleep(wait)
                 continue
-            if e.code == 404:                     # month genuinely missing
+            if e.code == 404:  # month genuinely missing
                 print(f"  404 not found for {ym}")
                 return None
             print(f"  HTTP {e.code} for {ym} (attempt {attempt})")
@@ -95,8 +99,10 @@ def main():
                 f.write(data)
             n = len(json.loads(data)["features"])
             downloaded += 1
-            print(f"[{i}/{len(all_months)}] {ym}: {n} features "
-                  f"({len(data)//1024} KiB)")
+            print(
+                f"[{i}/{len(all_months)}] {ym}: {n} features "
+                f"({len(data)//1024} KiB)"
+            )
             time.sleep(DELAY)
 
     print(f"\nDone. downloaded={downloaded} skipped={skipped} failed={failed}")

@@ -46,22 +46,60 @@ table d_time
 		isNameInferred
 		sourceColumn: [30MinuteBand]
 
+	column HourBandSort
+		lineageTag: 842ca426-8026-4550-9d90-432004874cf5
+		isNameInferred
+		sourceColumn: [HourBandSort]
+
+	column HourBand
+		lineageTag: ff0b9a0d-5e18-4784-80ae-97ad2612aa4c
+		isNameInferred
+		sourceColumn: [HourBand]
+		sortByColumn: HourBandSort
+
+	column HourBand6Sort
+		lineageTag: 78ff57c7-9adc-4e32-bec4-52753ab95c41
+		isNameInferred
+		sourceColumn: [HourBand6Sort]
+
+	column HourBand6
+		lineageTag: 8ef9ba3c-3ae4-41ff-8851-1a22bdd83866
+		isNameInferred
+		sourceColumn: [HourBand6]
+		sortByColumn: HourBand6Sort
+
 	partition d_time = calculated
 		mode: import
 		source =
+				
 				VAR BaseTime =
 				    GENERATESERIES ( 0, 1439, 1 )
+				VAR AddParts =
+				    ADDCOLUMNS (
+				        BaseTime,
+				        "TimeValue", TIME ( 0, [Value], 0 ),
+				        "HourNumber", INT ( [Value] / 60 ),
+				        "MinuteNumber", MOD ( [Value], 60 ),
+				        "HourStart", TIME ( 0, INT ( [Value] / 60 ) * 60, 0 ),
+				        "MinuteStart15", TIME ( 0, INT ( [Value] / 15 ) * 15, 0 ),
+				        "MinuteStart30", TIME ( 0, INT ( [Value] / 30 ) * 30, 0 )
+				    )
+				VAR AddBands =
+				    ADDCOLUMNS (
+				        AddParts,
+				        "HourBandSort",
+				            SWITCH (
+				                TRUE (),
+				                [HourNumber] <= 5, 1,
+				                [HourNumber] <= 11, 2,
+				                [HourNumber] <= 17, 3,
+				                4
+				            ),
+				        "HourBand6Sort", INT ( [HourNumber] / 4 ) + 1
+				    )
 				RETURN
 				    SELECTCOLUMNS (
-				        ADDCOLUMNS (
-				            BaseTime,
-				            "TimeValue", TIME ( 0, [Value], 0 ),
-				            "HourNumber", INT ( [Value] / 60 ),
-				            "MinuteNumber", MOD ( [Value], 60 ),
-				            "HourStart", TIME ( 0, INT ( [Value] / 60 ) * 60, 0 ),
-				            "MinuteStart15", TIME ( 0, INT ( [Value] / 15 ) * 15, 0 ),
-				            "MinuteStart30", TIME ( 0, INT ( [Value] / 30 ) * 30, 0 )
-				        ),
+				        AddBands,
 				        "TimeKey", [Value],
 				        "Time", [TimeValue],
 				        "HourNumber", [HourNumber],
@@ -70,7 +108,20 @@ table d_time
 				        "Minute", FORMAT ( [TimeValue], "HH:mm" ),
 				        "HourStart", [HourStart],
 				        "15MinuteBand", FORMAT ( [MinuteStart15], "HH:mm" ),
-				        "30MinuteBand", FORMAT ( [MinuteStart30], "HH:mm" )
+				        "30MinuteBand", FORMAT ( [MinuteStart30], "HH:mm" ),
+				        "HourBandSort", [HourBandSort],
+				        "HourBand",
+				            SWITCH (
+				                [HourBandSort],
+				                1, "00-05 Night",
+				                2, "06-11 Morning",
+				                3, "12-17 Afternoon",
+				                "18-23 Evening"
+				            ),
+				        "HourBand6Sort", [HourBand6Sort],
+				        "HourBand6",
+				            FORMAT ( ( [HourBand6Sort] - 1 ) * 4, "00" ) & "-"
+				                & FORMAT ( [HourBand6Sort] * 4 - 1, "00" )
 				    )
 
 	annotation TabularEditor_TableGroup = DIMs

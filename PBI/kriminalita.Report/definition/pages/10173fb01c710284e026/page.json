@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "10173fb01c710284e026",
+  "displayName": "_TooltipMapObceDemo",
+  "displayOption": "ActualSize",
+  "height": 300,
+  "width": 500,
+  "visibility": "HiddenInViewMode",
+  "type": "Tooltip"
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "e0b433150178584b0597",
+  "position": {
+    "x": 0,
+    "y": 115.71428571428572,
+    "z": 13000,
+    "height": 110,
+    "width": 200,
+    "tabOrder": 13000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mv_d_uzemi"
+                    }
+                  },
+                  "Property": "SELECTEDVALUE of název_okresu"
+                }
+              },
+              "queryRef": "mv_d_uzemi.SELECTEDVALUE of název_okresu",
+              "nativeQueryRef": "SELECTEDVALUE of název_okresu"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "d8e4c1a3cee112ee0b3e",
   "position": {
-    "x": 0,
-    "y": 648.57142857142867,
-    "z": 6000,
-    "height": 431.42857142857144,
-    "width": 461.42857142857144,
-    "tabOrder": 6000
+    "x": 200,
+    "y": 595.71428571428578,
+    "z": 0,
+    "height": 475.71428571428572,
+    "width": 857.14285714285722,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "pivotTable",
@@ -42,6 +42,36 @@
                       "Entity": "Calculations"
                     }
                   },
+                  "Property": "Avg Annual Population"
+                }
+              },
+              "queryRef": "Calculations.Avg Annual Population",
+              "nativeQueryRef": "Population",
+              "displayName": "Population"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Population || ALL(%)"
+                }
+              },
+              "queryRef": "Calculations.Population || ALL(%)",
+              "nativeQueryRef": "% of all",
+              "displayName": "% of all"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
                   "Property": "Births"
                 }
               },
@@ -61,20 +91,6 @@
               },
               "queryRef": "Calculations.Deaths",
               "nativeQueryRef": "Deaths"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Natural increase"
-                }
-              },
-              "queryRef": "Calculations.Natural increase",
-              "nativeQueryRef": "Natural increase"
             },
             {
               "field": {
@@ -112,95 +128,12 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Net migration"
-                }
-              },
-              "queryRef": "Calculations.Net migration",
-              "nativeQueryRef": "Net migration"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
                   "Property": "Total increase"
                 }
               },
               "queryRef": "Calculations.Total increase",
-              "nativeQueryRef": "Total increase"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Avg Annual Population"
-                }
-              },
-              "queryRef": "Calculations.Avg Annual Population",
-              "nativeQueryRef": "Avg Annual Population"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Crude Birth Rate (per 1k)"
-                }
-              },
-              "queryRef": "Calculations.Crude Birth Rate (per 1k)",
-              "nativeQueryRef": "Crude Birth Rate (per 1k)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Population || ALL(%)"
-                }
-              },
-              "queryRef": "Calculations.Population || ALL(%)",
-              "nativeQueryRef": "Population || ALL(%)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Crude Death Rate (per 1k)"
-                }
-              },
-              "queryRef": "Calculations.Crude Death Rate (per 1k)",
-              "nativeQueryRef": "Crude Death Rate (per 1k)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Natural Increase Rate (per 1k)"
-                }
-              },
-              "queryRef": "Calculations.Natural Increase Rate (per 1k)",
-              "nativeQueryRef": "Natural Increase Rate (per 1k)"
+              "nativeQueryRef": "Growth",
+              "displayName": "Growth"
             },
             {
               "field": {
@@ -214,21 +147,8 @@
                 }
               },
               "queryRef": "Calculations.Total Growth Rate (per 1k)",
-              "nativeQueryRef": "Total Growth Rate (per 1k)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calculations"
-                    }
-                  },
-                  "Property": "Net Migration Rate (per 1k)"
-                }
-              },
-              "queryRef": "Calculations.Net Migration Rate (per 1k)",
-              "nativeQueryRef": "Net Migration Rate (per 1k)"
+              "nativeQueryRef": "Growth Rate (per 1k)",
+              "displayName": "Growth Rate (per 1k)"
             }
           ]
         }
@@ -243,13 +163,411 @@
                     "Entity": "Calculations"
                   }
                 },
-                "Property": "Natural Increase Rate (per 1k)"
+                "Property": "In-migration"
               }
             },
             "direction": "Descending"
           }
         ]
       }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "defaultColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "90D"
+                }
+              }
+            },
+            "titleAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Total Growth Rate (per 1k)"
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#7FD3CE'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#00766E'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'foreground'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "totalMatchingOption": {
+                "expr": {
+                  "Literal": {
+                    "Value": "1L"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Avg Annual Population"
+          }
+        },
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#00C853'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#00C853'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'foreground'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "totalMatchingOption": {
+                "expr": {
+                  "Literal": {
+                    "Value": "1L"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Births"
+          }
+        },
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'maxColor'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'minColor'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'foreground'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "totalMatchingOption": {
+                "expr": {
+                  "Literal": {
+                    "Value": "1L"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Deaths"
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "icon": {
+              "kind": "Icon",
+              "layout": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Before'"
+                  }
+                }
+              },
+              "verticalAlignment": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Top'"
+                  }
+                }
+              },
+              "value": {
+                "expr": {
+                  "Conditional": {
+                    "Cases": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 2,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "Calculations"
+                                  }
+                                },
+                                "Property": "Total Growth Rate (per 1k)"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'TriangleHigh'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 3,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "Calculations"
+                                  }
+                                },
+                                "Property": "Total Growth Rate (per 1k)"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'TriangleLow'"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Calculations.Total Growth Rate (per 1k)"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Subtitle"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Annual Population Statistics'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "spaceAboveSubtitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "spaceAbovePlotArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

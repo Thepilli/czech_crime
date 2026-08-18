@@ -3,11 +3,11 @@
   "name": "b750b15709a400eb0350",
   "position": {
     "x": 1278.2023946203051,
-    "y": 62.824339839265207,
-    "z": 12000,
+    "y": 0.32433983926520682,
+    "z": 6000,
     "height": 110,
     "width": 210,
-    "tabOrder": 12000
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "cardVisual",

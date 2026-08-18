@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "25d673ef70a8947a9927",
   "position": {
-    "x": 601.11111111111109,
-    "y": 666.66666666666663,
-    "z": 8000,
-    "height": 413.33333333333331,
-    "width": 676.66666666666663,
-    "tabOrder": 8000
+    "x": 745.55555555555554,
+    "y": 115.55555555555556,
+    "z": 6000,
+    "height": 480,
+    "width": 526.66666666666663,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "scatterChart",
@@ -298,66 +298,61 @@
         }
       ]
     },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Crime Rate vs. Year-over-Year Change by Category'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Which Crime Types Are Growing, and How Big They Are'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "spaceAboveSubtitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "spaceAbovePlotArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "922b0812d60087a06c2a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "d_type"
-              }
-            },
-            "Property": "category_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "14a19e28d0a415149b9a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents by primary type"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "be4c8cfca16ce10901c9",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "29351743028e99067b55",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Crime rate YoY(%)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

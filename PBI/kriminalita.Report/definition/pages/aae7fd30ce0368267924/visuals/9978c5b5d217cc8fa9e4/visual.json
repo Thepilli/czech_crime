@@ -1,0 +1,267 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "9978c5b5d217cc8fa9e4",
+  "position": {
+    "x": 0,
+    "y": 40,
+    "z": 0,
+    "height": 260,
+    "width": 600,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_type"
+                    }
+                  },
+                  "Property": "type_name"
+                }
+              },
+              "queryRef": "d_type.type_name",
+              "nativeQueryRef": "sub-type",
+              "displayName": "sub-type"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Incidents by primary type"
+                }
+              },
+              "queryRef": "Calculations.Incidents by primary type",
+              "nativeQueryRef": "Incidents",
+              "displayName": "Incidents"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Incidents Solved (%)"
+                }
+              },
+              "queryRef": "Calculations.Incidents Solved (%)",
+              "nativeQueryRef": "Solved (%)",
+              "displayName": "Solved (%)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calculations"
+                  }
+                },
+                "Property": "Incidents by primary type"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "73D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Incidents by primary type"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "416.636340281408D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "d_type.type_name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "80.36368736636709D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Incidents Solved (%)"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontalWeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d9472d616b80a109b3c0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_obce"
+          }
+        },
+        "type": "TopN",
+        "howCreated": "User"
+      },
+      {
+        "name": "33b9ef03582bd8350da0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "da5da305d3324848b623",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents Solved (%)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "463cd8ed224cbfdb3ca8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "d_type"
+              }
+            },
+            "Property": "type_name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

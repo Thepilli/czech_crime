@@ -84,12 +84,6 @@
     ],
     "acceptsFilterContext": "None"
   },
-  "type": "Drillthrough",
-  "visualInteractions": [
-    {
-      "source": "a999d1336e07d12ea500",
-      "target": "87b5eec762641d1d3d6a",
-      "type": "NoFilter"
-    }
-  ]
+  "visibility": "HiddenInViewMode",
+  "type": "Drillthrough"
 }

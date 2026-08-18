@@ -2,18 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "7ddfab5c4c28430a0e09",
   "position": {
-    "x": 606.25,
-    "y": 605,
-    "z": 16000,
+    "x": 1062.8571428571429,
+    "y": 117.14285714285715,
+    "z": 9000,
     "height": 475.71428571428572,
-    "width": 641.42857142857144,
-    "tabOrder": 16000
+    "width": 850,
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "scatterChart",
     "query": {
       "queryState": {
-        "Category": {
+        "Series": {
           "projections": [
             {
               "field": {
@@ -23,12 +23,11 @@
                       "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "zkratka_kraje"
+                  "Property": "název_kraje_short"
                 }
               },
-              "queryRef": "mv_d_uzemi.zkratka_kraje",
-              "nativeQueryRef": "zkratka_kraje",
-              "active": true
+              "queryRef": "mv_d_uzemi.název_kraje_short",
+              "nativeQueryRef": "název_kraje_short"
             }
           ]
         },
@@ -64,8 +63,9 @@
                 }
               },
               "queryRef": "Calculations.Crude Birth Rate (per 1k)",
-              "nativeQueryRef": "Crude Birth Rate (per 1k)",
-              "active": true
+              "nativeQueryRef": "Crude Birth Rate",
+              "active": true,
+              "displayName": "Crude Birth Rate"
             }
           ]
         },
@@ -83,11 +83,226 @@
                 }
               },
               "queryRef": "Calculations.Crude Death Rate (per 1k)",
-              "nativeQueryRef": "Crude Death Rate (per 1k)"
+              "nativeQueryRef": "Crude Death Rate",
+              "displayName": "Crude Death Rate"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "showGradientLegend": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "referenceLine": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'National Avg'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Aggregation": {
+                  "Expression": {
+                    "SelectRef": {
+                      "ExpressionName": "Calculations.Crude Birth Rate (per 1k)"
+                    }
+                  },
+                  "Function": 1
+                }
+              }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "dataLabelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "dataLabelText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ValueAndName'"
+                }
+              }
+            },
+            "dataLabelVerticalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'under'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Crude Birth Rate (per 1k)",
+            "id": "1"
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'National Avg'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Aggregation": {
+                  "Expression": {
+                    "SelectRef": {
+                      "ExpressionName": "Calculations.Crude Death Rate (per 1k)"
+                    }
+                  },
+                  "Function": 1
+                }
+              }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "dataLabelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "dataLabelText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ValueAndName'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Calculations.Crude Death Rate (per 1k)",
+            "id": "2"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Births vs. Deaths per 1,000 by Region'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Subtitle"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "spaceAboveSubtitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "spaceAbovePlotArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

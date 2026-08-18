@@ -2,11 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "ccbb3b3fa2a83aa22038",
   "position": {
-    "x": 1493.75,
-    "y": 0,
-    "z": 12001,
-    "height": 55,
-    "width": 150
+    "x": 0,
+    "y": 394.25850340136066,
+    "z": 11000,
+    "height": 55.555555555555557,
+    "width": 200,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "advancedSlicerVisual",
@@ -72,49 +73,7 @@
       ],
       "general": [
         {
-          "properties": {
-            "filter": {
-              "filter": {
-                "Version": 2,
-                "From": [
-                  {
-                    "Name": "h",
-                    "Entity": "H_Praha",
-                    "Type": 0
-                  }
-                ],
-                "Where": [
-                  {
-                    "Condition": {
-                      "In": {
-                        "Expressions": [
-                          {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "h"
-                                }
-                              },
-                              "Property": "Name"
-                            }
-                          }
-                        ],
-                        "Values": [
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'bez Prahy'"
-                              }
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "selectionIcon": [
@@ -127,6 +86,26 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "fillCustom": [
+        {
+          "properties": {
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#00766E'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "selection:selected"
           }
         }
       ]
@@ -306,14 +285,14 @@
             "top": {
               "expr": {
                 "Literal": {
-                  "Value": "4D"
+                  "Value": "0D"
                 }
               }
             },
             "bottom": {
               "expr": {
                 "Literal": {
-                  "Value": "4D"
+                  "Value": "0D"
                 }
               }
             },
@@ -327,7 +306,7 @@
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "4D"
+                  "Value": "0D"
                 }
               }
             }
