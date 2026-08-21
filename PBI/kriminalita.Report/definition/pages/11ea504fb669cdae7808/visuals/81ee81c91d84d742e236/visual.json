@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "mv_d_uzemi.název_okresu",
-              "nativeQueryRef": "název_okresu"
+              "nativeQueryRef": "Okres",
+              "displayName": "Okres"
             }
           ]
         },

@@ -21,7 +21,7 @@ import urllib.request
 BASE = "https://kriminalita.policie.gov.cz/api/v2/downloads/{ym}.geojson"
 OUT_DIR = "data"
 START = (2012, 1)
-END = (2026, 6)
+END = (2026, 8)
 DELAY = 1.8  # seconds between requests (~33/min, under the 40 limit)
 MAX_RETRIES = 5
 

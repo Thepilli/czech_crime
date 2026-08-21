@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "mv_d_uzemi.název_kraje",
-              "nativeQueryRef": "název_kraje",
-              "active": true
+              "nativeQueryRef": "Kraj",
+              "active": true,
+              "displayName": "Kraj"
             }
           ]
         },

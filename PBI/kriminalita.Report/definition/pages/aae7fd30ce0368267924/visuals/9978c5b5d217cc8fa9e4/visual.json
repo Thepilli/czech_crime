@@ -219,48 +219,6 @@
         },
         "type": "TopN",
         "howCreated": "User"
-      },
-      {
-        "name": "33b9ef03582bd8350da0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents by primary type"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "da5da305d3324848b623",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Solved (%)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "463cd8ed224cbfdb3ca8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "d_type"
-              }
-            },
-            "Property": "type_name"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

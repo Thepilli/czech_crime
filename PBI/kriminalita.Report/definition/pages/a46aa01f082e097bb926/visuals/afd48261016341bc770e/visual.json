@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "mv_d_uzemi.název_kraje",
-              "nativeQueryRef": "název_kraje"
+              "nativeQueryRef": "Kraj",
+              "displayName": "Kraj"
             }
           ]
         },
@@ -41,11 +42,11 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Incidents by primary type"
+                  "Property": "Crime rate"
                 }
               },
-              "queryRef": "Calculations.Incidents by primary type",
-              "nativeQueryRef": "Incidents by primary type"
+              "queryRef": "Calculations.Crime rate",
+              "nativeQueryRef": "Crime rate"
             }
           ]
         }
@@ -152,6 +153,64 @@
               "expr": {
                 "Literal": {
                   "Value": "'c8f24b41e82030a01245'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Subtitle"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "spaceAboveSubtitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "spaceAbovePlotArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Regional Crime Rate'"
                 }
               }
             }

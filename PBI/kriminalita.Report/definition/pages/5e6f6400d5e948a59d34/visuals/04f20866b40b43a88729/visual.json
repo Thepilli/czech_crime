@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "mv_d_uzemi.název_obce",
-              "nativeQueryRef": "název_obce",
-              "active": true
+              "nativeQueryRef": "Obec",
+              "active": true,
+              "displayName": "Obec"
             }
           ]
         },
@@ -656,6 +657,33 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showTooltipFieldsOnly": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showChartSpecificTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

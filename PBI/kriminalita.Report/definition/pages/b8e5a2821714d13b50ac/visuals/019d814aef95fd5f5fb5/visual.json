@@ -686,51 +686,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4e931b5e854d6ea47358",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents by primary type"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7b3b32478700f0602cac",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "d_type"
-              }
-            },
-            "Property": "category_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b8e76b3fa93b8ec1d595",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Incidents Solved (%)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

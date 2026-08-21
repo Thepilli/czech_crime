@@ -105,6 +105,11 @@
           "type": "Image"
         },
         {
+          "name": "Screenshot_2026-08-18_1235305620783810809705.png",
+          "path": "Screenshot_2026-08-18_1235305620783810809705.png",
+          "type": "Image"
+        },
+        {
           "name": "voronoi_Karlovy_Vary6790344816612918.topojson",
           "path": "voronoi_Karlovy_Vary6790344816612918.topojson",
           "type": "ShapeMap"

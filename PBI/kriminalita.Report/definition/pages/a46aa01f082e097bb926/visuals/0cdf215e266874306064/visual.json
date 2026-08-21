@@ -23,11 +23,11 @@
                       "Entity": "mv_d_uzemi"
                     }
                   },
-                  "Property": "zkratka_kraje"
+                  "Property": "název_kraje_short"
                 }
               },
-              "queryRef": "mv_d_uzemi.zkratka_kraje",
-              "nativeQueryRef": "zkratka_kraje",
+              "queryRef": "mv_d_uzemi.název_kraje_short",
+              "nativeQueryRef": "název_kraje_short",
               "active": true
             },
             {
@@ -308,5 +308,79 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "af199b6885069e6af752",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f7274ee2c6e096006eef",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Avg Annual Population"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d939ad9978ddc617fade",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Incidents by primary type"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3f4037e2f9da9362a2d1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "74ade4fa1e6b00b5247e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_kraje_short"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

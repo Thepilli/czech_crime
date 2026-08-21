@@ -1,8 +1,16 @@
 Pass 1: scanning type combinations ...
 Building dimensions ...
-  dim_type_group: 14,807 rows
-  bridge_group_type: 107,262 rows
+  dim_type_group: 14,913 rows
+  bridge_group_type: 108,078 rows
 Pass 2: writing fact_crime.parquet ...
-  fact_crime: 17,931,177 rows
+  fact_crime: 18,129,845 rows
 
+Done.
+Building code-list dimensions ...
+  dim_type: 132 rows
+  dim_state: 4 rows
+  dim_relevance: 6 rows
+Done.
+Building dim_date 2012-01-01 .. 2026-12-31 (data span 20120104 .. 20260823) ...
+  dim_date: 5,479 rows  (2012-01-01 .. 2026-12-31)
 Done.

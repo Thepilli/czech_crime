@@ -2613,7 +2613,7 @@ table Calculations
 
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
 
-	measure 'Quadrant Color' = Common.QuadrantColor([Incidents by primary type],[Crime rate],mv_d_uzemi[zkratka_kraje])
+	measure 'Quadrant Color' = Common.QuadrantColor([Incidents by primary type],[Crime rate],mv_d_uzemi[název_kraje_short])
 		displayFolder: Technical Measures
 		lineageTag: d97c5fa8-1d71-4f5b-9739-03189f42f8ed
 
@@ -2675,6 +2675,26 @@ table Calculations
 			)
 		displayFolder: Technical Measures
 		lineageTag: 5db4dc69-50a8-45a8-8f3a-b87e1bb1a005
+
+	measure 'Intro Headline' =
+			VAR Inc  = CALCULATE ( [Incidents by primary type], REMOVEFILTERS () )
+			VAR Rate = CALCULATE ( [Crime rate], REMOVEFILTERS () )
+			VAR Solv = CALCULATE ( [Incidents Solved (%)], REMOVEFILTERS () )
+			RETURN
+			    FORMAT ( Inc, "#,0" ) & " incidents  ·  "
+			        & FORMAT ( Rate, "0.00" ) & " /1000 ppl  ·  "
+			        & FORMAT ( Solv, "0.0%" ) & " solved  ·  "
+			        & [Data Coverage Text]
+		displayFolder: Technical Measures
+		lineageTag: 144109fb-5d90-49e3-8f37-b0db69dcc915
+
+	measure 'Data Coverage Text' =
+			VAR MinD = CALCULATE ( MIN ( mv_f_crime[CrimeDate]), REMOVEFILTERS () )
+			VAR MaxD = CALCULATE ( MAX ( mv_f_crime[CrimeDate] ), REMOVEFILTERS () )
+			RETURN
+			    FORMAT ( MinD, "MMM yyyy" ) & " – " & FORMAT ( MaxD, "MMM yyyy" )
+		displayFolder: Technical Measures
+		lineageTag: 7ca77961-637b-474f-939e-84ab9efe023f
 
 	column Value
 		formatString: 0
