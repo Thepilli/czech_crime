@@ -248,16 +248,6 @@ table mv_d_uzemi
 
 		annotation SummarizationSetBy = Automatic
 
-	column populace
-		dataType: int64
-		formatString: 0
-		lineageTag: fe31d34e-cfab-47ea-88bd-f4a099087e53
-		sourceLineageTag: populace
-		summarizeBy: sum
-		sourceColumn: populace
-
-		annotation SummarizationSetBy = Automatic
-
 	column název_kraje_short
 		dataType: string
 		lineageTag: eee427d5-df73-4505-8888-08399ce89f93
@@ -272,7 +262,7 @@ table mv_d_uzemi
 		source
 			entityName: mv_d_uzemi
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = DIMs
 

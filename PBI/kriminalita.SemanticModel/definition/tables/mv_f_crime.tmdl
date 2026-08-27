@@ -5,7 +5,6 @@ table mv_f_crime
 	column CrimeDate
 		dataType: dateTime
 		isHidden
-		formatString: General Date
 		lineageTag: a382c46d-f7e0-40fc-a6fe-3659b679553b
 		sourceLineageTag: CrimeDate
 		summarizeBy: none
@@ -112,7 +111,7 @@ table mv_f_crime
 		source
 			entityName: mv_f_crime
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = FACTs
 

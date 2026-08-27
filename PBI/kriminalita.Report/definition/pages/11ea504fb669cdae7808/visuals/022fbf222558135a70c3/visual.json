@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "022fbf222558135a70c3",
   "position": {
     "x": 0,
@@ -84,7 +84,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'bez Prestupku'"
+                                "Value": "'vc Prestupku'"
                               }
                             }
                           ]
@@ -307,5 +307,23 @@
       "filterChanges": true
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "af6c54b63b463f9f6159",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "H_prestupky"
+              }
+            },
+            "Property": "Name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

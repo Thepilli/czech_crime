@@ -1,5 +1,5 @@
-database kriminalita
-	id: b547032e-f004-4634-9ba5-2a0c1d0e9550
+database model_kriminalita
+	id: 38072850-445c-4344-8eea-67750847bcde
 	compatibilityLevel: 1702
 	compatibilityMode: powerBI
 	language: 1033

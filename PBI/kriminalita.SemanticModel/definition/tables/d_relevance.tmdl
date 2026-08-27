@@ -27,7 +27,7 @@ table d_relevance
 		source
 			entityName: d_relevance
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = DIMs
 

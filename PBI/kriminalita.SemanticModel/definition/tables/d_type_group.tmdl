@@ -56,7 +56,7 @@ table d_type_group
 		source
 			entityName: d_type_group
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = DIMs
 

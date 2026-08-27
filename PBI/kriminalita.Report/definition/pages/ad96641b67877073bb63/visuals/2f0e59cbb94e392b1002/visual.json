@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "2f0e59cbb94e392b1002",
   "position": {
     "x": 0,
@@ -84,7 +84,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'bez Prestupku'"
+                                "Value": "'vc Prestupku'"
                               }
                             }
                           ]

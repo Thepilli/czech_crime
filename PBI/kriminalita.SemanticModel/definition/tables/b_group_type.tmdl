@@ -1,7 +1,7 @@
-table bridge_group_type
+table b_group_type
 	isHidden
 	lineageTag: ca5dcde1-fb5b-495a-8e35-a2602c7a5481
-	sourceLineageTag: [crime].[bridge_group_type]
+	sourceLineageTag: [crime].[b_group_type]
 
 	column type_group_key
 		dataType: int64
@@ -25,12 +25,12 @@ table bridge_group_type
 
 		annotation SummarizationSetBy = Automatic
 
-	partition bridge_group_type = entity
+	partition b_group_type = entity
 		mode: directLake
 		source
-			entityName: bridge_group_type
+			entityName: b_group_type
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = DIMs
 

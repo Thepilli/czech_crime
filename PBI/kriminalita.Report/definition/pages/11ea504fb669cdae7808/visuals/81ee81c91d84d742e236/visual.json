@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "81ee81c91d84d742e236",
   "position": {
     "x": 205.71428571428572,
@@ -244,5 +244,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ec40406e484916f3e301",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_okresu"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "794ebe1e9088516ff6d1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Avg Annual Population"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "660c330c99ad48d1e472",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

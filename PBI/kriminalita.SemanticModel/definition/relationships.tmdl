@@ -1,12 +1,12 @@
 relationship 99986d77-77e3-3e26-b8dc-57547944980b
 	crossFilteringBehavior: bothDirections
 	relyOnReferentialIntegrity
-	fromColumn: bridge_group_type.type_group_key
+	fromColumn: b_group_type.type_group_key
 	toColumn: d_type_group.type_group_key
 
 relationship bf6c40f9-3b7d-42c2-0336-4e9aef6aa99b
 	relyOnReferentialIntegrity
-	fromColumn: bridge_group_type.type_code
+	fromColumn: b_group_type.type_code
 	toColumn: d_type.type_code
 
 relationship 3671d3f0-fd8c-73ba-eedf-228b218a5ae6

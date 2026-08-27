@@ -133,16 +133,6 @@ table mv_d_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column Day
-		dataType: int64
-		formatString: 0
-		lineageTag: 30924ac6-43c0-4b66-94ea-5475943a6711
-		sourceLineageTag: Day
-		summarizeBy: none
-		sourceColumn: Day
-
-		annotation SummarizationSetBy = Automatic
-
 	column DayofWeek
 		dataType: int64
 		formatString: 0
@@ -187,7 +177,7 @@ table mv_d_date
 		source
 			entityName: mv_d_date
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = DIMs
 

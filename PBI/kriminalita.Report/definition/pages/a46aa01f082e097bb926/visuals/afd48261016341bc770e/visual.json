@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "afd48261016341bc770e",
   "position": {
     "x": 205.71428571428572,
@@ -219,5 +219,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "06b00d6b2aa634f89351",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mv_d_uzemi"
+              }
+            },
+            "Property": "název_kraje"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "ff419cc70cdae4686bc1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Crime rate"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

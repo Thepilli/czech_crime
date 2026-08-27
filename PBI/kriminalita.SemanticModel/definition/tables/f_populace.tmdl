@@ -116,7 +116,7 @@ table f_populace
 		source
 			entityName: f_populace
 			schemaName: crime
-			expressionSource: 'DirectLake - LH_Catalogue'
+			expressionSource: 'DirectLake - LH_JP_data'
 
 	annotation TabularEditor_TableGroup = FACTs
 

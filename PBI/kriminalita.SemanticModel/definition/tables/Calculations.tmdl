@@ -232,7 +232,7 @@ table Calculations
 			        VALUES( mv_d_date[DayofWeek] ),
 			        [Self Service Measure]
 			    ),
-			    NOT ( mv_d_date[Day] IN { 6, 7 } )
+			    NOT ( mv_d_date[DayofWeek] IN { 6, 7 } )
 			)
 		displayFolder: SelfService
 		lineageTag: d5146adb-7676-489d-9b08-b592c9f5da34
@@ -245,7 +245,7 @@ table Calculations
 			        VALUES( mv_d_date[DayofWeek] ),
 			        [Self Service Measure]
 			    ),
-			    mv_d_date[Day] IN { 7 }
+			    mv_d_date[DayofWeek] IN { 7 }
 			)
 		displayFolder: SelfService
 		lineageTag: 94b66750-8875-43a8-a8bf-b6a9efd3160b
@@ -339,7 +339,7 @@ table Calculations
 			        VALUES( mv_d_date[DayofWeek] ),
 			        [Self Service Measure]
 			    ),
-			    mv_d_date[Day] IN { 6 }
+			    mv_d_date[DayofWeek] IN { 6 }
 			)
 		displayFolder: SelfService
 		lineageTag: 224df76c-33cd-4347-8d59-6a8d698ac7c4
