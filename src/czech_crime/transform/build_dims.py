@@ -14,7 +14,11 @@ import re
 import pandas as pd
 
 from ..config import CODELISTS_DIR
-from ..io import write_small as write
+from ..io import write_small
+
+
+def load_items(path):
+    return json.loads(path.read_text(encoding="utf-8"))["polozky"]
 
 
 def code_from_iri(iri):
@@ -25,19 +29,17 @@ def code_from_iri(iri):
 
 
 def build_dim_type():
-    items = json.load(open(CODELISTS_DIR / "types.json", encoding="utf-8"))["polozky"]
+    items = load_items(CODELISTS_DIR / "types.json")
     by_code = {it["kod"]: it for it in items}
     rows = []
     for it in items:
         kod = it["kod"]
-        a1 = code_from_iri(it.get("iri_1"))   # level-1 ancestor (root)
-        a2 = code_from_iri(it.get("iri_2"))
-        a3 = code_from_iri(it.get("iri_3"))
-        # level & immediate parent from the ancestor chain
-        chain = [a for a in (a1, a2, a3) if a is not None]
+        # level & immediate parent from the ancestor chain (root first)
+        chain = [a for a in (code_from_iri(it.get(f"iri_{n}")) for n in (1, 2, 3))
+                 if a is not None]
         level = len(chain) + 1
         parent = chain[-1] if chain else None
-        category = a1 if a1 is not None else kod   # every code rolls up to a root
+        category = chain[0] if chain else kod   # every code rolls up to a root
         rows.append({
             "type_code": kod,
             "type_name": it["popis"]["cs"],          # specific description
@@ -51,14 +53,14 @@ def build_dim_type():
         "type_code": "int32", "level": "int32", "category_code": "int32",
         "parent_code": "Int32",
     })
-    write(df, "dim_type")
+    write_small(df, "dim_type")
 
 
 def build_simple(src, code_col, name_col, out_name):
-    items = json.load(open(src, encoding="utf-8"))["polozky"]
+    items = load_items(src)
     df = pd.DataFrame([{code_col: it["kod"], name_col: it["nazev"]["cs"]}
                        for it in items]).astype({code_col: "int32"})
-    write(df, out_name)
+    write_small(df, out_name)
 
 
 def main():

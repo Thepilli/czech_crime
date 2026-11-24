@@ -2,59 +2,49 @@
 
 Iterates every month from START to END (inclusive), downloading
     https://kriminalita.policie.gov.cz/api/v2/downloads/YYYYMM.geojson
-into data/raw/. Responses are gzip-encoded; urllib handles decoding when we
-request it. The endpoint is rate-limited (40 req/window), so we throttle
+into data/raw/. The endpoint is rate-limited (40 req/window), so we throttle
 between requests and back off on HTTP 429.
 
-The script is resumable: an already-present, valid (JSON-parseable) file is
-skipped, so you can re-run it after an interruption.
+Resumable: an already-present, valid (JSON-parseable) file is skipped.
 """
-
 import gzip
-import io
 import json
-import os
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 from ..config import END, RAW_DIR, START
 
 BASE = "https://kriminalita.policie.gov.cz/api/v2/downloads/{ym}.geojson"
-OUT_DIR = "data"
 DELAY = 1.8  # seconds between requests (~33/min, under the 40 limit)
 MAX_RETRIES = 5
 
 
 def months(start, end):
+    """Yield 'YYYYMM' for every month from start to end, inclusive."""
     y, m = start
     while (y, m) <= end:
         yield f"{y}{m:02d}"
-        m += 1
-        if m > 12:
-            y, m = y + 1, 1
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
 
 
-def is_valid(path):
-    """True if the file exists and parses as a FeatureCollection."""
-    if not os.path.exists(path) or os.path.getsize(path) == 0:
+def is_valid(path: Path) -> bool:
+    """True if the file exists and parses as JSON."""
+    if not path.exists() or path.stat().st_size == 0:
         return False
     try:
-        with open(path, encoding="utf-8") as f:
-            json.load(f)
+        json.loads(path.read_text(encoding="utf-8"))
         return True
     except (ValueError, UnicodeDecodeError):
         return False
 
 
-def fetch(ym):
-    url = BASE.format(ym=ym)
+def fetch(ym: str):
+    """Return the response body for one month, or None on 404 / retries exhausted."""
     req = urllib.request.Request(
-        url,
-        headers={
-            "Accept-Encoding": "gzip",
-            "User-Agent": "data-fetch/1.0",
-        },
+        BASE.format(ym=ym),
+        headers={"Accept-Encoding": "gzip", "User-Agent": "data-fetch/1.0"},
     )
     for attempt in range(1, MAX_RETRIES + 1):
         try:
@@ -64,14 +54,14 @@ def fetch(ym):
                     raw = gzip.decompress(raw)
                 return raw
         except urllib.error.HTTPError as e:
+            if e.code == 404:  # month genuinely missing
+                print(f"  404 not found for {ym}")
+                return None
             if e.code == 429:  # rate limited -> back off
                 wait = min(60, 5 * attempt)
                 print(f"  429 rate-limited, waiting {wait}s (attempt {attempt})")
                 time.sleep(wait)
                 continue
-            if e.code == 404:  # month genuinely missing
-                print(f"  404 not found for {ym}")
-                return None
             print(f"  HTTP {e.code} for {ym} (attempt {attempt})")
         except (urllib.error.URLError, TimeoutError) as e:
             print(f"  network error for {ym}: {e} (attempt {attempt})")
@@ -80,13 +70,13 @@ def fetch(ym):
 
 
 def main():
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
     all_months = list(months(START, END))
     print(f"{len(all_months)} months: {all_months[0]} .. {all_months[-1]}")
 
     downloaded = skipped = failed = 0
     for i, ym in enumerate(all_months, 1):
-        path = str(OUT_DIR / f"{ym}.geojson")
+        path = RAW_DIR / f"{ym}.geojson"
         if is_valid(path):
             skipped += 1
             continue
@@ -94,16 +84,15 @@ def main():
         if data is None:
             failed += 1
             print(f"[{i}/{len(all_months)}] FAILED {ym}")
-        else:
-            with open(path, "wb") as f:
-                f.write(data)
-            n = len(json.loads(data)["features"])
-            downloaded += 1
-            print(
-                f"[{i}/{len(all_months)}] {ym}: {n} features "
-                f"({len(data)//1024} KiB)"
-            )
-            time.sleep(DELAY)
+            continue
+        # write-then-rename so an interrupted run never leaves a truncated file
+        tmp = path.with_suffix(".tmp")
+        tmp.write_bytes(data)
+        tmp.replace(path)
+        downloaded += 1
+        n = len(json.loads(data)["features"])
+        print(f"[{i}/{len(all_months)}] {ym}: {n} features ({len(data) // 1024} KiB)")
+        time.sleep(DELAY)
 
     print(f"\nDone. downloaded={downloaded} skipped={skipped} failed={failed}")
 

@@ -56,13 +56,13 @@ def main():
         "year_month": d.strftime("%Y-%m"),
         "month_start": d.to_period("M").to_timestamp().date,
         "day": d.day.astype("int32"),
-        "day_of_week": d.dayofweek.astype("int32") + 1,  # 1=Mon..7=Sun
+        "day_of_week": d.day_of_week.astype("int32") + 1,  # 1=Mon..7=Sun
         "day_name": d.strftime("%A"),
-        "day_name_cs": [DAYS_CS[wd] for wd in d.dayofweek],
-        "day_of_year": d.dayofyear.astype("int32"),
+        "day_name_cs": [DAYS_CS[wd] for wd in d.day_of_week],
+        "day_of_year": d.day_of_year.astype("int32"),
         "iso_week": iso["week"].to_numpy().astype("int32"),
         "iso_year": iso["year"].to_numpy().astype("int32"),
-        "is_weekend": (d.dayofweek >= 5),
+        "is_weekend": (d.day_of_week >= 5),
     })
     write_small(df, "dim_date",
                 f"  ({df['date'].min()} .. {df['date'].max()})")
