@@ -88,13 +88,15 @@ def write_fact(dataset, combo2key, key2primary):
             keys = df.pop("types").map(group_key)
             df["type_group_key"] = keys.astype("int32")
             df["primary_type"] = keys.map(key2primary).astype("int32")
-            # naive LOCAL (Europe/Prague) wall-clock time, plus an integer
-            # YYYYMMDD date_key for the dim_date join
-            local = df["date"].dt.tz_convert("Europe/Prague").dt.tz_localize(None)
-            df["date"] = local
-            df["date_key"] = (local.dt.year * 10000 + local.dt.month * 100
-                              + local.dt.day).astype("int32")
+            # LOCAL (Europe/Prague) calendar date + minute of day (0-1439):
+            # the joins to dim_date[Date] and d_time[TimeKey]
+            local = df.pop("date").dt.tz_convert("Europe/Prague").dt.tz_localize(None)
+            df["crime_date"] = local.dt.normalize()
+            df["time_key"] = (local.dt.hour * 60 + local.dt.minute).astype("int32")
             table = pa.Table.from_pandas(df, preserve_index=False)
+            table = table.set_column(table.schema.get_field_index("crime_date"),
+                                     "crime_date",
+                                     table["crime_date"].cast(pa.date32()))
             if writer is None:
                 writer = pq.ParquetWriter(str(fact_path), table.schema,
                                           compression="zstd")

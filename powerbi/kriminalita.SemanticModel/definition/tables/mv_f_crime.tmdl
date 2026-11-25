@@ -12,12 +12,15 @@ table mv_f_crime
 
 		annotation SummarizationSetBy = Automatic
 
-	column CrimeTime
-		dataType: string
+	/// Minute of day 0-1439 (Europe/Prague) -> d_time[TimeKey]
+	column TimeKey
+		dataType: int64
+		isHidden
+		formatString: 0
 		lineageTag: 2be124f6-b66c-460a-9218-3b1162750e6c
-		sourceLineageTag: CrimeTime
+		sourceLineageTag: TimeKey
 		summarizeBy: none
-		sourceColumn: CrimeTime
+		sourceColumn: TimeKey
 
 		annotation SummarizationSetBy = Automatic
 

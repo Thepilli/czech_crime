@@ -1,8 +1,10 @@
 """Build a conformed daily date dimension for the semantic model.
 
 Covers full calendar years spanning the data (derived from fact_crime), one
-contiguous row per day with no gaps. Keyed by an integer YYYYMMDD `date_key`
-that matches fact_crime[date_key]. Mark this as the Date table in Power BI.
+contiguous row per day with no gaps. Joins fact_crime[crime_date] on `Date`.
+Column names are final (they are what the semantic model shows), so the
+crime.mv_d_date lake view is a pass-through. Mark this as the Date table in
+Power BI.
 """
 
 import pandas as pd
@@ -30,42 +32,53 @@ MONTHS_CS = [
 ]
 DAYS_CS = ["pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota", "neděle"]
 
+# Invisible suffixes that keep repeated initials distinct (J/J/J, L/L, Č/Č):
+# Power BI's sort-by-column needs exactly one Month per label.
+_SPACERS = ["", "\u2009", "\u200a"]  # none, thin space, hair space
+
+
+def month_letters(names):
+    """Map 12 month names to unique one-letter labels, in month order."""
+    seen, out = {}, []
+    for name in names:
+        letter = name[0].upper()
+        n = seen.get(letter, 0)
+        seen[letter] = n + 1
+        out.append(letter + _SPACERS[n])
+    return out
+
 
 def main():
     # Full calendar years spanning the fact's date range
-    keys = pq.read_table(str(FACT), columns=["date_key"]).column("date_key")
-    mm = pc.min_max(keys).as_py()
+    dates = pq.read_table(str(FACT), columns=["crime_date"]).column("crime_date")
+    mm = pc.min_max(dates).as_py()
     lo, hi = mm["min"], mm["max"]
-    start = pd.Timestamp(year=lo // 10000, month=1, day=1)
-    end = pd.Timestamp(year=hi // 10000, month=12, day=31)
-    print(
-        f"Building dim_date {start.date()} .. {end.date()} (data span {lo} .. {hi}) ..."
-    )
+    start = pd.Timestamp(year=lo.year, month=1, day=1)
+    end = pd.Timestamp(year=hi.year, month=12, day=31)
+    print(f"Building dim_date {start.date()} .. {end.date()} (data span {lo} .. {hi}) ...")
 
     d = pd.date_range(start, end, freq="D")
-    iso = d.isocalendar()
+    letters = month_letters(pd.date_range("2000-01-01", periods=12, freq="MS").strftime("%B"))
+    letters_cs = month_letters(MONTHS_CS)
     df = pd.DataFrame({
-        "date_key": (d.year * 10000 + d.month * 100 + d.day).astype("int32"),
-        "date": d.date,
-        "year": d.year.astype("int32"),
-        "quarter": d.quarter.astype("int32"),
-        "year_quarter": [f"{y}-Q{q}" for y, q in zip(d.year, d.quarter)],
-        "month": d.month.astype("int32"),
-        "month_name": d.strftime("%B"),
-        "month_name_cs": [MONTHS_CS[m - 1] for m in d.month],
-        "year_month": d.strftime("%Y-%m"),
-        "month_start": d.to_period("M").to_timestamp().date,
-        "day": d.day.astype("int32"),
-        "day_of_week": d.day_of_week.astype("int32") + 1,  # 1=Mon..7=Sun
-        "day_name": d.strftime("%A"),
-        "day_name_cs": [DAYS_CS[wd] for wd in d.day_of_week],
-        "day_of_year": d.day_of_year.astype("int32"),
-        "iso_week": iso["week"].to_numpy().astype("int32"),
-        "iso_year": iso["year"].to_numpy().astype("int32"),
-        "is_weekend": (d.day_of_week >= 5),
+        "Date": d.date,
+        "Year": d.year.astype("int32"),
+        "YearQuarter": [f"{y}-Q{q}" for y, q in zip(d.year, d.quarter)],
+        "Quarter": d.quarter.astype("int32"),
+        "yearmonth": d.strftime("%Y-%m"),
+        "YearMonthNumber": (d.year * 100 + d.month).astype("int32"),
+        "Month": d.month.astype("int32"),
+        "MonthName": d.strftime("%B"),
+        "MonthNameCs": [MONTHS_CS[m - 1] for m in d.month],
+        "MonthLetter": [letters[m - 1] for m in d.month],
+        "MonthLetterCs": [letters_cs[m - 1] for m in d.month],
+        "DayofMonth": d.day.astype("int32"),
+        "DayofWeek": d.day_of_week.astype("int32") + 1,  # 1=Mon..7=Sun
+        "DayName": d.strftime("%A"),
+        "DayNameCs": [DAYS_CS[wd] for wd in d.day_of_week],
+        "isWeekend": d.day_of_week >= 5,
     })
-    write_small(df, "dim_date",
-                f"  ({df['date'].min()} .. {df['date'].max()})")
+    write_small(df, "dim_date", f"  ({df['Date'].min()} .. {df['Date'].max()})")
     print("Done.")
 
 

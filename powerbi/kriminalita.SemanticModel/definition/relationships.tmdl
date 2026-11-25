@@ -35,16 +35,6 @@ relationship 96551bd3-7508-9046-9ba7-e13b64ebb121
 	fromColumn: mv_f_crime.kod_obec
 	toColumn: mv_d_uzemi.kód_obce
 
-relationship f50e17e3-4b58-434f-b496-18f1bc58d8b9
-	crossFilteringBehavior: bothDirections
-	fromColumn: mv_d_uzemi.kód_kraje_ČSÚ
-	toColumn: H_Map.kraj_kod_csu
-
-relationship 91c56cc8-daf2-4104-b353-5ca1854d7e9d
-	crossFilteringBehavior: bothDirections
-	fromColumn: mv_d_uzemi.kód_okresu_LAU_ČSÚ
-	toColumn: H_Map_okres.okres_kod_lau_csu
-
 relationship 43f22c6b-a959-d298-5393-dc4357dc5a13
 	relyOnReferentialIntegrity
 	fromColumn: mv_f_crime.CrimeDate
@@ -55,12 +45,7 @@ relationship 0a0018bc-862a-462a-0c12-6f4b9a7c7dd0
 	fromColumn: f_populace.kod_obec
 	toColumn: mv_d_uzemi.kód_obce
 
-relationship 2c12a5cf-bcb4-4834-bc1d-189be6420211
-	crossFilteringBehavior: bothDirections
-	fromColumn: d_type.category_code
-	toColumn: H_Icons.type_code
-
 relationship 1fc13924-f943-418e-a15f-eea0577d0b65
-	fromColumn: mv_f_crime.CrimeTime
-	toColumn: d_time.Minute
+	fromColumn: mv_f_crime.TimeKey
+	toColumn: d_time.TimeKey
 

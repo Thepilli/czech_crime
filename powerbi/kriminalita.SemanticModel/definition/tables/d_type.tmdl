@@ -72,6 +72,28 @@ table d_type
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Report colour of the type's top-level category (reference/codelists/category_icons.json)
+	column category_color
+		dataType: string
+		isHidden
+		lineageTag: 50abeb4e-4665-4134-94ee-0bc79cd0f8e1
+		sourceLineageTag: category_color
+		summarizeBy: none
+		sourceColumn: category_color
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Icon SVG of the type's top-level category (white fill, recoloured by [Icon SVG])
+	column category_svg
+		dataType: string
+		isHidden
+		lineageTag: 768f7a3e-5b43-4760-ac13-21b83e80bad2
+		sourceLineageTag: category_svg
+		summarizeBy: none
+		sourceColumn: category_svg
+
+		annotation SummarizationSetBy = Automatic
+
 	partition d_type = entity
 		mode: directLake
 		source

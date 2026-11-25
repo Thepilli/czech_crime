@@ -4,8 +4,10 @@ Czech Police crime open-data (monthly GeoJSON points) → territory-coded Parque
 
 ## Setup
 ```
-python -m pip install -e .      # installs czech_crime + geopandas/pandas/pyarrow/numpy
+uv venv .venv
+uv pip install --python .venv -e .   # czech_crime + geopandas/pandas/pyarrow/numpy
 ```
+Then use `.venv/Scripts/python` (Windows) for the commands below.
 
 ## Pipeline (run from the repo root)
 ```
@@ -23,7 +25,7 @@ python -m czech_crime.ingest.load_demographics INPUT_DIR   # separate: f_populac
 - `src/czech_crime/` — pipeline code; `config.py` holds every path and the download range.
 - `data/{raw,interim,processed}` — gitignored data layers. `logs/` — gitignored.
 - `reference/` — small tracked inputs (code lists, territory registers).
-- `geodata/` — per-kraj / per-okres GeoJSON served to Power BI via raw.githubusercontent.com URLs hard-coded in `powerbi/**/H_Map*.tmdl`. **Do not rename or move.**
+- `geodata/` — per-kraj / per-okres GeoJSON served to Power BI via raw.githubusercontent.com URLs built in the `crime.mv_d_uzemi` lake view (`powerbi/create_mv_lake_views_crime.ipynb`). **Do not rename or move.**
 - `powerbi/` — PBIP project, Tabular Editor macros, DAX measure drafts.
 - `docs/` — semantic-model notes, report ideas.
 

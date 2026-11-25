@@ -2,8 +2,9 @@
 
 ## State
 - **Repo:** restructured and refactored, but nothing is committed. All changes are staged or in the working tree, so review `git status` before committing.
-- **Pipeline run:** a full rebuild was started in the background (`assign_areas` → `build_dims` → `build_fact_and_groups` → `build_date_dim`), logging to `logs/*.log`. Completion was not confirmed at the time of writing, and the full-history numbers (17.9M facts, 2012–2026) are unverified against the new output.
-- **Check first:** `logs/build_fact.log` should show about 18M `fact_crime` rows and `logs/build_date.log` should show `dim_date` for 2012–2026. If the run died partway, re-run it. It resumes per month.
+- **Pipeline:** full rebuild done (2026-11-25). All 179 months are in `data/interim` (the last partition of an interrupted run, 2025-03, was deleted and rewritten). `data/processed` holds `fact_crime` (18,536,745 rows, 2012-01-04 .. 2026-11-28), `dim_type_group` (15,151), `bridge_group_type` (109,982), `dim_date` (5,479, 2012–2026) and the code-list dims. Logs: `logs/assign_areas.log`, `logs/build_fact_date.log`.
+- **Source data quirk:** one incident in `202611.geojson` is dated 2026-11-28, after the download date.
+- **Not yet deployed:** the semantic model now expects new lakehouse columns (see "Deploy order" below). Publishing the model before reloading the lakehouse will break DirectLake.
 
 ## Layout
 ```
@@ -17,12 +18,12 @@ geodata/           split/, split_okres/  <- DO NOT RENAME
 powerbi/           PBIP project, tabular-editor/, measures/*.dax
 docs/              semantic-model.md, report-ideas.md, HANDOVER.md
 ```
-Setup: `python -m pip install -e .`. Run steps as `python -m czech_crime.<pkg>.<module>`. `README.md` and `CLAUDE.md` have the full commands.
+Setup: `uv venv .venv && uv pip install --python .venv -e .`, then run steps as `.venv/Scripts/python -m czech_crime.<pkg>.<module>` (the global `python` has no geopandas/pyarrow). `README.md` and `CLAUDE.md` have the full commands.
 
 ## Key facts
 - **Many-to-many crime types:** the fact has one row per incident and a single FK to `dim_type_group`. Don't join the fact to types directly, because it double-counts.
-- **Dates:** `fact_crime.date` is naive Europe/Prague time, and `date_key` (`YYYYMMDD`) joins `dim_date`.
-- **Map URLs:** `geodata/split*` is loaded by Power BI through hard-coded `raw.githubusercontent.com/.../main/...` URLs in `powerbi/**/H_Map*.tmdl`. Moving or renaming those folders breaks the maps, and the URLs only work for what's pushed to `main`.
+- **Dates/times:** Python converts to Europe/Prague and writes `fact_crime.crime_date` (→ `dim_date[Date]`) and `time_key` (minute of day → `d_time[TimeKey]`). `dim_date` columns already have their model names. Keep the lake views in `powerbi/create_mv_lake_views_crime.ipynb` as thin projections.
+- **Map URLs:** `geodata/split*` is loaded by Power BI through hard-coded `raw.githubusercontent.com/.../main/...` URLs built in the `crime.mv_d_uzemi` lake view (`kraj_json_url`, `okres_json_url`). Moving or renaming those folders breaks the maps, and the URLs only work for what's pushed to `main`.
 - **Power BI source:** the model reads Fabric DirectLake tables (lakehouse `LH_JP_data`, schema `crime`), not local files. The load from `data/processed` into the lakehouse isn't in this repo.
 - **Demographics:** `load_demographics` needs the CZSO Excel folder as an argument, and its 2026 rows are a placeholder copied from 2025.
 
@@ -40,9 +41,19 @@ Setup: `python -m pip install -e .`. Run steps as `python -m czech_crime.<pkg>.<
   - Deprecated pandas calls replaced.
   - On 2026 data the new fact build matched the old script exactly.
 - **Download range:** `START` was reset to `(2012, 1)`. The previous uncommitted edit had it at 2026.
+- **Model simplification:**
+  - `H_Map` / `H_Map_okres` (91 hard-coded URLs, two two-way relationships) replaced by `kraj_json_url` / `okres_json_url` on `mv_d_uzemi`; the two `SELECTEDVALUE of …_topojson` measures moved there and the two map visuals were repointed.
+  - `H_Icons` (two-way relationship) replaced by `d_type[category_color]` / `[category_svg]`, built by `build_dims` from `reference/codelists/category_icons.json`.
+  - Fact joins `d_time` on the integer `TimeKey` instead of an `"HH:mm"` string; `CrimeTime` and `DateKey` are gone; `YearMonthNumber` is an integer; `MonthLetterCs` no longer repeats L (leden/listopad) and Č (červen/červenec); `DayNameCs` sorts by `DayofWeek`.
+  - Demographics measures use three shared functions (`Common.Demo.InSelectedYears`, `.AtYear`, `.YearAvg`) instead of repeating the year-matching logic; stale comments removed from `Crime rate`.
+
+## Deploy order (model changes depend on it)
+1. Reload the lakehouse tables from `data/processed`: `f_crime` (new `crime_date`, `time_key`; no `date`/`date_key`), `d_date` (new column names), `d_type` (new `category_color`, `category_svg`), `d_type_group`, `b_group_type`.
+2. Re-run `powerbi/create_mv_lake_views_crime.ipynb` (`mv_d_uzemi` gains the URL columns; `mv_f_crime` and `mv_d_date` are now pass-through).
+3. Publish / open the semantic model and check the map, icon, hour-band and demographics visuals.
 
 ## Open items
-1. Confirm the background run finished and the row counts look right.
+1. Do the deploy steps above; the model edits were checked structurally (relationships, column references, line endings) but not opened in Power BI.
 2. Open `powerbi/kriminalita.pbip` in Power BI Desktop to confirm it loads after the `PBI/` → `powerbi/` rename.
 3. Commit, and push if you want the map URLs to stay in sync.
 4. Optional:

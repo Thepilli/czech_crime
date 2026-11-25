@@ -1533,3 +1533,44 @@ function 'Common.TopByMeasure' =
 		    )
 	lineageTag: 429ab8b4-f594-403e-a324-37c364f9fba1
 
+function 'Common.Demo.InSelectedYears' =
+		/// Evaluates a demographics expression (f_populace, annual grain) over the
+		/// calendar years selected in mv_d_date. f_populace has no relationship to the
+		/// date table, so the selected years are applied as a virtual filter.
+		(
+		    // Expression over f_populace, e.g. [SUM of narozeni]
+		    _value: EXPR
+		) =>
+		CALCULATE(
+		    _value,
+		    TREATAS( VALUES( mv_d_date[Year] ), f_populace[year] )
+		)
+	lineageTag: 008b3dae-5d2f-40ae-98fc-f1cbaa8612a2
+
+function 'Common.Demo.AtYear' =
+		/// Evaluates a demographics expression for a single calendar year.
+		(
+		    // Expression over f_populace, e.g. [SUM of populace]
+		    _value: EXPR,
+		    // Calendar year to evaluate
+		    _year: INT64
+		) =>
+		CALCULATE(
+		    _value,
+		    f_populace[year] = _year
+		)
+	lineageTag: 24d235a6-3943-4acb-a95c-fa903f204a7d
+
+function 'Common.Demo.YearAvg' =
+		/// Average of a per-year demographics expression over the selected years:
+		/// for stocks (population) and per-year rates, which must not be summed.
+		(
+		    // Expression over f_populace, evaluated once per selected year
+		    _value: EXPR
+		) =>
+		AVERAGEX(
+		    VALUES( mv_d_date[Year] ),
+		    Common.Demo.AtYear( _value, mv_d_date[Year] )
+		)
+	lineageTag: b1364d12-f067-42d4-833d-694017d72c2b
+

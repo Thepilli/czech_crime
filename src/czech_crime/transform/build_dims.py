@@ -7,6 +7,8 @@
 dim_type is flattened from the source tree (iri_1/2/3 = ancestor codes at
 levels 1-3) into code + description + class + immediate parent + level +
 top-level category, so Power BI can roll every type up to one of 12 categories.
+Each type also carries its category's report icon (colour + SVG) from
+reference/codelists/category_icons.json.
 """
 import json
 import re
@@ -28,8 +30,14 @@ def code_from_iri(iri):
     return int(m.group(1)) if m else None
 
 
+def load_category_icons():
+    icons = json.loads((CODELISTS_DIR / "category_icons.json").read_text(encoding="utf-8"))
+    return {i["category_code"]: i for i in icons}
+
+
 def build_dim_type():
     items = load_items(CODELISTS_DIR / "types.json")
+    icons = load_category_icons()
     by_code = {it["kod"]: it for it in items}
     rows = []
     for it in items:
@@ -48,6 +56,8 @@ def build_dim_type():
             "level": level,
             "category_code": category,
             "category_name": by_code[category]["nazev"]["cs"],
+            "category_color": icons.get(category, {}).get("color"),
+            "category_svg": icons.get(category, {}).get("svg"),
         })
     df = pd.DataFrame(rows).astype({
         "type_code": "int32", "level": "int32", "category_code": "int32",

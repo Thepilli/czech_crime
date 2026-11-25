@@ -134,7 +134,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "H_Map_okres"
+                      "Entity": "mv_d_uzemi"
                     }
                   },
                   "Property": "SELECTEDVALUE of Okres_topojson"

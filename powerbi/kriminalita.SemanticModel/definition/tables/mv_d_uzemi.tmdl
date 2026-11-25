@@ -14,6 +14,14 @@ table mv_d_uzemi
 	measure 'SELECTEDVALUE of název_okresu' = SELECTEDVALUE( 'mv_d_uzemi'[název_okresu] )
 		lineageTag: f6ec24bf-1b3a-4eb7-969a-03d16d92a799
 
+	/// GeoJSON URL of the selected kraj (map visual)
+	measure 'SELECTEDVALUE of Kraj_topojson' = SELECTEDVALUE( mv_d_uzemi[kraj_json_url] )
+		lineageTag: 14395f05-0ed4-4d3c-9de3-647570a65800
+
+	/// GeoJSON URL of the selected okres (map visual)
+	measure 'SELECTEDVALUE of Okres_topojson' = SELECTEDVALUE( mv_d_uzemi[okres_json_url] )
+		lineageTag: ab999439-64cf-447c-a2d0-13ef8f82282d
+
 	column název_obce
 		dataType: string
 		isHidden
@@ -254,6 +262,28 @@ table mv_d_uzemi
 		sourceLineageTag: název_kraje_short
 		summarizeBy: none
 		sourceColumn: název_kraje_short
+
+		annotation SummarizationSetBy = Automatic
+
+	column kraj_json_url
+		dataType: string
+		isHidden
+		dataCategory: WebURL
+		lineageTag: 35f1cdce-675f-4699-b49a-3fe8723ee9dc
+		sourceLineageTag: kraj_json_url
+		summarizeBy: none
+		sourceColumn: kraj_json_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column okres_json_url
+		dataType: string
+		isHidden
+		dataCategory: WebURL
+		lineageTag: 6dfc3244-9793-4fe5-bc20-7c115476d2be
+		sourceLineageTag: okres_json_url
+		summarizeBy: none
+		sourceColumn: okres_json_url
 
 		annotation SummarizationSetBy = Automatic
 

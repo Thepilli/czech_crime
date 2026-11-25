@@ -86,7 +86,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "H_Map"
+                      "Entity": "mv_d_uzemi"
                     }
                   },
                   "Property": "SELECTEDVALUE of Kraj_topojson"

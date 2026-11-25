@@ -3,16 +3,6 @@ table mv_d_date
 	sourceLineageTag: [crime].[mv_d_date]
 	dataCategory: Time
 
-	column DateKey
-		dataType: int64
-		formatString: 0
-		lineageTag: 022c214b-9552-4bae-af5c-0c62b2fafa9c
-		sourceLineageTag: DateKey
-		summarizeBy: none
-		sourceColumn: DateKey
-
-		annotation SummarizationSetBy = Automatic
-
 	column Date
 		dataType: dateTime
 		isKey
@@ -65,7 +55,8 @@ table mv_d_date
 		annotation SummarizationSetBy = Automatic
 
 	column YearMonthNumber
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 6e90dd03-5bbd-4c0f-9d66-aa716a30a536
 		sourceLineageTag: YearMonthNumber
 		summarizeBy: none
@@ -159,6 +150,7 @@ table mv_d_date
 		sourceLineageTag: DayNameCs
 		summarizeBy: none
 		sourceColumn: DayNameCs
+		sortByColumn: DayofWeek
 
 		annotation SummarizationSetBy = Automatic
 

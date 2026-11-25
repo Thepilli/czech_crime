@@ -32,7 +32,7 @@ table Calculations
 
 	measure 'Icon SVG' =
 			VAR _Color = "1f2937"   -- 1f2937 dark, ffffff white, e81123 red
-			VAR _Svg = SELECTEDVALUE( H_Icons[svg] )
+			VAR _Svg = SELECTEDVALUE( d_type[category_svg] )
 			RETURN
 			    IF(
 			        ISBLANK( _Svg ),
@@ -45,11 +45,6 @@ table Calculations
 		dataCategory: ImageUrl
 
 	measure 'Crime rate' =
-			//DIVIDE(
-			//    [Incidents by primary type],
-			//    [Avg Annual Population]
-			//)
-			//    * 1000
 			// Incidents per 1,000 residents, annualized so any period (month/quarter/YTD/year)
 			// is expressed on the same "per year" scale. Denominator is a stock (population),
 			// applied uniformly across the period.
@@ -63,7 +58,7 @@ table Calculations
 			        KEEPFILTERS( mv_d_date[Date] <= _lastDataDate )
 			    )
 			VAR _annualFactor = DIVIDE( 365.25, _days )
-			VAR _population = [Avg Annual Population]   -- swap to [Avg Annual Population] once f_populace_year exists (year-correct YoY)
+			VAR _population = [Avg Annual Population]
 			RETURN
 			    DIVIDE( _incidents * _annualFactor, _population )
 			        * 1000
@@ -72,15 +67,7 @@ table Calculations
 		formatStringDefinition = Common.FormatString( SELECTEDMEASURE( ), SELECTEDMEASURENAME( ) )
 
 	measure 'Avg Annual Population' =
-			AVERAGEX(
-			    VALUES( mv_d_date[Year] ),
-			    VAR _y = mv_d_date[Year]
-			    RETURN
-			        CALCULATE(
-			            [SUM of populace],
-			            f_populace[year] = _y
-			        )
-			)
+			Common.Demo.YearAvg( [SUM of populace] )
 		formatString: #,0
 		displayFolder: Demographics\Population
 		lineageTag: ca0d1fbf-772f-46e5-b45c-626129c5e0c0
@@ -596,222 +583,100 @@ table Calculations
 		lineageTag: be11b4e6-008a-43ff-b7be-768319250c35
 
 	measure Births =
-			CALCULATE(
-			    [SUM of narozeni],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of narozeni] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: 90157018-006a-4357-a9c1-029b836e3503
 
 	measure Deaths =
-			CALCULATE(
-			    [SUM of zemreli],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of zemreli] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: db0262d0-37fb-4019-a3f5-6c56a0e0362d
 
 	measure In-migration =
-			CALCULATE(
-			    [SUM of pristehovali],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of pristehovali] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: b5a860b4-31b7-4f10-b827-044e7acb213f
 
 	measure Out-migration =
-			CALCULATE(
-			    [SUM of vystehovali],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of vystehovali] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: befabbc0-8862-439e-9ee3-72e2b6a4dba5
 
 	measure 'Natural increase' =
-			CALCULATE(
-			    [SUM of prirustek_prirozeny],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of prirustek_prirozeny] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: 5f308aef-8e12-4465-a575-c9e6f1d3e110
 
 	measure 'Net migration' =
-			CALCULATE(
-			    [SUM of prirustek_migracni],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of prirustek_migracni] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: 6c599452-d087-4d74-ae75-e390d6f8fb5f
 
 	measure 'Total increase' =
-			CALCULATE(
-			    [SUM of prirustek_celkovy],
-			    TREATAS(
-			        VALUES( mv_d_date[Year] ),
-			        f_populace[year]
-			    )
-			)
+			Common.Demo.InSelectedYears( [SUM of prirustek_celkovy] )
 		formatString: #,0
 		displayFolder: Demographics\Counts
 		lineageTag: 77dd08a7-34ea-4f4a-80c5-5914b1a64173
 
 	measure 'Population (start of period)' =
-			VAR _y = MIN( mv_d_date[Year] )
-			RETURN
-			    CALCULATE(
-			        [SUM of populace],
-			        f_populace[year] = _y
-			    )
+			Common.Demo.AtYear( [SUM of populace], MIN( mv_d_date[Year] ) )
 		formatString: #,0
 		displayFolder: Demographics\Population
 		lineageTag: b2ef2206-7423-4bb6-8de2-967d192fa9ea
 
 	measure 'Population (end of period)' =
-			VAR _y = MAX( mv_d_date[Year] )
-			RETURN
-			    CALCULATE(
-			        [SUM of populace],
-			        f_populace[year] = _y
-			    )
+			Common.Demo.AtYear( [SUM of populace], MAX( mv_d_date[Year] ) )
 		formatString: #,0
 		displayFolder: Demographics\Population
 		lineageTag: 0403444d-1b0e-4abf-a5b9-ced2a5de31ea
 
 	measure 'Population (prev year)' =
-			VAR _y = MAX( mv_d_date[Year] ) - 1
-			RETURN
-			    CALCULATE(
-			        [SUM of populace],
-			        f_populace[year] = _y
-			    )
+			Common.Demo.AtYear( [SUM of populace], MAX( mv_d_date[Year] ) - 1 )
 		formatString: #,0
 		displayFolder: Demographics\Population
 		lineageTag: a61cf88f-e714-4d8b-bbdd-c606b29d58c0
 
 	measure 'Crude Birth Rate (per 1k)' =
-			AVERAGEX(
-			    VALUES( mv_d_date[Year] ),
-			    VAR _y = mv_d_date[Year]
-			    RETURN
-			        DIVIDE(
-			            CALCULATE(
-			                [SUM of narozeni],
-			                f_populace[year] = _y
-			            ),
-			            CALCULATE(
-			                [SUM of populace],
-			                f_populace[year] = _y
-			            )
-			        )
-			            * 1000
+			Common.Demo.YearAvg(
+			    DIVIDE( [SUM of narozeni], [SUM of populace] ) * 1000
 			)
 		formatString: #,0.0
 		displayFolder: Demographics\Rates
 		lineageTag: c4a16660-3358-48a7-9e57-f14e89108b7a
 
 	measure 'Crude Death Rate (per 1k)' =
-			AVERAGEX(
-			    VALUES( mv_d_date[Year] ),
-			    VAR _y = mv_d_date[Year]
-			    RETURN
-			        DIVIDE(
-			            CALCULATE(
-			                [SUM of zemreli],
-			                f_populace[year] = _y
-			            ),
-			            CALCULATE(
-			                [SUM of populace],
-			                f_populace[year] = _y
-			            )
-			        )
-			            * 1000
+			Common.Demo.YearAvg(
+			    DIVIDE( [SUM of zemreli], [SUM of populace] ) * 1000
 			)
 		formatString: #,0.0
 		displayFolder: Demographics\Rates
 		lineageTag: 2b4c8506-aa63-4641-bb70-4e684517a9eb
 
 	measure 'Natural Increase Rate (per 1k)' =
-			AVERAGEX(
-			    VALUES( mv_d_date[Year] ),
-			    VAR _y = mv_d_date[Year]
-			    RETURN
-			        DIVIDE(
-			            CALCULATE(
-			                [SUM of prirustek_prirozeny],
-			                f_populace[year] = _y
-			            ),
-			            CALCULATE(
-			                [SUM of populace],
-			                f_populace[year] = _y
-			            )
-			        )
-			            * 1000
+			Common.Demo.YearAvg(
+			    DIVIDE( [SUM of prirustek_prirozeny], [SUM of populace] ) * 1000
 			)
 		formatString: #,0.0
 		displayFolder: Demographics\Rates
 		lineageTag: 897c4d8b-eaaa-4d27-b5bd-55413aaf8020
 
 	measure 'Net Migration Rate (per 1k)' =
-			AVERAGEX(
-			    VALUES( mv_d_date[Year] ),
-			    VAR _y = mv_d_date[Year]
-			    RETURN
-			        DIVIDE(
-			            CALCULATE(
-			                [SUM of prirustek_migracni],
-			                f_populace[year] = _y
-			            ),
-			            CALCULATE(
-			                [SUM of populace],
-			                f_populace[year] = _y
-			            )
-			        )
-			            * 1000
+			Common.Demo.YearAvg(
+			    DIVIDE( [SUM of prirustek_migracni], [SUM of populace] ) * 1000
 			)
 		formatString: #,0.0
 		displayFolder: Demographics\Rates
 		lineageTag: 701b0763-aa05-49db-b4fb-09539deb7570
 
 	measure 'Total Growth Rate (per 1k)' =
-			AVERAGEX(
-			    VALUES( mv_d_date[Year] ),
-			    VAR _y = mv_d_date[Year]
-			    RETURN
-			        DIVIDE(
-			            CALCULATE(
-			                [SUM of prirustek_celkovy],
-			                f_populace[year] = _y
-			            ),
-			            CALCULATE(
-			                [SUM of populace],
-			                f_populace[year] = _y
-			            )
-			        )
-			            * 1000
+			Common.Demo.YearAvg(
+			    DIVIDE( [SUM of prirustek_celkovy], [SUM of populace] ) * 1000
 			)
 		formatString: #,0.0
 		displayFolder: Demographics\Rates
@@ -911,7 +776,7 @@ table Calculations
 		displayFolder: Aggregations
 		lineageTag: e55799bc-54a5-4c70-acfc-fd0f5b799936
 
-	measure 'Icon color' = SELECTEDVALUE( H_Icons[color] )
+	measure 'Icon color' = SELECTEDVALUE( d_type[category_color] )
 		displayFolder: Technical Measures
 		lineageTag: 8d0ae427-017b-464b-9049-fa7edcef64b6
 		dataCategory: ImageUrl

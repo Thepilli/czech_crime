@@ -20,13 +20,13 @@ by type.
 
 | Table | Grain | Rows | Role |
 |---|---|---|---|
-| `fact_crime` | one incident | 17.9M | fact |
-| `dim_type_group` | one type-combination | 14,807 | dimension (direct FK from fact) |
-| `bridge_group_type` | group × member type | 107,262 | bridge |
+| `fact_crime` | one incident | 18.5M | fact |
+| `dim_type_group` | one type-combination | 15,151 | dimension (direct FK from fact) |
+| `bridge_group_type` | group × member type | 109,982 | bridge |
 | `dim_type` | one type code | 132 | dimension (4-level hierarchy) |
 | `dim_state` | clearance status | 4 | dimension → `fact_crime[state]` |
 | `dim_relevance` | locality relevance | 6 | dimension → `fact_crime[relevance]` |
-| `dim_date` | one calendar day | ~5,479 | **Date table** → `fact_crime[date_key]` |
+| `dim_date` | one calendar day | ~5,479 | **Date table** → `fact_crime[crime_date]` |
 
 `fact_crime` also carries `primary_type` (single-valued) for the common
 "one category per incident" slice without touching the bridge.
@@ -35,7 +35,9 @@ by type.
 Built from `reference/codelists/types.json`. Every code rolls up to one of **12 top
 categories** (Násilná/violent, Krádeže/theft, Podvody/fraud, Přestupky/
 misdemeanors, …). Columns: `type_code, type_name, type_class, parent_code,
-level (1-4), category_code, category_name`. Use
+level (1-4), category_code, category_name, category_color, category_svg`
+(the last two are the report icon of the category, from
+`reference/codelists/category_icons.json`). Use
 `category_name → type_class → type_name` as a Power BI drill-down hierarchy.
 
 > Note on the data: the single most common combination `(74, 97, 120)` — 56% of
@@ -44,21 +46,24 @@ level (1-4), category_code, category_name`. Use
 > serious crime. Slice on `category_name` to separate them.
 
 ### `fact_crime` columns
-`id, date, date_key, mp, state, relevance, longitude, latitude, kod_zuj,
-kod_obec, kod_momc, type_group_key, primary_type` — single parquet file.
+`id, mp, state, relevance, longitude, latitude, kod_zuj, kod_obec, kod_momc,
+type_group_key, primary_type, crime_date, time_key` — single parquet file.
 
-`date` is **naive local (Europe/Prague)** wall-clock time (the calendar Czech
-analysts expect; the source offsets were +01:00/+02:00). `date_key` is the
-integer `YYYYMMDD` of that local date and is the join to `dim_date`. There are
-no `year`/`month` columns on the fact — get those from `dim_date`.
+The source timestamps (+01:00/+02:00 offsets) are converted to **local
+Europe/Prague** time in Python and split into `crime_date` (a DATE, the join to
+`dim_date[Date]`) and `time_key` (minute of day 0–1439, the join to
+`d_time[TimeKey]`). The Fabric view `crime.mv_f_crime` only renames them
+(`CrimeDate`, `TimeKey`). There are no `year`/`month` columns on the fact — get
+those from `dim_date`.
 
 ### `dim_date`
 Contiguous daily table over full calendar years spanning the data (2012–2026),
-keyed by `date_key`. Attributes: `date, year, quarter, year_quarter, month,
-month_name(_cs), year_month, month_start, day, day_of_week (1=Mon), day_name(_cs),
-day_of_year, iso_week, iso_year, is_weekend`. In Power BI, **Table tools → Mark
-as date table** (using `date`), and build a `year → quarter → month → date`
-drill hierarchy. Czech month/day names are included alongside the English ones.
+keyed by `Date`. Columns carry their final semantic-model names, so
+`crime.mv_d_date` is a pass-through: `Date, Year, YearQuarter, Quarter,
+yearmonth, YearMonthNumber (YYYYMM int), Month, MonthName(Cs), MonthLetter(Cs),
+DayofMonth, DayofWeek (1=Mon), DayName(Cs), isWeekend`. `MonthLetter(Cs)` add a
+thin/hair space to repeated initials (J/J/J, L/L, Č/Č) so each label sorts by
+exactly one `Month`. Mark it as the date table (using `Date`).
 
 > Still open: join `kod_obec` / `kod_zuj` to a territory dimension (from
 > `struktura_uzemi_cr.csv` / `CIS0051_CS.csv`) when you want obec/okres/kraj
@@ -76,7 +81,8 @@ drill hierarchy. Czech month/day names are included alongside the English ones.
 | `fact_crime[primary_type]` | `dim_type[type_code]` | Single — *inactive* (avoids ambiguity with the bridge path; activate via `USERELATIONSHIP` in primary-type measures) |
 | `fact_crime[state]` | `dim_state[state_code]` | Single (→ fact) |
 | `fact_crime[relevance]` | `dim_relevance[relevance_code]` | Single (→ fact) |
-| `fact_crime[date_key]` | `dim_date[date_key]` | Single (→ fact) |
+| `fact_crime[crime_date]` | `dim_date[Date]` | Single (→ fact) |
+| `fact_crime[time_key]` | `d_time[TimeKey]` | Single (→ fact) |
 
 Filter propagation when slicing by an individual type:
 `dim_type → bridge → (bidirectional) dim_type_group → fact_crime`.

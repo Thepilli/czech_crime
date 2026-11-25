@@ -101,45 +101,6 @@
         },
         {
           "location": {
-            "x": 1593.7378454738603,
-            "y": 255.49540666437622
-          },
-          "nodeIndex": "H_Icons",
-          "nodeLineageTag": "5a21cbde-1f28-4bb2-ba66-6590e3533305",
-          "size": {
-            "height": 152,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 158.3752121507996,
-            "y": 892.29242590726346
-          },
-          "nodeIndex": "H_Map",
-          "nodeLineageTag": "cc8b8a0d-e2bf-4bf3-8f7e-70fd95dbf938",
-          "size": {
-            "height": 176,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 445.42118926910416,
-            "y": 1017.5023145694931
-          },
-          "nodeIndex": "H_Map_okres",
-          "nodeLineageTag": "1c508d27-533b-42d4-8475-a5f69e172b8c",
-          "size": {
-            "height": 176,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
             "x": 2111.73784547386,
             "y": 557.75115728474657
           },
