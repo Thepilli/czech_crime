@@ -4,7 +4,7 @@
 - **Repo:** restructured and refactored, but nothing is committed. All changes are staged or in the working tree, so review `git status` before committing.
 - **Pipeline:** full rebuild done (2026-11-25). All 179 months are in `data/interim` (the last partition of an interrupted run, 2025-03, was deleted and rewritten). `data/processed` holds `fact_crime` (18,536,745 rows, 2012-01-04 .. 2026-11-28), `dim_type_group` (15,151), `bridge_group_type` (109,982), `dim_date` (5,479, 2012–2026) and the code-list dims. Logs: `logs/assign_areas.log`, `logs/build_fact_date.log`.
 - **Source data quirk:** one incident in `202611.geojson` is dated 2026-11-28, after the download date.
-- **Not yet deployed:** the semantic model now expects new lakehouse columns (see "Deploy order" below). Publishing the model before reloading the lakehouse will break DirectLake.
+- **Deployed (2026-11-26):** lakehouse tables reloaded, lake-view notebook re-run and the semantic model published, all without errors. The report was checked and works.
 
 ## Layout
 ```
@@ -47,16 +47,14 @@ Setup: `uv venv .venv && uv pip install --python .venv -e .`, then run steps as 
   - Fact joins `d_time` on the integer `TimeKey` instead of an `"HH:mm"` string; `CrimeTime` and `DateKey` are gone; `YearMonthNumber` is an integer; `MonthLetterCs` no longer repeats L (leden/listopad) and Č (červen/červenec); `DayNameCs` sorts by `DayofWeek`.
   - Demographics measures use three shared functions (`Common.Demo.InSelectedYears`, `.AtYear`, `.YearAvg`) instead of repeating the year-matching logic; stale comments removed from `Crime rate`.
 
-## Deploy order (model changes depend on it)
+## Deploy order (for future model changes that add lakehouse columns)
 1. Reload the lakehouse tables from `data/processed`: `f_crime` (new `crime_date`, `time_key`; no `date`/`date_key`), `d_date` (new column names), `d_type` (new `category_color`, `category_svg`), `d_type_group`, `b_group_type`.
 2. Re-run `powerbi/create_mv_lake_views_crime.ipynb` (`mv_d_uzemi` gains the URL columns; `mv_f_crime` and `mv_d_date` are now pass-through).
 3. Publish / open the semantic model and check the map, icon, hour-band and demographics visuals.
 
 ## Open items
-1. Do the deploy steps above; the model edits were checked structurally (relationships, column references, line endings) but not opened in Power BI.
-2. Open `powerbi/kriminalita.pbip` in Power BI Desktop to confirm it loads after the `PBI/` → `powerbi/` rename.
-3. Commit, and push if you want the map URLs to stay in sync.
-4. Optional:
+1. Open `powerbi/kriminalita.pbip` in Power BI Desktop to confirm it loads after the `PBI/` → `powerbi/` rename.
+2. Optional:
    - Add the lakehouse load step.
    - Add a guard in `assign_areas` for partially written month partitions. A crash mid-write currently looks "done" to the skip check.
    - Replace the `primary_type` heuristic (the least frequent type in the set) with a real severity ranking.
